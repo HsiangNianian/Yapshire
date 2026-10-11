@@ -276,6 +276,10 @@ pub fn spawn_actor(commands: &mut Commands, art: &Art, player: Player) {
     crate::coast::rod(commands, entity, id, art);
 }
 
+fn overlaps_x(x: f32, left: f32, right: f32) -> bool {
+    x + 6.0 > left + 0.01 && x - 6.0 < right - 0.01
+}
+
 fn step(
     position: &mut Vec2,
     velocity_y: &mut f32,
@@ -318,11 +322,9 @@ fn step(
             true,
         ));
     }
-    let overlaps_x =
-        |x: f32, rect: Rect| x + HALF > rect.min.x + 0.01 && x - HALF < rect.max.x - 0.01;
     let grounded = surfaces
         .iter()
-        .any(|(r, _)| overlaps_x(old.x, *r) && (old.y - r.max.y).abs() < 0.1);
+        .any(|(r, _)| overlaps_x(old.x, r.min.x, r.max.x) && (old.y - r.max.y).abs() < 0.1);
     if jump && grounded {
         *velocity_y = 180.0;
     }
@@ -332,7 +334,7 @@ fn step(
         if *solid
             && old.y < r.max.y - 0.01
             && old.y + HEIGHT > r.min.y + 0.01
-            && overlaps_x(position.x, *r)
+            && overlaps_x(position.x, r.min.x, r.max.x)
         {
             position.x = if direction > 0.0 {
                 r.min.x - HALF
@@ -346,7 +348,7 @@ fn step(
     *velocity_y -= 460.0 * dt;
     position.y = old.y + *velocity_y * dt;
     for (r, solid) in &surfaces {
-        if !overlaps_x(position.x, *r) {
+        if !overlaps_x(position.x, r.min.x, r.max.x) {
             continue;
         }
         if *velocity_y <= 0.0 && old.y >= r.max.y - 0.01 && position.y <= r.max.y {
@@ -545,22 +547,25 @@ fn shadow_ground_y(
     content: &yapshire_shared::content::Content,
     path: &str,
 ) -> Option<f32> {
-    // Match the feet's horizontal footprint and grounding tolerance in step().
-    let left = position.x - 6.0 + 0.01;
-    let right = position.x + 6.0 - 0.01;
+    // Scan candidate columns, then use the same strict footprint test as step().
+    let left = position.x - 6.0;
+    let right = position.x + 6.0;
     let first_col = ((left / 16.0).floor() as i32).max(0);
     let last_col = ((right / 16.0).floor() as i32).min(map.width as i32 - 1);
     let first_row = ((map.origin_y() - position.y - 0.1) / 16.0).ceil().max(0.0) as i32;
     let mut ground = None;
     for row in first_row..map.height as i32 {
-        if (first_col..=last_col).any(|col| map.collision(content, path, col, row) != "none") {
+        if (first_col..=last_col).any(|col| {
+            overlaps_x(position.x, col as f32 * 16.0, (col + 1) as f32 * 16.0)
+                && map.collision(content, path, col, row) != "none"
+        }) {
             ground = Some(map.origin_y() - row as f32 * 16.0);
             break;
         }
     }
     for object in map.objects().filter(|o| o.kind == "solid") {
         let top = map.origin_y() - object.y;
-        if right > object.x && left < object.x + object.width && top <= position.y + 0.1 {
+        if overlaps_x(position.x, object.x, object.x + object.width) && top <= position.y + 0.1 {
             ground = Some(ground.map_or(top, |y| y.max(top)));
         }
     }
@@ -767,6 +772,68 @@ mod tests {
     use super::*;
 
     #[test]
+    fn shadows_match_physics_at_tile_and_object_edges() {
+        for object_surface in [false, true] {
+            let mut world = yapshire_shared::World::bundled();
+            let path = world.content.manifest.maps[0].path.clone();
+            let gid = world.content.gid("yapshire:deck/0_0").unwrap();
+            let map = world.maps.get_mut("yapshire:town").unwrap();
+            let width = map.width as usize;
+            for layer in &mut map.layers {
+                layer.data.fill(0);
+                layer.objects.retain(|object| object.kind != "solid");
+            }
+            for col in 0..width {
+                map.layers[2].data[13 * width + col] = gid;
+            }
+            if object_surface {
+                let object = serde_json::from_value(serde_json::json!({
+                    "id": 999, "name": "Platform", "type": "solid",
+                    "x": 224.0, "y": map.origin_y() - 32.0,
+                    "width": 16.0, "height": 16.0
+                }))
+                .unwrap();
+                map.layers
+                    .iter_mut()
+                    .find(|layer| layer.kind == "objectgroup")
+                    .unwrap()
+                    .objects
+                    .push(object);
+            } else {
+                map.layers[2].data[11 * width + 14] = gid;
+            }
+            for (x, supported) in [
+                (218.0, false),
+                (218.01, false),
+                (218.02, true),
+                (245.98, true),
+                (245.99, false),
+                (246.0, false),
+            ] {
+                let mut position = Vec2::new(x, 32.0);
+                assert_eq!(
+                    shadow_ground_y(position, map, &world.content, &path),
+                    Some(if supported { 32.0 } else { 0.0 }),
+                    "x={x}, object_surface={object_surface}"
+                );
+                let mut velocity = 0.0;
+                step(
+                    &mut position,
+                    &mut velocity,
+                    0.0,
+                    false,
+                    true,
+                    1.0 / 60.0,
+                    map,
+                    &world.content,
+                    &path,
+                );
+                assert_eq!(velocity > 0.0, supported, "Only supported feet can jump");
+            }
+        }
+    }
+
+    #[test]
     fn jumping_shadows_stay_on_the_ground_and_platforms() {
         for (map_id, ground) in [("yapshire:town", 0.0), ("yapshire:tackle_shop", 32.0)] {
             let mut maps = crate::maps::Maps::load(std::path::Path::new(concat!(
@@ -853,7 +920,6 @@ mod tests {
                     );
                     actor.player.x = actor.position.x;
                     actor.player.y = actor.position.y;
-                    peak = peak.max(actor.position.y);
                 }
                 app.update();
                 let actor_position = app
@@ -866,6 +932,12 @@ mod tests {
                     .get::<GlobalTransform>(shadow)
                     .unwrap()
                     .translation();
+                assert_eq!(
+                    actor_position.truncate(),
+                    app.world().get::<Actor>(actor).unwrap().position.round(),
+                    "The rendered character must follow its moving jump"
+                );
+                peak = peak.max(actor_position.y);
                 assert_eq!(shadow_position.x, actor_position.x);
                 assert_eq!(
                     shadow_position.y,
