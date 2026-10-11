@@ -9,6 +9,8 @@
 !assets/
 !assets/maps/
 !assets/maps/**
+!assets/packs/
+!assets/packs/**
 !server/
 !server/club/
 !server/club/server.json

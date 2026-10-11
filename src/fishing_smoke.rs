@@ -129,9 +129,19 @@ pub(crate) fn drive(
             );
         }
     };
+    // Keep the injected walk held if another test window takes focus.
+    if matches!(check.stage, 2 | 4 | 11 | 13 | 19 | 21) {
+        let direction = if matches!(check.stage, 11 | 19) {
+            KeyCode::KeyA
+        } else {
+            KeyCode::KeyD
+        };
+        key(&mut keyboard, *window, direction, true);
+        key(&mut keyboard, *window, KeyCode::ShiftLeft, true);
+    }
     let advance = match check.stage {
         0 if now > 2.0 => {
-            menu.name = "Angler Test".into();
+            menu.name = "Rowan".into();
             menu.request = Some(if mode.ends_with("cloud") {
                 Mode::HostCloud {
                     server: std::env::var("YAPSHIRE_TEST_SERVER").expect("Set local Worker URL"),

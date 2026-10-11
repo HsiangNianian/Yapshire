@@ -25,8 +25,8 @@ official addresses without changing custom server choices.
 The previous `wss://yapshire-multiplayer.opensource-941.workers.dev` address uses
 a [service binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/http/)
 to reach the same server. It has no separate lobby or game implementation.
-Use v0.5.2+ clients. v0.5 clients understand protocol 2, but the early Windows
-v0.5.0/v0.5.1 builds have a tileset-fingerprint issue; pre-v0.5 clients must upgrade.
+Use v0.7.x clients with protocol 3 and content pack 1.1.0. Older clients use
+protocol 2 and must upgrade before joining the updated official server.
 
 The Worker routes every game request to the same Durable Object. The `default`
 container scheduling policy enforces `max_instances: 1`, using the `lite` size

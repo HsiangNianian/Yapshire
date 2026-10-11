@@ -319,10 +319,14 @@ pub struct RoomStatus;
 #[derive(Component)]
 pub struct BaseColor(pub(crate) Color);
 
-pub(crate) const INK: Color = Color::srgb_u8(48, 76, 67);
-pub(crate) const GREEN: Color = Color::srgb_u8(64, 99, 80);
-pub(crate) const CREAM: Color = Color::srgb_u8(247, 234, 206);
-pub(crate) const MUTED: Color = Color::srgb_u8(123, 133, 104);
+pub(crate) const INK: Color = Color::srgb_u8(228, 225, 207);
+pub(crate) const GREEN: Color = Color::srgb_u8(65, 90, 78);
+pub(crate) const CREAM: Color = Color::srgb_u8(241, 227, 197);
+pub(crate) const MUTED: Color = Color::srgb_u8(169, 183, 166);
+pub(crate) const PANEL: Color = Color::srgba_u8(27, 39, 38, 244);
+pub(crate) const SURFACE: Color = Color::srgb_u8(45, 61, 55);
+pub(crate) const EDGE: Color = Color::srgb_u8(97, 112, 94);
+pub(crate) const GOLD: Color = Color::srgb_u8(213, 177, 112);
 
 pub fn buttons(
     mut settings: ResMut<crate::settings::Settings>,
@@ -342,8 +346,8 @@ pub fn buttons(
     }
     for (interaction, action, mut color, base) in &mut interactions {
         *color = match interaction {
-            Interaction::Hovered => BackgroundColor(Color::srgb_u8(156, 165, 121)),
-            Interaction::Pressed => BackgroundColor(Color::srgb_u8(124, 147, 106)),
+            Interaction::Hovered => BackgroundColor(Color::srgb_u8(79, 96, 76)),
+            Interaction::Pressed => BackgroundColor(Color::srgb_u8(101, 104, 74)),
             Interaction::None => BackgroundColor(base.0),
         };
         if *interaction != Interaction::Pressed {
@@ -732,11 +736,7 @@ pub(crate) fn button(
     primary: bool,
 ) -> Entity {
     let subtitle = subtitle.into();
-    let color = if primary {
-        GREEN
-    } else {
-        Color::srgb_u8(228, 218, 186)
-    };
+    let color = if primary { GREEN } else { SURFACE };
     let entity = commands
         .spawn((
             Button,
@@ -744,20 +744,16 @@ pub(crate) fn button(
             BaseColor(color),
             Node {
                 width: percent(100),
-                min_height: px(if subtitle.is_empty() { 48.0 } else { 74.0 }),
-                padding: UiRect::axes(px(18), px(10)),
+                min_height: px(if subtitle.is_empty() { 44.0 } else { 68.0 }),
+                padding: UiRect::axes(px(16), px(10)),
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::Center,
                 row_gap: px(6),
-                border: UiRect::bottom(px(3)),
+                border: UiRect::left(px(3)),
                 ..default()
             },
             BackgroundColor(color),
-            BorderColor::all(if primary {
-                Color::srgb_u8(42, 73, 58)
-            } else {
-                Color::srgb_u8(200, 192, 159)
-            }),
+            BorderColor::all(if primary { GOLD } else { EDGE }),
         ))
         .id();
     commands.entity(parent).add_child(entity);
@@ -766,7 +762,7 @@ pub(crate) fn button(
         entity,
         art,
         title,
-        24.0,
+        20.0,
         if primary { CREAM } else { INK },
     );
     if !subtitle.is_empty() {
@@ -798,7 +794,7 @@ pub(crate) fn field(
         .spawn((
             Button,
             Action::Focus(which),
-            BaseColor(Color::srgb_u8(255, 246, 220)),
+            BaseColor(Color::srgb_u8(20, 32, 31)),
             Node {
                 width: percent(100),
                 min_height: px(48),
@@ -807,8 +803,8 @@ pub(crate) fn field(
                 overflow: Overflow::clip(),
                 ..default()
             },
-            BackgroundColor(Color::srgb_u8(255, 246, 220)),
-            BorderColor::all(Color::srgb_u8(195, 193, 158)),
+            BackgroundColor(Color::srgb_u8(20, 32, 31)),
+            BorderColor::all(EDGE),
         ))
         .id();
     commands.entity(parent).add_child(entity);
@@ -862,36 +858,23 @@ pub fn render(
         ))
         .id();
     if menu.page == Page::Playing {
-        let header = commands
-            .spawn(Node {
-                position_type: PositionType::Absolute,
-                left: px(32),
-                top: px(26),
-                flex_direction: FlexDirection::Column,
-                row_gap: px(6),
-                ..default()
-            })
-            .id();
-        commands.entity(root).add_child(header);
-        label(&mut commands, header, &art, "Yapshire", 36.0, CREAM);
-        label(&mut commands, header, &art, tr("menu.tagline"), 16.0, CREAM);
         let room = commands
             .spawn((
                 Node {
                     position_type: PositionType::Absolute,
                     right: px(crate::settings::corner_space(scale.0)),
-                    top: px(26),
-                    width: px(410),
-                    padding: UiRect::all(px(14)),
+                    top: px(24),
+                    width: px(280),
+                    padding: UiRect::all(px(12)),
                     flex_direction: FlexDirection::Column,
                     row_gap: px(8),
                     ..default()
                 },
-                BackgroundColor(Color::srgba_u8(43, 67, 58, 225)),
+                BackgroundColor(PANEL),
             ))
             .id();
         commands.entity(root).add_child(room);
-        let status = label(&mut commands, room, &art, "", 18.0, CREAM);
+        let status = label(&mut commands, room, &art, "", 16.0, CREAM);
         commands.entity(status).insert(RoomStatus);
         button(
             &mut commands,
@@ -907,27 +890,27 @@ pub fn render(
                 PlayOverlay,
                 Node {
                     position_type: PositionType::Absolute,
-                    left: px(32),
-                    bottom: px(76),
-                    width: px(600),
-                    max_height: px(165),
+                    left: px(24),
+                    bottom: px(62),
+                    width: px(460),
+                    max_height: px(126),
                     overflow: Overflow::clip(),
-                    padding: UiRect::all(px(14)),
+                    padding: UiRect::all(px(12)),
                     ..default()
                 },
-                BackgroundColor(Color::srgba_u8(34, 53, 47, 170)),
+                BackgroundColor(Color::srgba_u8(22, 34, 33, 145)),
             ))
             .id();
         commands.entity(root).add_child(log);
-        let text = label(&mut commands, log, &art, "", 18.0, CREAM);
+        let text = label(&mut commands, log, &art, "", 16.0, CREAM);
         commands.entity(text).insert(ChatLog);
         let bar = commands
             .spawn((
                 PlayOverlay,
                 Node {
                     position_type: PositionType::Absolute,
-                    left: px(32),
-                    right: px(32),
+                    left: px(24),
+                    right: px(24),
                     bottom: px(16),
                     min_height: px(38),
                     padding: UiRect::axes(px(14), px(6)),
@@ -940,7 +923,7 @@ pub fn render(
             ))
             .id();
         commands.entity(root).add_child(bar);
-        let input = label(&mut commands, bar, &art, "", 18.0, CREAM);
+        let input = label(&mut commands, bar, &art, "", 16.0, CREAM);
         commands.entity(input).insert(ChatValue);
         let status = label(&mut commands, bar, &art, "", 14.0, MUTED);
         commands.entity(status).insert(Status);
@@ -948,7 +931,7 @@ pub fn render(
     }
     commands
         .entity(root)
-        .insert(BackgroundColor(Color::srgba_u8(25, 51, 48, 32)));
+        .insert(BackgroundColor(Color::srgba_u8(18, 29, 32, 12)));
     if menu.page == Page::Cloud {
         crate::clubs_ui::render(&mut commands, root, &art, &menu, &clubs, scale.0);
         return;
@@ -958,28 +941,21 @@ pub fn render(
             Node {
                 position_type: PositionType::Absolute,
                 left: percent(6),
-                top: percent(6),
-                width: px(456),
-                padding: UiRect::all(px(28)),
+                top: percent(8),
+                width: px(if menu.page == Page::Home { 372 } else { 424 }),
+                padding: UiRect::all(px(24)),
                 flex_direction: FlexDirection::Column,
-                row_gap: px(if menu.page == Page::Home { 13 } else { 9 }),
-                border: UiRect::all(px(3)),
+                row_gap: px(10),
+                border: UiRect::all(px(2)),
                 ..default()
             },
-            BackgroundColor(CREAM),
-            BorderColor::all(Color::srgb_u8(204, 194, 155)),
+            BackgroundColor(PANEL),
+            BorderColor::all(EDGE),
         ))
         .id();
     commands.entity(root).add_child(panel);
-    label(&mut commands, panel, &art, "Y A P S H I R E", 18.0, MUTED);
-    label(
-        &mut commands,
-        panel,
-        &art,
-        "Yapshire",
-        if menu.page == Page::Home { 48.0 } else { 36.0 },
-        INK,
-    );
+    label(&mut commands, panel, &art, "Y A P S H I R E", 16.0, GOLD);
+    label(&mut commands, panel, &art, "Yapshire", 36.0, INK);
     if menu.page == Page::Home {
         label(&mut commands, panel, &art, tr("menu.intro"), 18.0, MUTED);
     }
@@ -1149,15 +1125,15 @@ pub fn render(
         &art,
         "",
         16.0,
-        Color::srgb_u8(164, 88, 62),
+        Color::srgb_u8(225, 158, 112),
     );
     commands.entity(status).insert(Status);
     let caption = commands
         .spawn(Node {
             position_type: PositionType::Absolute,
-            left: percent(59),
-            top: percent(15),
-            width: px(500),
+            left: percent(62),
+            top: percent(12),
+            width: px(460),
             flex_direction: FlexDirection::Column,
             row_gap: px(16),
             ..default()
@@ -1190,25 +1166,25 @@ pub fn render(
         caption,
         &art,
         tr("menu.caption"),
-        if menu.page == Page::Cloud { 28.0 } else { 36.0 },
-        CREAM,
+        if menu.page == Page::Cloud { 28.0 } else { 24.0 },
+        Color::srgb_u8(29, 47, 51),
     );
     if menu.page == Page::Lan {
         let lobby = commands
             .spawn((
                 Node {
                     position_type: PositionType::Absolute,
-                    left: percent(59),
+                    left: percent(62),
                     top: percent(34),
-                    width: px(500),
+                    width: px(460),
                     padding: UiRect::all(px(22)),
                     flex_direction: FlexDirection::Column,
                     row_gap: px(12),
                     border: UiRect::all(px(2)),
                     ..default()
                 },
-                BackgroundColor(CREAM),
-                BorderColor::all(Color::srgb_u8(204, 194, 155)),
+                BackgroundColor(PANEL),
+                BorderColor::all(EDGE),
             ))
             .id();
         commands.entity(root).add_child(lobby);
@@ -1300,7 +1276,14 @@ pub fn render(
         );
     }
     if menu.page != Page::Cloud {
-        label(&mut commands, caption, &art, tr("menu.slow"), 16.0, CREAM);
+        label(
+            &mut commands,
+            caption,
+            &art,
+            tr("menu.slow"),
+            16.0,
+            Color::srgb_u8(42, 65, 67),
+        );
     }
     let footer = commands
         .spawn(Node {

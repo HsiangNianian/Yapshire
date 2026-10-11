@@ -1,0 +1,2122 @@
+{
+  "type": "tileset",
+  "version": "1.10",
+  "name": "terrain/water",
+  "tilewidth": 16,
+  "tileheight": 16,
+  "tilecount": 108,
+  "columns": 16,
+  "margin": 0,
+  "spacing": 0,
+  "image": "water.png",
+  "imagewidth": 256,
+  "imageheight": 112,
+  "tiles": [
+    {
+      "id": 0,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 0,
+          "duration": 600
+        },
+        {
+          "tileid": 1,
+          "duration": 600
+        },
+        {
+          "tileid": 2,
+          "duration": 600
+        },
+        {
+          "tileid": 3,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/4_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 4,
+          "duration": 600
+        },
+        {
+          "tileid": 5,
+          "duration": 600
+        },
+        {
+          "tileid": 6,
+          "duration": 600
+        },
+        {
+          "tileid": 7,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/5_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/6_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/7_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/8_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 8,
+          "duration": 600
+        },
+        {
+          "tileid": 9,
+          "duration": 600
+        },
+        {
+          "tileid": 10,
+          "duration": 600
+        },
+        {
+          "tileid": 11,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/9_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/10_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/11_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/12_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 12,
+          "duration": 600
+        },
+        {
+          "tileid": 13,
+          "duration": 600
+        },
+        {
+          "tileid": 14,
+          "duration": 600
+        },
+        {
+          "tileid": 15,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/13_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/14_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/15_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/16_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 16,
+          "duration": 600
+        },
+        {
+          "tileid": 17,
+          "duration": 600
+        },
+        {
+          "tileid": 18,
+          "duration": 600
+        },
+        {
+          "tileid": 19,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/17_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/18_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/19_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/20_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 20,
+          "duration": 600
+        },
+        {
+          "tileid": 21,
+          "duration": 600
+        },
+        {
+          "tileid": 22,
+          "duration": 600
+        },
+        {
+          "tileid": 23,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/21_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/22_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/23_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/24_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 24,
+          "duration": 600
+        },
+        {
+          "tileid": 25,
+          "duration": 600
+        },
+        {
+          "tileid": 26,
+          "duration": 600
+        },
+        {
+          "tileid": 27,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/25_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/26_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/27_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/28_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 28,
+          "duration": 600
+        },
+        {
+          "tileid": 29,
+          "duration": 600
+        },
+        {
+          "tileid": 30,
+          "duration": 600
+        },
+        {
+          "tileid": 31,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/29_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/30_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/31_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/32_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 32,
+          "duration": 600
+        },
+        {
+          "tileid": 33,
+          "duration": 600
+        },
+        {
+          "tileid": 34,
+          "duration": 600
+        },
+        {
+          "tileid": 35,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/33_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/34_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/35_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/36_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 36,
+          "duration": 600
+        },
+        {
+          "tileid": 37,
+          "duration": 600
+        },
+        {
+          "tileid": 38,
+          "duration": 600
+        },
+        {
+          "tileid": 39,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/37_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/38_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/39_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/40_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 40,
+          "duration": 600
+        },
+        {
+          "tileid": 41,
+          "duration": 600
+        },
+        {
+          "tileid": 42,
+          "duration": 600
+        },
+        {
+          "tileid": 43,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/41_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/42_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/43_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/44_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 44,
+          "duration": 600
+        },
+        {
+          "tileid": 45,
+          "duration": 600
+        },
+        {
+          "tileid": 46,
+          "duration": 600
+        },
+        {
+          "tileid": 47,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/45_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/46_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/47_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/48_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 48,
+          "duration": 600
+        },
+        {
+          "tileid": 49,
+          "duration": 600
+        },
+        {
+          "tileid": 50,
+          "duration": 600
+        },
+        {
+          "tileid": 51,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/49_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/50_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/51_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/52_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 52,
+          "duration": 600
+        },
+        {
+          "tileid": 53,
+          "duration": 600
+        },
+        {
+          "tileid": 54,
+          "duration": 600
+        },
+        {
+          "tileid": 55,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/53_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/54_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/55_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/56_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 56,
+          "duration": 600
+        },
+        {
+          "tileid": 57,
+          "duration": 600
+        },
+        {
+          "tileid": 58,
+          "duration": 600
+        },
+        {
+          "tileid": 59,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/57_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/58_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/59_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/60_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 60,
+          "duration": 600
+        },
+        {
+          "tileid": 61,
+          "duration": 600
+        },
+        {
+          "tileid": 62,
+          "duration": 600
+        },
+        {
+          "tileid": 63,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/61_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/62_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/63_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/64_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 64,
+          "duration": 600
+        },
+        {
+          "tileid": 65,
+          "duration": 600
+        },
+        {
+          "tileid": 66,
+          "duration": 600
+        },
+        {
+          "tileid": 67,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/65_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/66_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/67_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/68_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 68,
+          "duration": 600
+        },
+        {
+          "tileid": 69,
+          "duration": 600
+        },
+        {
+          "tileid": 70,
+          "duration": 600
+        },
+        {
+          "tileid": 71,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/69_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/70_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/71_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/72_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 72,
+          "duration": 600
+        },
+        {
+          "tileid": 73,
+          "duration": 600
+        },
+        {
+          "tileid": 74,
+          "duration": 600
+        },
+        {
+          "tileid": 75,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/73_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/74_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/75_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/76_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 76,
+          "duration": 600
+        },
+        {
+          "tileid": 77,
+          "duration": 600
+        },
+        {
+          "tileid": 78,
+          "duration": 600
+        },
+        {
+          "tileid": 79,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/77_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/78_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/79_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/80_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 80,
+          "duration": 600
+        },
+        {
+          "tileid": 81,
+          "duration": 600
+        },
+        {
+          "tileid": 82,
+          "duration": 600
+        },
+        {
+          "tileid": 83,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/81_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/82_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/83_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/84_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 84,
+          "duration": 600
+        },
+        {
+          "tileid": 85,
+          "duration": 600
+        },
+        {
+          "tileid": 86,
+          "duration": 600
+        },
+        {
+          "tileid": 87,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/85_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/86_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/87_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/88_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 88,
+          "duration": 600
+        },
+        {
+          "tileid": 89,
+          "duration": 600
+        },
+        {
+          "tileid": 90,
+          "duration": 600
+        },
+        {
+          "tileid": 91,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/89_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/90_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/91_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/92_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 92,
+          "duration": 600
+        },
+        {
+          "tileid": 93,
+          "duration": 600
+        },
+        {
+          "tileid": 94,
+          "duration": 600
+        },
+        {
+          "tileid": 95,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/93_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/94_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/95_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/96_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 96,
+          "duration": 600
+        },
+        {
+          "tileid": 97,
+          "duration": 600
+        },
+        {
+          "tileid": 98,
+          "duration": 600
+        },
+        {
+          "tileid": 99,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/97_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/98_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/99_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/100_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 100,
+          "duration": 600
+        },
+        {
+          "tileid": 101,
+          "duration": 600
+        },
+        {
+          "tileid": 102,
+          "duration": 600
+        },
+        {
+          "tileid": 103,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/101_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/102_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/103_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/104_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ],
+      "animation": [
+        {
+          "tileid": 104,
+          "duration": 600
+        },
+        {
+          "tileid": 105,
+          "duration": 600
+        },
+        {
+          "tileid": 106,
+          "duration": 600
+        },
+        {
+          "tileid": 107,
+          "duration": 600
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/105_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/106_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:water/107_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        }
+      ]
+    }
+  ]
+}

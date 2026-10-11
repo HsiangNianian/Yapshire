@@ -19,6 +19,7 @@ use std::{
 struct Preferences {
     version: u32,
     language: Language,
+    pixel_scale: u32,
     server: String,
     clubs: Option<Vec<crate::clubs::SavedClub>>,
     #[serde(flatten)]
@@ -30,6 +31,7 @@ impl Default for Preferences {
         Self {
             version: 1,
             language: Language::English,
+            pixel_scale: 2,
             server: crate::network::DEFAULT_SERVER.trim().into(),
             clubs: None,
             extra: Default::default(),
@@ -74,6 +76,15 @@ impl Default for Settings {
 }
 
 impl Settings {
+    pub fn pixel_scale(&self) -> u32 {
+        self.preferences.pixel_scale
+    }
+
+    pub(crate) fn choose_scale(&mut self, scale: u32) {
+        self.preferences.pixel_scale = scale.clamp(2, 4);
+        self.persist();
+    }
+
     pub fn clubs(&self) -> Vec<crate::clubs::SavedClub> {
         crate::clubs::restore(self.preferences.clubs.clone(), &self.preferences.server)
     }
@@ -129,6 +140,7 @@ impl Settings {
                 (Preferences::default(), tr("settings.load_failed"))
             }
         };
+        preferences.pixel_scale = preferences.pixel_scale.clamp(2, 4);
         preferences.server = crate::network::normalize_server(&preferences.server)
             .unwrap_or_else(|_| crate::network::DEFAULT_SERVER.trim().into());
         if crate::network::LEGACY_SERVERS.contains(&preferences.server.as_str()) {
@@ -183,6 +195,7 @@ pub(crate) enum Action {
     Open,
     Close,
     Language(Language),
+    Scale(u32),
 }
 #[derive(Component)]
 pub(crate) struct Root;
@@ -239,13 +252,14 @@ pub(crate) fn update(
                 accessible.set_label(tr("settings.button").render(&i18n));
             }
         }
-        let selected = matches!(action, Action::Language(language) if *language == i18n.language);
+        let selected = matches!(action, Action::Language(language) if *language == i18n.language)
+            || matches!(action, Action::Scale(scale) if *scale == settings.pixel_scale());
         *background = BackgroundColor(if selected {
             GREEN
         } else if *interaction != Interaction::None {
-            Color::srgb_u8(194, 199, 146)
+            Color::srgb_u8(79, 96, 76)
         } else {
-            Color::srgb_u8(229, 220, 189)
+            ui::SURFACE
         });
         if *interaction != Interaction::Pressed
             || !(mouse.just_pressed(MouseButton::Left) || touches.any_just_pressed())
@@ -256,6 +270,7 @@ pub(crate) fn update(
             Action::Open => settings.open = true,
             Action::Close => settings.open = false,
             Action::Language(language) => settings.choose(language, &mut i18n),
+            Action::Scale(scale) => settings.choose_scale(scale),
         }
         settings.changed_this_frame = true;
         settings.dirty = true;
@@ -278,11 +293,7 @@ fn button(
             action,
             node,
             ChildOf(parent),
-            BackgroundColor(if selected {
-                GREEN
-            } else {
-                Color::srgb_u8(229, 220, 189)
-            }),
+            BackgroundColor(if selected { GREEN } else { ui::SURFACE }),
             BorderColor::all(if selected { INK } else { MUTED }),
         ))
         .id();
@@ -382,7 +393,7 @@ pub(crate) fn render(
             Node {
                 position_type: PositionType::Absolute,
                 left: px(408),
-                top: px(236),
+                top: px(144),
                 width: px(624),
                 padding: UiRect::all(px(28)),
                 flex_direction: FlexDirection::Column,
@@ -390,7 +401,7 @@ pub(crate) fn render(
                 border: UiRect::all(px(3)),
                 ..default()
             },
-            BackgroundColor(CREAM),
+            BackgroundColor(ui::PANEL),
             BorderColor::all(MUTED),
             ChildOf(root),
         ))
@@ -470,13 +481,49 @@ pub(crate) fn render(
             },
         );
     }
+    ui::label(&mut commands, panel, &art, tr("settings.scale"), 18.0, INK);
+    let scales = commands
+        .spawn((
+            Node {
+                column_gap: px(12),
+                ..default()
+            },
+            ChildOf(panel),
+        ))
+        .id();
+    for scale in 2..=4 {
+        button(
+            &mut commands,
+            scales,
+            &art,
+            format!("{scale}x"),
+            Action::Scale(scale),
+            scale == settings.pixel_scale(),
+            Node {
+                width: px(178),
+                height: px(52),
+                border: UiRect::all(px(2)),
+                align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
+                ..default()
+            },
+        );
+    }
+    ui::label(
+        &mut commands,
+        panel,
+        &art,
+        tr("settings.scale_hint"),
+        16.0,
+        MUTED,
+    );
     ui::label(
         &mut commands,
         panel,
         &art,
         settings.notice.clone(),
         16.0,
-        GREEN,
+        ui::GOLD,
     );
     button(
         &mut commands,
@@ -499,6 +546,33 @@ pub(crate) fn render(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn pixel_scale_defaults_clamps_and_survives_restart_without_losing_preferences() {
+        let dir = std::env::temp_dir().join(format!("yapshire-scale-{}", rand::random::<u64>()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("settings.json");
+        std::fs::write(
+            &path,
+            br#"{"language":"zh-CN","server":"wss://friends.example","volume":0.8}"#,
+        )
+        .unwrap();
+        let (mut settings, _) = Settings::from_path(Ok(path.clone()));
+        assert_eq!(settings.pixel_scale(), 2);
+        for (input, expected) in [(3, 3), (4, 4), (2, 2), (0, 2), (99, 4)] {
+            settings.choose_scale(input);
+            let (saved, language) = Settings::from_path(Ok(path.clone()));
+            assert_eq!(saved.pixel_scale(), expected);
+            assert_eq!(language.language, Language::Chinese);
+            assert_eq!(saved.server(), "wss://friends.example");
+            assert_eq!(read(&path).unwrap().extra["volume"], 0.8);
+        }
+        std::fs::write(&path, br#"{"pixel_scale":99,"language":"zh-CN"}"#).unwrap();
+        let (loaded, language) = Settings::from_path(Ok(path));
+        assert_eq!(loaded.pixel_scale(), 4);
+        assert_eq!(language.language, Language::Chinese);
+        std::fs::remove_dir_all(dir).unwrap();
+    }
 
     #[test]
     fn closing_settings_blocks_the_same_click_until_the_mouse_is_released() {

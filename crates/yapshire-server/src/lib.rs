@@ -362,7 +362,7 @@ async fn room(
     if join.protocol != PROTOCOL_VERSION {
         return Err((
             StatusCode::UPGRADE_REQUIRED,
-            "Update Yapshire: this server requires map synchronization protocol 2",
+            "Client and server map protocols differ. Use matching Yapshire builds.",
         ));
     }
     if !(config::valid_code(&code) || code == server.0.config.room_code)
@@ -529,11 +529,21 @@ async fn session(
                         } else {
                             name
                         },
-                        x: 244.0 + room.peers.len() as f32 * 48.0,
-                        y: 0.0,
+                        map: server.0.world.entry().0.to_owned(),
+                        x: server.0.world.entry().1[0],
+                        y: server.0.world.entry().1[1],
                         moving: false,
                         facing: false,
-                        indoors: false,
+                        indoors: server
+                            .0
+                            .world
+                            .content
+                            .manifest
+                            .maps
+                            .iter()
+                            .find(|m| m.id == server.0.world.entry().0)
+                            .unwrap()
+                            .indoors,
                         fishing: false,
                     };
                     broadcast(
@@ -616,10 +626,12 @@ async fn session(
                 let mut rooms = server.0.rooms.lock().unwrap();
                 let Some(room) = rooms.get_mut(&code) else { break; };
                 match message {
-                    ClientMessage::Move { x, y, moving, facing, indoors, fishing } if x.is_finite() && y.is_finite() => {
+                    ClientMessage::Move { map, x, y, moving, facing, indoors: _, fishing } if x.is_finite() && y.is_finite() => {
+                        let Some(layout) = server.0.world.maps.get(&map) else { close_code = 1007; reason = "Unknown map"; break; };
+                        let indoors = server.0.world.content.manifest.maps.iter().find(|m| m.id == map).unwrap().indoors;
                         let Some(peer) = room.peers.get_mut(&participant.id) else { break; };
                         let p = &mut peer.player;
-                        p.x = x.clamp(12.0, 1428.0); p.y = y.clamp(0.0, 96.0); p.moving = moving; p.facing = facing; p.indoors = indoors; p.fishing = fishing && !indoors;
+                        p.map = map; p.x = x.clamp(12.0, layout.width as f32 * 16.0 - 12.0); p.y = y.clamp(-64.0, layout.origin_y() + 96.0); p.moving = moving; p.facing = facing; p.indoors = indoors; p.fishing = fishing && layout.interaction(p.x, p.y).is_some_and(|o| o.kind == "fishing");
                         let message = ServerMessage::Moved { player: p.clone() };
                         broadcast(room, message, Some(participant.id));
                     }
@@ -647,6 +659,7 @@ mod tests {
         let player = Player {
             id: 7,
             name: "Walker".into(),
+            map: "yapshire:town".into(),
             x: 0.0,
             y: 0.0,
             moving: true,

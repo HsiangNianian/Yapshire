@@ -8,10 +8,15 @@ use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{io, path::PathBuf};
 
+#[cfg(debug_assertions)]
 pub const SHOP_DOOR: f32 = 965.0;
+#[cfg(debug_assertions)]
 pub const SHOP_EXIT: f32 = 64.0;
+#[cfg(debug_assertions)]
 pub const COUNTER: f32 = 270.0;
+#[cfg(any(debug_assertions, test))]
 pub const PIER_START: f32 = 1304.0;
+#[cfg(test)]
 pub const PIER_END: f32 = 1360.0;
 const ROD_PRICE: u32 = 45;
 const HOOK_PRICE: u32 = 15;
@@ -239,6 +244,7 @@ pub struct Fishing {
     pub stage: Stage,
     pub panel: Panel,
     pub indoors: bool,
+    pub map: String,
     pub command: Option<Action>,
     pub dirty: bool,
     pub notice: Message,
@@ -257,6 +263,7 @@ impl Default for Fishing {
             stage: Stage::Idle,
             panel: Panel::None,
             indoors: false,
+            map: "yapshire:town".into(),
             command: None,
             dirty: true,
             notice: Message::default(),
@@ -310,6 +317,7 @@ impl Fishing {
 }
 
 pub fn update(
+    maps: Res<crate::maps::Maps>,
     settings: Res<crate::settings::Settings>,
     time: Res<Time>,
     keys: Res<ButtonInput<KeyCode>>,
@@ -324,17 +332,22 @@ pub fn update(
     if playing != fishing.was_playing {
         fishing.cancel();
         fishing.indoors = false;
+        fishing.map = maps.world.entry().0.to_owned();
         fishing.was_playing = playing;
         fishing.dirty = true;
     }
     if !playing {
+        fishing.map = maps.world.entry().0.to_owned();
+        fishing.indoors = maps.indoors(&fishing.map);
         fishing.command = None;
         for mut actor in &mut actors {
             if Some(actor.player.id) == session.you {
                 actor.player.fishing = false;
                 if actor.player.indoors {
                     actor.player.indoors = false;
-                    actor.teleport(Vec2::new(SHOP_DOOR, 0.0));
+                    let (map, position) = maps.world.entry();
+                    actor.player.map = map.to_owned();
+                    actor.teleport(Vec2::from_array(position));
                 }
             }
         }
@@ -364,6 +377,8 @@ pub fn update(
     let Some(mut actor) = actors.iter_mut().find(|a| Some(a.player.id) == session.you) else {
         return;
     };
+    fishing.map = actor.player.map.clone();
+    fishing.indoors = maps.indoors(&fishing.map);
     let dt = time.delta_secs().min(0.05);
     fishing.anim_time += dt;
     fishing.notice_time = (fishing.notice_time - dt).max(0.0);
@@ -388,8 +403,12 @@ pub fn update(
             if fishing.modal() {
                 fishing.cancel();
             } else if fishing.indoors {
-                fishing.indoors = false;
-                actor.teleport(Vec2::new(SHOP_DOOR, 0.0));
+                if let Some(portal) = maps
+                    .by_id(&actor.player.map)
+                    .and_then(|m| m.objects().find(|o| o.kind == "portal"))
+                {
+                    travel(&mut actor, portal, &maps);
+                }
                 fishing.dirty = true;
             }
         } else if fishing.panel == Panel::Shop && fishing.save_error.is_empty() {
@@ -420,16 +439,16 @@ pub fn update(
         fishing.stage = Stage::Idle;
         fishing.dirty = true;
     }
-    if input && keys.just_pressed(KeyCode::KeyE) && !fishing.modal() && actor.position.y < 1.0 {
-        let x = actor.position.x;
-        if !fishing.indoors && (x - SHOP_DOOR).abs() < 28.0 {
-            fishing.indoors = true;
-            actor.teleport(Vec2::new(SHOP_EXIT + 32.0, 0.0));
-            fishing.say(tr("fishing.notice.shop"));
-        } else if fishing.indoors && (x - SHOP_EXIT).abs() < 32.0 {
-            fishing.indoors = false;
-            actor.teleport(Vec2::new(SHOP_DOOR, 0.0));
-        } else if fishing.indoors && (x - COUNTER).abs() < 58.0 {
+    if input && keys.just_pressed(KeyCode::KeyE) && !fishing.modal() {
+        let interaction = maps
+            .by_id(&actor.player.map)
+            .and_then(|m| m.interaction(actor.position.x, actor.position.y));
+        if let Some(portal) = interaction.filter(|o| o.kind == "portal") {
+            travel(&mut actor, portal, &maps);
+            if maps.indoors(&actor.player.map) {
+                fishing.say(tr("fishing.notice.shop"));
+            }
+        } else if interaction.is_some_and(|o| o.kind == "shop") {
             fishing.panel = Panel::Shop;
             if fishing.progress.rod
                 && fishing.progress.hook
@@ -442,7 +461,8 @@ pub fn update(
                 fishing.say(tr("fishing.notice.free_bait"));
                 fishing.save();
             }
-        } else if !fishing.indoors && x >= PIER_START && fishing.save_error.is_empty() {
+        } else if interaction.is_some_and(|o| o.kind == "fishing") && fishing.save_error.is_empty()
+        {
             match fishing.progress.cast() {
                 Ok(()) => {
                     fishing.stage = Stage::Waiting(1.8 + rand::random::<f32>() * 2.4);
@@ -514,8 +534,25 @@ pub fn update(
         fishing.anim_time = 0.0;
         fishing.dirty = true;
     }
+    fishing.map = actor.player.map.clone();
+    fishing.indoors = maps.indoors(&fishing.map);
     actor.player.indoors = fishing.indoors;
     actor.player.fishing = fishing.active();
+}
+
+fn travel(actor: &mut Actor, portal: &yapshire_shared::maps::Object, maps: &crate::maps::Maps) {
+    let Some(id) = portal.property("target_map") else {
+        return;
+    };
+    let Some(position) = maps
+        .by_id(id)
+        .and_then(|m| m.spawn(portal.property("target_spawn")?))
+    else {
+        return;
+    };
+    actor.player.map = id.to_owned();
+    actor.player.indoors = maps.indoors(id);
+    actor.teleport(Vec2::from_array(position));
 }
 
 #[cfg(test)]

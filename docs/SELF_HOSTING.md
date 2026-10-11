@@ -3,16 +3,16 @@
 [简体中文](SELF_HOSTING.zh-CN.md) · [README](../README.md)
 
 `yapshire-server` runs without a game window, GPU, Node.js or Cloudflare account.
-Use it on a home computer, VPS, or Docker host. In v0.6.0 and later clients,
+Use it on a home computer, VPS, or Docker host. In v0.7.x and later clients,
 players choose **Online lobby → Add Club**, enter its address and optionally give
 it a personal alias. Each saved Club automatically lists its rooms, occupancy and
 measured latency. Select a Club to create a room there; editing or removing the
-subscription does not rename or stop the actual server. Previously released
-v0.5.2 clients use the single server-address field instead.
+subscription does not rename or stop the actual server. Clients and servers must
+use v0.7.x builds with matching content packs (protocol 3); older clients need to update first.
 
 The official **Yapshire Town (Yapshire 小镇)** uses
 `wss://yap-server.mmstudio.games`; `wss://yap.meaninglessmeaning.studio` reaches
-the same town. Enter either address in an existing v0.5.2+ client.
+the same town. Enter either address in a v0.7.x client.
 
 ## Start with the standalone download
 
@@ -53,7 +53,7 @@ docker run -d --name yapshire --restart unless-stopped \
   -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:latest
 ```
 
-Use a version tag such as `:v0.6.0` to pin a release. The repository also includes
+Use a version tag such as `:v0.7.2` to pin a release. The repository also includes
 [`compose.yaml`](../compose.yaml): `docker compose up -d` starts the default town.
 The image runs as UID/GID **10001**, includes an HTTP health check, and reads
 configuration from `/data`. It never needs to write to your maps.
@@ -73,7 +73,7 @@ docker run -d --name yapshire-custom --restart unless-stopped \
   -p 4761:4761 --read-only --cap-drop ALL \
   --security-opt no-new-privileges:true \
   --mount "type=bind,src=$PWD/my-town,dst=/data,readonly" \
-  ghcr.io/hsiangnianian/yapshire-server:v0.6.0
+  ghcr.io/hsiangnianian/yapshire-server:v0.7.2
 ```
 
 Ensure the directory and files are readable by UID 10001. In Compose, enable the
@@ -81,52 +81,39 @@ commented `./my-town:/data:ro` mount. Use a different host port if another game
 or server already uses 4761. Keep the container's port at 4761 for its built-in
 health check; for a custom internal port, override the health check as well.
 
-## Use maps from the game editor
+## Use maps and content packs
 
-1. Create a server folder: `./yapshire-server --init ./my-town`. This writes a
-   config and both original maps, and refuses to overwrite existing files.
-2. In the game, open **Map editor**, make your changes, and **Save**.
-3. Click **Map files**. Copy the edited `town.tmj` and/or `tackle-shop.tmj` into
-   `my-town/maps/`, replacing only the corresponding map. Keep both map files.
-4. Check and start the server:
+The following describes **v0.7.x** (protocol 3). Client and server must use
+matching content packs. v0.7.1 and v0.7.2 can play together. Earlier releases use
+protocol 2 and cannot join these rooms.
+
+1. Run `./yapshire-server --init ./my-town`. This creates `server.json` and a
+   complete official pack under `my-town/maps/`, without overwriting files.
+2. Open the game's **Map editor**, edit and **Save**, then choose **Map files**.
+3. Copy the pack folder's contents into `my-town/maps/`. The manifest is
+   `my-town/maps/pack.json`; layouts are `my-town/maps/maps/*.tmj`.
+4. Validate, then start:
 
 ```sh
 ./yapshire-server --config ./my-town/server.json --check
 ./yapshire-server --config ./my-town/server.json
 ```
 
-The editor, client and server use the **same Tiled JSON `.tmj` format and Rust
-validation module**. No export conversion or client rebuild is required. You can
-also edit the files in Tiled. Layout changes take effect after a server restart;
-players reconnect to receive the new snapshot.
+`maps_dir` and `--maps` accept a content-pack root. Old folders containing the
+original `town.tmj`, `tackle-shop.tmj` and `harbor.*` still import without changing
+their files. The editor, client and server share the same validation module.
+See [Content packs v1](CONTENT_PACKS.md) for stable IDs, Tiled authoring, variable
+maps, interactions, collisions, terrain, size limits and migration.
 
-On joining, the server sends both maps and their revision. The client checks map
-dimensions, tile IDs, the shared tileset fingerprint and the revision, then
-acknowledges that exact world before entering the room. Remote maps stay in
-memory. Leaving or losing the connection restores the player's own local maps;
-downloaded maps never overwrite editor files.
+The server transfers layouts and pack definitions, and the client checks its
+installed pack ID/version, image hashes and world revision **before joining**.
+Install/select custom packs on every client first; assets are not downloaded
+from room servers. Layout-only edits need no client rebuild. Remote maps stay
+in memory; leaving restores local maps and never overwrites editor files.
 
-The supported format is deliberately small:
-
-- Town: **90 × 17**, shop: **30 × 17**, **16 × 16** tiles, five finite orthogonal
-  tile layers, uncompressed JSON arrays, original dimensions and zero offsets.
-- The bundled **359-tile `harbor.tsj` / `harbor.png`** palette is shared by every
-  player. Leave those files unchanged. Custom images, tilesets, scripts, object
-  layers, and variable map sizes are not transferred or supported.
-- Tile flips, empty tiles, hidden layers and Tiled metadata are preserved.
-  Each input `.tmj` is limited to **256 KiB**; a network world is bounded to
-  **512 KiB**. Invalid maps fail validation before the server opens a port.
-- Collision and interactions remain fixed. The editor's gold guides mark the
-  walking surface, shop door, counter and fishing area. Changing artwork does
-  not move these anchors; see [Tilemaps](DEVELOPMENT.md#tilemaps).
-
-LAN hosts publish their saved local editor maps through the same server library.
-The official Cloudflare deployment runs this same Rust server with the bundled
-maps. Use **v0.5.2 or later** clients
-for the dedicated server and LAN map handshake (protocol 2). Earlier Windows
-v0.5.0/v0.5.1 builds used a different tileset fingerprint due to CRLF line endings;
-update them before playing with Linux/macOS users. The old official Worker
-address forwards to the Rust server, so pre-v0.5 clients must upgrade.
+LAN hosts use the same protocol and checks. Cloudflare gateways forward to the
+same Rust server; update their container with the client when moving to protocol
+3. This source change does not update the running public service automatically.
 
 ## Configuration
 

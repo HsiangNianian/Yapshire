@@ -1,6 +1,6 @@
 use crate::{
     Session,
-    fishing::{self, Action, FISH, Fishing, Panel, Stage},
+    fishing::{Action, FISH, Fishing, Panel, Stage},
     game::{Actor, Art},
     i18n::{I18n, Message, tr},
     ui::{self, Menu, Page},
@@ -65,7 +65,7 @@ fn frame(commands: &mut Commands, parent: Entity, image: Handle<Image>, node: No
     let entity = commands.spawn((node, ChildOf(parent))).id();
     commands.spawn((
         ImageNode::new(image).with_mode(NodeImageMode::Sliced(TextureSlicer {
-            border: BorderRect::all(24.0),
+            border: BorderRect::all(16.0),
             ..default()
         })),
         Node {
@@ -109,8 +109,8 @@ fn slot(
         parent,
         art.slot.clone(),
         Node {
-            width: px(128),
-            height: px(128),
+            width: px(114),
+            height: px(114),
             padding: UiRect::all(px(9)),
             flex_direction: FlexDirection::Column,
             align_items: AlignItems::Center,
@@ -118,7 +118,7 @@ fn slot(
             ..default()
         },
     );
-    let item = icon(commands, cell, art, index, 64.0);
+    let item = icon(commands, cell, art, index, 48.0);
     if !owned {
         commands.entity(item).insert(
             ImageNode::from_atlas_image(
@@ -131,14 +131,14 @@ fn slot(
             .with_color(Color::srgba(0.55, 0.62, 0.57, 0.4)),
         );
     }
-    ui::label(commands, cell, art, name, 16.0, ui::INK);
+    ui::label(commands, cell, art, name, 14.0, ui::INK);
     ui::label(
         commands,
         cell,
         art,
         amount,
         15.0,
-        if owned { ui::GREEN } else { ui::MUTED },
+        if owned { ui::GOLD } else { ui::MUTED },
     );
 }
 
@@ -162,10 +162,10 @@ fn shop_item(
     );
     commands.entity(button).insert(Node {
         width: percent(100),
-        height: px(86),
-        min_height: px(86),
+        height: px(70),
+        min_height: px(70),
         padding: UiRect {
-            left: px(98),
+            left: px(80),
             right: px(12),
             top: px(8),
             bottom: px(8),
@@ -176,13 +176,13 @@ fn shop_item(
         border: UiRect::bottom(px(3)),
         ..default()
     });
-    let item = icon(commands, button, art, index, 64.0);
+    let item = icon(commands, button, art, index, 48.0);
     commands.entity(item).insert(Node {
         position_type: PositionType::Absolute,
         left: px(16),
         top: px(9),
-        width: px(64),
-        height: px(64),
+        width: px(48),
+        height: px(48),
         ..default()
     });
 }
@@ -256,30 +256,30 @@ pub fn render(
         .spawn((
             Node {
                 position_type: PositionType::Absolute,
-                left: px(32),
-                top: px(112),
+                left: px(24),
+                top: px(24),
                 padding: UiRect::axes(px(10), px(4)),
                 column_gap: px(8),
                 align_items: AlignItems::Center,
                 ..default()
             },
-            BackgroundColor(Color::srgba_u8(30, 62, 62, 225)),
+            BackgroundColor(ui::PANEL),
             ChildOf(root),
         ))
         .id();
     for (index, readout) in [(3, Readout::Coins), (2, Readout::Bait)] {
-        icon(&mut commands, wallet, &art, index, 32.0);
-        let text = ui::label(&mut commands, wallet, &art, "", 21.0, ui::CREAM);
+        icon(&mut commands, wallet, &art, index, 24.0);
+        let text = ui::label(&mut commands, wallet, &art, "", 18.0, ui::CREAM);
         commands.entity(text).insert(readout);
     }
-    icon(&mut commands, wallet, &art, 11, 32.0);
+    icon(&mut commands, wallet, &art, 11, 24.0);
     ui::label(&mut commands, wallet, &art, "I", 18.0, ui::CREAM);
     let notice = commands
         .spawn((
             Node {
                 position_type: PositionType::Absolute,
-                top: px(166),
-                left: px(32),
+                top: px(68),
+                left: px(24),
                 max_width: px(590),
                 ..default()
             },
@@ -287,22 +287,28 @@ pub fn render(
         ))
         .id();
     let text = ui::label(&mut commands, notice, &art, "", 18.0, ui::CREAM);
-    commands.entity(text).insert(Readout::Notice);
+    commands.entity(text).insert((
+        Readout::Notice,
+        TextShadow {
+            offset: Vec2::splat(2.0),
+            color: ui::PANEL,
+        },
+    ));
     let prompt = commands
         .spawn((
             Prompt,
             Node {
                 position_type: PositionType::Absolute,
-                top: px(208),
-                left: px(32),
+                top: px(108),
+                left: px(24),
                 padding: UiRect::all(px(10)),
                 ..default()
             },
-            BackgroundColor(Color::srgba_u8(30, 62, 62, 225)),
+            BackgroundColor(ui::PANEL),
             ChildOf(root),
         ))
         .id();
-    let text = ui::label(&mut commands, prompt, &art, "", 21.0, ui::CREAM);
+    let text = ui::label(&mut commands, prompt, &art, "", 18.0, ui::CREAM);
     commands.entity(text).insert(Readout::Prompt);
     if !fishing.modal() {
         return;
@@ -313,14 +319,14 @@ pub fn render(
         art.panel.clone(),
         Node {
             position_type: PositionType::Absolute,
-            left: px(32),
-            top: px(214),
+            left: px(24),
+            top: px(112),
             width: px(if fishing.panel == Panel::None {
-                456
+                376
             } else {
-                600
+                520
             }),
-            padding: UiRect::axes(px(24), px(20)),
+            padding: UiRect::all(px(20)),
             flex_direction: FlexDirection::Column,
             row_gap: px(8),
             ..default()
@@ -478,8 +484,8 @@ pub fn render(
                 .spawn((
                     ImageNode::new(art.water.clone()),
                     Node {
-                        width: px(384),
-                        height: px(168),
+                        width: px(320),
+                        height: px(140),
                         align_self: AlignSelf::Center,
                         overflow: Overflow::clip(),
                         ..default()
@@ -504,13 +510,13 @@ pub fn render(
                 },
                 ChildOf(view),
             ));
-            let fish = icon(&mut commands, view, &art, index, 96.0);
+            let fish = icon(&mut commands, view, &art, index, 64.0);
             commands.entity(fish).insert((
                 Visual::Fish,
                 Node {
                     position_type: PositionType::Absolute,
-                    width: px(96),
-                    height: px(96),
+                    width: px(64),
+                    height: px(64),
                     ..default()
                 },
             ));
@@ -535,7 +541,7 @@ pub fn render(
                 },
             ));
             if let Stage::Result { fish: Some(_), .. } = fishing.stage {
-                for left in [48, 284] {
+                for left in [32, 236] {
                     let sparkle = icon(&mut commands, view, &art, 13, 48.0);
                     commands.entity(sparkle).insert(Node {
                         position_type: PositionType::Absolute,
@@ -601,6 +607,7 @@ pub fn render(
 }
 
 pub fn refresh(
+    maps: Res<crate::maps::Maps>,
     i18n: Res<I18n>,
     time: Res<Time>,
     fishing: Res<Fishing>,
@@ -611,22 +618,26 @@ pub fn refresh(
     mut visuals: Query<(&Visual, &mut Node), (Without<Fill>, Without<Prompt>)>,
     mut prompts: Query<&mut Node, (With<Prompt>, Without<Fill>, Without<Visual>)>,
 ) {
-    let x = actors
+    let interaction = actors
         .iter()
         .find(|a| Some(a.player.id) == session.you)
-        .map_or(0.0, |a| a.position.x);
+        .and_then(|a| {
+            maps.by_id(&a.player.map)
+                .and_then(|m| m.interaction(a.position.x, a.position.y))
+        });
     let prompt = if fishing.modal() {
         Message::default()
-    } else if fishing.indoors && (x - fishing::SHOP_EXIT).abs() < 32.0 {
-        tr("fishing.prompt.leave")
-    } else if fishing.indoors && (x - fishing::COUNTER).abs() < 58.0 {
-        tr("fishing.prompt.shop")
-    } else if !fishing.indoors && (x - fishing::SHOP_DOOR).abs() < 28.0 {
-        tr("fishing.prompt.enter")
-    } else if !fishing.indoors && x >= fishing::PIER_START {
-        tr("fishing.prompt.cast")
     } else {
-        Message::default()
+        match interaction.map(|o| o.kind.as_str()) {
+            Some("portal") => tr(if fishing.indoors {
+                "fishing.prompt.leave"
+            } else {
+                "fishing.prompt.enter"
+            }),
+            Some("shop") => tr("fishing.prompt.shop"),
+            Some("fishing") => tr("fishing.prompt.cast"),
+            _ => Message::default(),
+        }
     };
     for mut node in &mut prompts {
         node.display = if prompt.is_empty() {
@@ -701,12 +712,12 @@ pub fn refresh(
     let t = time.elapsed_secs();
     let (fish_x, fish_y) = match &fishing.stage {
         Stage::Reeling(fight) => (
-            42.0 + (1.0 - fight.landed) * 220.0 + (t * 9.0).sin() * fight.pull * 9.0,
-            43.0 + (t * 4.0).sin() * (7.0 + fight.pull * 14.0),
+            36.0 + (1.0 - fight.landed) * 170.0 + (t * 9.0).sin() * fight.pull * 9.0,
+            32.0 + (t * 4.0).sin() * (5.0 + fight.pull * 14.0),
         ),
-        Stage::Result { fish: Some(_), .. } => (144.0, 28.0 + (t * 3.0).sin() * 5.0),
-        Stage::Result { .. } => (290.0, 55.0),
-        _ => (214.0 + (t * 1.5).sin() * 27.0, 58.0 + (t * 2.0).sin() * 8.0),
+        Stage::Result { fish: Some(_), .. } => (128.0, 26.0 + (t * 3.0).sin() * 5.0),
+        Stage::Result { .. } => (248.0, 44.0),
+        _ => (192.0 + (t * 1.5).sin() * 22.0, 44.0 + (t * 2.0).sin() * 8.0),
     };
     for (visual, mut node) in &mut visuals {
         match visual {
@@ -715,9 +726,9 @@ pub fn refresh(
                 node.top = px(fish_y.round());
             }
             Visual::Line => {
-                node.left = px((fish_x + 10.0).round());
+                node.left = px((fish_x + 6.0).round());
                 node.top = px(5);
-                node.height = px((fish_y + 49.0).round());
+                node.height = px((fish_y + 32.0).round());
                 node.display = if matches!(fishing.stage, Stage::Reeling(_)) {
                     Display::Flex
                 } else {
@@ -725,7 +736,7 @@ pub fn refresh(
                 };
             }
             Visual::Float => {
-                node.left = px(76);
+                node.left = px(64);
                 node.top = px(2.0
                     + (t * if matches!(fishing.stage, Stage::Bite(_)) {
                         15.0

@@ -321,6 +321,7 @@ fn client(
     world: World,
     password: &str,
 ) -> Result<(), String> {
+    let installed_content = world.content.clone();
     let name = clean(name, 12);
     let name = if name.is_empty() { "Wanderer" } else { &name };
     let password = if matches!(mode, Mode::HostCloud { .. } | Mode::JoinCloud { .. }) {
@@ -422,6 +423,10 @@ fn client(
                             world
                                 .validate()
                                 .map_err(|error| format!("Invalid server maps: {error}"))?;
+                            world
+                                .content
+                                .require(&installed_content)
+                                .map_err(|e| e.to_string())?;
                             socket
                                 .send(Message::text(
                                     serde_json::to_string(&ClientMessage::WorldReady {
@@ -433,7 +438,17 @@ fn client(
                             received_world = true;
                         }
                         ServerMessage::Welcome { players, .. } => {
-                            if welcomed || players.len() > 16 {
+                            if welcomed
+                                || !received_world
+                                || players.len() > 16
+                                || players.iter().any(|p| {
+                                    !installed_content
+                                        .manifest
+                                        .maps
+                                        .iter()
+                                        .any(|m| m.id == p.map)
+                                })
+                            {
                                 return Err("Invalid room welcome".into());
                             }
                             welcomed = true;
@@ -508,7 +523,8 @@ fn open_socket_authorized(
             if detail.contains("401") {
                 "Server password is missing or incorrect.".into()
             } else if detail.contains("426") {
-                "Update Yapshire to join this server's maps.".into()
+                "Client and server use different map protocols. Update both to the same build."
+                    .into()
             } else if detail.contains("403") {
                 "Room creation is disabled. Join the server's existing town.".into()
             } else if detail.contains("404") {
@@ -719,6 +735,48 @@ mod tests {
     }
 
     #[test]
+    fn missing_content_is_rejected_before_acknowledgement_or_player_creation() {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let address = format!("ws://{}", listener.local_addr().unwrap());
+        let mut world = World::bundled();
+        world
+            .content
+            .images
+            .insert("objects/harbor.png".into(), "1".repeat(64));
+        let world = World::from_maps(world.content, world.maps).unwrap();
+        let server = yapshire_server::Server::new(Default::default(), world, "").unwrap();
+        let stop = Arc::new(AtomicBool::new(false));
+        let thread = server.clone().spawn(listener, stop.clone()).unwrap();
+        let client = start(
+            Mode::JoinCloud {
+                server: address,
+                room: "MAIN0001".into(),
+            },
+            "Guest".into(),
+        );
+        let error = loop {
+            match client
+                .events
+                .lock()
+                .unwrap()
+                .recv_timeout(Duration::from_secs(5))
+                .unwrap()
+            {
+                Event::Error(e) => break e,
+                Event::Message(ServerMessage::Welcome { .. }) => {
+                    panic!("Mismatched client entered the world")
+                }
+                _ => {}
+            }
+        };
+        assert!(error.contains("objects/harbor.png") && error.contains("Required pack"));
+        assert_eq!(server.player_count("MAIN0001"), 0);
+        drop(client);
+        stop.store(true, Ordering::Relaxed);
+        thread.join().unwrap();
+    }
+
+    #[test]
     fn old_clubs_still_list_rooms_without_inventing_ping_or_capacity() {
         let listener = TcpListener::bind("127.0.0.1:0").unwrap();
         let address = format!("ws://{}", listener.local_addr().unwrap());
@@ -840,7 +898,8 @@ mod tests {
         assert_ne!(id, other);
         a.send
             .send(ClientMessage::Move {
-                x: 600.0,
+                map: "yapshire:tackle_shop".into(),
+                x: 400.0,
                 y: 20.0,
                 moving: true,
                 facing: false,
@@ -849,7 +908,7 @@ mod tests {
             })
             .unwrap();
         assert!(
-            matches!(next(&b, "move"), ServerMessage::Moved { player } if player.id == id && player.x == 600.0 && player.indoors && !player.fishing)
+            matches!(next(&b, "move"), ServerMessage::Moved { player } if player.id == id && player.x == 400.0 && player.indoors && !player.fishing)
         );
         a.send
             .send(ClientMessage::Chat {
@@ -950,20 +1009,20 @@ mod tests {
         );
         assert!(matches!(read(&mut a), ServerMessage::Joined { .. }));
         a.send(Message::text(
-            r#"{"type":"move","x":700,"y":12,"moving":true,"facing":true}"#,
+            r#"{"type":"move","map":"yapshire:town","x":700,"y":12,"moving":true,"facing":true}"#,
         ))
         .unwrap();
         assert!(
             matches!(read(&mut b), ServerMessage::Moved { player } if player.id == you && player.x == 700.0 && player.facing)
         );
         a.send(Message::text(
-            r#"{"type":"move","x":270,"y":0,"moving":false,"facing":false,"indoors":true,"fishing":true}"#,
+            r#"{"type":"move","map":"yapshire:tackle_shop","x":270,"y":0,"moving":false,"facing":false,"indoors":true,"fishing":true}"#,
         )).unwrap();
         assert!(
             matches!(read(&mut b), ServerMessage::Moved { player } if player.indoors && !player.fishing)
         );
         a.send(Message::text(
-            r#"{"type":"move","x":1290,"y":0,"moving":false,"facing":false,"indoors":false,"fishing":true}"#,
+            r#"{"type":"move","map":"yapshire:town","x":1320,"y":0,"moving":false,"facing":false,"indoors":false,"fishing":true}"#,
         )).unwrap();
         assert!(
             matches!(read(&mut b), ServerMessage::Moved { player } if !player.indoors && player.fishing)

@@ -16,9 +16,15 @@ use bevy::{
     text::FontSmoothing,
 };
 
-pub const WIDTH: f32 = 480.0;
-pub const HEIGHT: f32 = 270.0;
+pub const WIDTH: f32 = 720.0;
+pub const HEIGHT: f32 = 405.0;
 pub const WINDOW_SIZE: UVec2 = UVec2::new(1440, 810);
+const CAMERA_Y: f32 = HEIGHT / 2.0 - 64.0;
+const CHARACTER_SIZE: UVec2 = UVec2::new(20, 32);
+
+pub(crate) fn canvas_size(scale: u32) -> UVec2 {
+    WINDOW_SIZE / scale.clamp(2, 4)
+}
 
 #[derive(Resource)]
 pub struct Art {
@@ -41,7 +47,7 @@ pub struct Actor {
     velocity_y: f32,
     phase: f32,
     send_time: f32,
-    last_sent: (Vec2, bool, bool, bool, bool),
+    last_sent: (Vec2, bool, bool, String, bool),
 }
 
 impl Actor {
@@ -71,6 +77,14 @@ pub(crate) struct Backdrop {
     base: Vec2,
     parallax: f32,
 }
+impl Backdrop {
+    fn x(&self, camera: f32, width: f32, view_width: f32) -> f32 {
+        let margin = ((width - view_width) / 2.0).max(0.0);
+        (self.base.x + (camera - WIDTH / 2.0) * self.parallax)
+            .clamp(camera - margin, camera + margin)
+            .round()
+    }
+}
 #[derive(Component)]
 pub(crate) struct Cloud {
     x: f32,
@@ -97,12 +111,13 @@ pub fn setup(
     assets: Res<AssetServer>,
     mut images: ResMut<Assets<Image>>,
     mut layouts: ResMut<Assets<TextureAtlasLayout>>,
+    settings: Res<crate::settings::Settings>,
 ) {
     let art = Art {
         font: assets.load("fonts/fusion-pixel.ttf"),
         people: assets.load("people.png"),
         atlas: layouts.add(TextureAtlasLayout::from_grid(
-            UVec2::new(24, 32),
+            CHARACTER_SIZE,
             6,
             4,
             None,
@@ -122,9 +137,10 @@ pub fn setup(
         water: assets.load("fishing/water.png"),
         editor_icons: assets.load("ui/editor-icons.png"),
     };
+    let view = canvas_size(settings.pixel_scale());
     let size = Extent3d {
-        width: WIDTH as u32,
-        height: HEIGHT as u32,
+        width: view.x,
+        height: view.y,
         depth_or_array_layers: 1,
     };
     let mut canvas = Image {
@@ -153,7 +169,7 @@ pub fn setup(
         RenderTarget::Image(canvas.clone().into()),
         Msaa::Off,
         WorldCamera,
-        Transform::from_xyz(260.0, 76.0, 0.0),
+        Transform::from_xyz(WIDTH / 2.0, view.y as f32 / 2.0 - 64.0, 0.0),
     ));
     commands.spawn((Sprite::from_image(canvas), RenderLayers::layer(1)));
     commands.spawn((
@@ -166,19 +182,23 @@ pub fn setup(
     commands.spawn((
         Sprite::from_image(assets.load("sky.png")),
         Outside,
-        Transform::from_xyz(260.0, 76.0, -50.0),
+        Transform::from_xyz(WIDTH / 2.0, CAMERA_Y, -50.0),
         Backdrop {
-            base: Vec2::new(260.0, 76.0),
+            base: Vec2::new(WIDTH / 2.0, CAMERA_Y),
             parallax: 1.0,
         },
     ));
     commands.spawn((
-        Sprite::from_image(assets.load("hills.png")),
+        Sprite {
+            image: assets.load("hills.png"),
+            custom_size: Some(Vec2::new(1620.0, 540.0)),
+            ..default()
+        },
         Outside,
-        Transform::from_xyz(720.0, 76.0, -40.0),
+        Transform::from_xyz(810.0, 124.0, -46.0),
         Backdrop {
-            base: Vec2::new(720.0, 76.0),
-            parallax: 0.68,
+            base: Vec2::new(810.0, 124.0),
+            parallax: 0.44,
         },
     ));
     for (x, y, speed) in [
@@ -195,19 +215,10 @@ pub fn setup(
             Cloud { x, y, speed },
         ));
     }
-    commands.spawn((
-        Sprite {
-            image: assets.load("town.png"),
-            rect: Some(Rect::new(0.0, 0.0, 928.0, 192.0)),
-            ..default()
-        },
-        Outside,
-        Transform::from_xyz(464.0, 80.0, -20.0),
-    ));
     for i in 0..22 {
-        let origin = Vec2::new(30.0 + i as f32 * 64.0, 12.0 + (i * 17 % 62) as f32);
+        let origin = Vec2::new(30.0 + i as f32 * 64.0, (i * 17 % 170) as f32);
         commands.spawn((
-            Sprite::from_color(Color::srgb_u8(246, 221, 155), Vec2::new(2.0, 1.0)),
+            Sprite::from_color(Color::srgb_u8(192, 165, 96), Vec2::new(2.0, 1.0)),
             Transform::from_xyz(origin.x, origin.y, 9.0),
             Mote {
                 origin,
@@ -241,7 +252,7 @@ pub fn spawn_actor(commands: &mut Commands, art: &Art, player: Player) {
                 velocity_y: 0.0,
                 phase: 0.0,
                 send_time: 0.0,
-                last_sent: (position, false, false, false, false),
+                last_sent: (position, false, false, String::new(), false),
             },
         ))
         .with_children(|parent| {
@@ -251,30 +262,115 @@ pub fn spawn_actor(commands: &mut Commands, art: &Art, player: Player) {
             ));
             parent.spawn((
                 Text2d::new(name),
-                font(art, 12.0),
-                TextColor(Color::srgb_u8(250, 235, 192)),
-                TextBackgroundColor(Color::srgba_u8(42, 66, 56, 220)),
-                Transform::from_xyz(0.0, 40.0, 0.5),
+                font(art, 9.0),
+                TextColor(crate::ui::CREAM),
+                TextBackgroundColor(Color::srgba_u8(26, 41, 38, 210)),
+                Transform::from_xyz(0.0, 38.0, 0.5),
             ));
         })
         .id();
     crate::coast::rod(commands, entity, id, art);
 }
 
-fn step(position: &mut Vec2, velocity_y: &mut f32, direction: f32, run: bool, jump: bool, dt: f32) {
-    position.x = (position.x + direction * if run { 105.0 } else { 62.0 } * dt)
-        .clamp(12.0, crate::fishing::PIER_END - 12.0);
-    if jump && position.y == 0.0 {
-        *velocity_y = 174.0;
+fn step(
+    position: &mut Vec2,
+    velocity_y: &mut f32,
+    direction: f32,
+    run: bool,
+    jump: bool,
+    dt: f32,
+    map: &crate::maps::Map,
+    content: &yapshire_shared::content::Content,
+    path: &str,
+) {
+    const HALF: f32 = 6.0;
+    const HEIGHT: f32 = 26.0;
+    let old = *position;
+    let mut surfaces = Vec::new();
+    let min = old - Vec2::new(24.0, 32.0 + (-*velocity_y).max(0.0) * dt);
+    let max = old + Vec2::new(24.0, 48.0);
+    for row in (((map.origin_y() - max.y) / 16.0).floor() as i32).max(0)
+        ..=((map.origin_y() - min.y) / 16.0).floor() as i32
+    {
+        for col in ((min.x / 16.0).floor() as i32).max(0)..=(max.x / 16.0).floor() as i32 {
+            let collision = map.collision(content, path, col, row);
+            if collision != "none" {
+                let top = map.origin_y() - row as f32 * 16.0;
+                surfaces.push((
+                    Rect::new(col as f32 * 16.0, top - 16.0, (col + 1) as f32 * 16.0, top),
+                    collision == "solid",
+                ));
+            }
+        }
+    }
+    for o in map.objects().filter(|o| o.kind == "solid") {
+        surfaces.push((
+            Rect::new(
+                o.x,
+                map.origin_y() - o.y - o.height,
+                o.x + o.width,
+                map.origin_y() - o.y,
+            ),
+            true,
+        ));
+    }
+    let overlaps_x =
+        |x: f32, rect: Rect| x + HALF > rect.min.x + 0.01 && x - HALF < rect.max.x - 0.01;
+    let grounded = surfaces
+        .iter()
+        .any(|(r, _)| overlaps_x(old.x, *r) && (old.y - r.max.y).abs() < 0.1);
+    if jump && grounded {
+        *velocity_y = 180.0;
+    }
+    position.x = (old.x + direction * if run { 105.0 } else { 62.0 } * dt)
+        .clamp(12.0, map.width as f32 * 16.0 - 12.0);
+    for (r, solid) in &surfaces {
+        if *solid
+            && old.y < r.max.y - 0.01
+            && old.y + HEIGHT > r.min.y + 0.01
+            && overlaps_x(position.x, *r)
+        {
+            position.x = if direction > 0.0 {
+                r.min.x - HALF
+            } else if direction < 0.0 {
+                r.max.x + HALF
+            } else {
+                old.x
+            };
+        }
     }
     *velocity_y -= 460.0 * dt;
-    position.y = (position.y + *velocity_y * dt).max(0.0);
-    if position.y == 0.0 {
-        *velocity_y = 0.0;
+    position.y = old.y + *velocity_y * dt;
+    for (r, solid) in &surfaces {
+        if !overlaps_x(position.x, *r) {
+            continue;
+        }
+        if *velocity_y <= 0.0 && old.y >= r.max.y - 0.01 && position.y <= r.max.y {
+            position.y = r.max.y;
+            *velocity_y = 0.0;
+        } else if *solid
+            && *velocity_y > 0.0
+            && old.y + HEIGHT <= r.min.y + 0.01
+            && position.y + HEIGHT >= r.min.y
+        {
+            position.y = r.min.y - HEIGHT;
+            *velocity_y = 0.0;
+        }
+    }
+    if position.y < -64.0 {
+        if let Some(spawn) = map
+            .objects()
+            .find(|o| o.kind == "spawn")
+            .and_then(|o| map.spawn(&o.name))
+        {
+            *position = Vec2::from_array(spawn);
+            *velocity_y = 0.0;
+        }
     }
 }
 
 pub fn walk(
+    maps: Res<crate::maps::Maps>,
     settings: Res<crate::settings::Settings>,
     time: Res<Time>,
     keys: Res<ButtonInput<KeyCode>>,
@@ -287,17 +383,22 @@ pub fn walk(
 ) {
     let dt = time.delta_secs().min(0.05);
     for mut actor in &mut actors {
+        let Some(map) = maps.by_id(&actor.player.map) else {
+            continue;
+        };
+        let path = &maps
+            .world
+            .content
+            .manifest
+            .maps
+            .iter()
+            .find(|m| m.id == actor.player.map)
+            .unwrap()
+            .path;
         if Some(actor.player.id) != session.you {
             let target = Vec2::new(
-                actor.player.x.clamp(
-                    12.0,
-                    if actor.player.indoors {
-                        444.0
-                    } else {
-                        crate::fishing::PIER_END - 12.0
-                    },
-                ),
-                actor.player.y.clamp(0.0, 96.0),
+                actor.player.x.clamp(12.0, map.width as f32 * 16.0 - 12.0),
+                actor.player.y.clamp(-64.0, map.origin_y() + 96.0),
             );
             actor.position = actor.position.lerp(target, 1.0 - (-18.0 * dt).exp());
             continue;
@@ -322,10 +423,17 @@ pub fn walk(
             velocity_y,
             ..
         } = &mut *actor;
-        step(position, velocity_y, direction, run, jump, dt);
-        if fishing.indoors {
-            actor.position.x = actor.position.x.clamp(38.0, 444.0);
-        }
+        step(
+            position,
+            velocity_y,
+            direction,
+            run,
+            jump,
+            dt,
+            map,
+            &maps.world.content,
+            path,
+        );
         actor.player.x = actor.position.x;
         actor.player.y = actor.position.y;
         actor.player.moving = direction != 0.0;
@@ -337,12 +445,13 @@ pub fn walk(
             actor.position,
             actor.player.moving,
             actor.player.facing,
-            actor.player.indoors,
+            actor.player.map.clone(),
             actor.player.fishing,
         );
         if actor.send_time >= 0.05 && now != actor.last_sent {
             if let Some(link) = &session.link {
                 let sent = link.send.try_send(ClientMessage::Move {
+                    map: actor.player.map.clone(),
                     x: actor.player.x,
                     y: actor.player.y,
                     moving: actor.player.moving,
@@ -387,43 +496,60 @@ pub fn animate(
         transform.translation.y = cloud.y;
     }
     for (mote, mut transform, mut sprite) in &mut motes {
-        transform.translation.x = (mote.origin.x + (t * 0.3 + mote.phase).sin() * 9.0).round();
-        transform.translation.y = (mote.origin.y + (t * 0.8 + mote.phase).sin() * 5.0).round();
+        transform.translation.x = (mote.origin.x + (t * 0.35 + mote.phase).sin() * 14.0).round();
+        transform.translation.y = (mote.origin.y - t * 3.0).rem_euclid(185.0).round();
         sprite
             .color
-            .set_alpha(0.25 + (t * 1.7 + mote.phase).sin().max(0.0) * 0.6);
+            .set_alpha(0.18 + (t * 0.8 + mote.phase).sin().max(0.0) * 0.4);
     }
 }
 
 pub fn follow_camera(
+    maps: Res<crate::maps::Maps>,
+    settings: Res<crate::settings::Settings>,
     time: Res<Time>,
     session: Res<Session>,
     actors: Query<&Actor>,
     mut camera: Single<&mut Transform, (With<WorldCamera>, Without<Backdrop>)>,
-    mut backdrops: Query<(&Backdrop, &mut Transform), Without<WorldCamera>>,
-    mut was_indoors: Local<bool>,
+    mut backdrops: Query<(&Backdrop, &Sprite, &mut Transform), Without<WorldCamera>>,
+    mut previous_map: Local<String>,
 ) {
     let mine = actors.iter().find(|a| Some(a.player.id) == session.you);
-    let indoors = mine.is_some_and(|a| a.player.indoors);
-    let target = if indoors {
-        240.0
+    let map_id = mine.map_or(maps.world.entry().0, |a| a.player.map.as_str());
+    let map = maps
+        .by_id(map_id)
+        .unwrap_or(maps.get(crate::maps::MapKind(0)));
+    let view = canvas_size(settings.pixel_scale()).as_vec2();
+    let camera_y = view.y / 2.0 - 64.0;
+    let width = map.width as f32 * 16.0;
+    let target = if width <= view.x {
+        width / 2.0
     } else {
-        mine.map_or(260.0, |a| a.position.x).clamp(240.0, 1200.0)
+        mine.map_or(WIDTH / 2.0, |a| a.position.x)
+            .clamp(view.x / 2.0, width - view.x / 2.0)
     };
-    if *was_indoors != indoors {
+    if *previous_map != map_id {
         camera.translation.x = target;
-        *was_indoors = indoors;
+        *previous_map = map_id.to_owned();
     }
+    camera.translation.y = mine
+        .map_or(camera_y, |a| (a.position.y + camera_y).max(camera_y))
+        .min((map.origin_y() - view.y / 2.0).max(camera_y));
     let x = camera.translation.x
         + (target - camera.translation.x) * (1.0 - (-6.0 * time.delta_secs()).exp());
-    camera.translation.x = if (target - x).abs() < 1.0 {
+    let x = if (target - x).abs() < 1.0 {
         target.round()
     } else {
         x
     };
-    for (backdrop, mut transform) in &mut backdrops {
-        transform.translation.x =
-            (backdrop.base.x + (camera.translation.x - 260.0) * backdrop.parallax).round();
+    camera.translation.x = if width <= view.x {
+        width / 2.0
+    } else {
+        x.clamp(view.x / 2.0, width - view.x / 2.0)
+    };
+    for (backdrop, sprite, mut transform) in &mut backdrops {
+        let width = sprite.custom_size.map_or(WIDTH, |size| size.x);
+        transform.translation.x = backdrop.x(camera.translation.x, width, view.x);
         transform.translation.y = backdrop.base.y;
     }
 }
@@ -450,11 +576,11 @@ fn bubble_text(text: &str) -> String {
 
 pub fn spawn_bubble(commands: &mut Commands, art: &Art, id: u32, position: Vec2, text: &str) {
     let text = bubble_text(text);
-    let height = text.lines().count() as f32 * 14.0 + 12.0;
+    let height = text.lines().count() as f32 * 11.0 + 10.0;
     commands
         .spawn((
-            Sprite::from_color(Color::srgb_u8(250, 238, 205), Vec2::new(150.0, height)),
-            Transform::from_xyz(position.x, position.y + 50.0 + height / 2.0, 20.0),
+            Sprite::from_color(crate::ui::PANEL, Vec2::new(112.0, height)),
+            Transform::from_xyz(position.x, position.y + 44.0 + height / 2.0, 20.0),
             Bubble {
                 id,
                 height,
@@ -464,13 +590,13 @@ pub fn spawn_bubble(commands: &mut Commands, art: &Art, id: u32, position: Vec2,
         .with_children(|p| {
             p.spawn((
                 Text2d::new(text),
-                font(art, 12.0),
-                TextColor(Color::srgb_u8(51, 71, 60)),
+                font(art, 9.0),
+                TextColor(crate::ui::CREAM),
                 TextLayout::new_with_justify(Justify::Center),
                 Transform::from_xyz(0.0, 1.0, 1.0),
             ));
             p.spawn((
-                Sprite::from_color(Color::srgb_u8(250, 238, 205), Vec2::new(5.0, 4.0)),
+                Sprite::from_color(crate::ui::PANEL, Vec2::new(4.0, 3.0)),
                 Transform::from_xyz(0.0, -height / 2.0 - 2.0, 0.0),
             ));
         });
@@ -489,13 +615,13 @@ pub fn bubbles(
             continue;
         }
         if let Some(actor) = actors.iter().find(|a| a.player.id == bubble.id) {
-            *visibility = if actor.player.indoors == fishing.indoors {
+            *visibility = if actor.player.map == fishing.map {
                 Visibility::Inherited
             } else {
                 Visibility::Hidden
             };
             transform.translation.x = actor.position.x.round();
-            transform.translation.y = actor.position.y.round() + 50.0 + bubble.height / 2.0;
+            transform.translation.y = actor.position.y.round() + 44.0 + bubble.height / 2.0;
         }
     }
 }
@@ -503,15 +629,33 @@ pub fn bubbles(
 pub fn fit_window(
     window: Single<&Window>,
     mut camera: Single<(&mut Camera, &mut Projection), With<OuterCamera>>,
+    target: Single<&RenderTarget, With<WorldCamera>>,
+    mut images: ResMut<Assets<Image>>,
+    settings: Res<crate::settings::Settings>,
     mut ui_scale: ResMut<UiScale>,
 ) {
     let available = window.physical_size();
     if available.min_element() == 0 {
         return;
     }
-    let fit = (available.as_vec2() / Vec2::new(WIDTH, HEIGHT)).min_element();
+    let view = canvas_size(settings.pixel_scale());
+    if let RenderTarget::Image(target) = &*target {
+        if images
+            .get(&target.handle)
+            .expect("Pixel canvas exists")
+            .size()
+            != view
+        {
+            images.get_mut(&target.handle).unwrap().resize(Extent3d {
+                width: view.x,
+                height: view.y,
+                depth_or_array_layers: 1,
+            });
+        }
+    }
+    let fit = (available.as_vec2() / view.as_vec2()).min_element();
     let scale = fit.floor().max(1.0).min(fit);
-    let size = (Vec2::new(WIDTH, HEIGHT) * scale).as_uvec2();
+    let size = (view.as_vec2() * scale).as_uvec2();
     // The UI and pixel canvas share one centered viewport, including on HiDPI displays.
     camera.0.viewport = Some(Viewport {
         physical_position: (available - size) / 2,
@@ -559,10 +703,37 @@ pub fn capture(
 mod tests {
     use super::*;
     #[test]
+    fn wide_maps_do_not_expose_panorama_edges() {
+        let backdrop = Backdrop {
+            base: Vec2::new(810.0, 124.0),
+            parallax: 0.44,
+        };
+        assert_eq!(backdrop.x(360.0, 1620.0, WIDTH), 810.0);
+        assert_eq!(backdrop.x(860.0, 1620.0, WIDTH), 1030.0);
+        for scale in 2..=4 {
+            let width = canvas_size(scale).x as f32;
+            for camera in [120.0, 260.0, 1200.0, 1920.0, 8000.0] {
+                let x = backdrop.x(camera, 1620.0, width);
+                assert!(x - 810.0 <= camera - width / 2.0);
+                assert!(x + 810.0 >= camera + width / 2.0);
+                assert_eq!(backdrop.x(camera, width, width), camera);
+            }
+        }
+    }
+
+    #[test]
     fn scene_and_ui_share_the_same_viewport_across_display_sizes() {
         let mut app = App::new();
         app.init_resource::<UiScale>()
+            .init_resource::<crate::settings::Settings>()
+            .init_resource::<Assets<Image>>()
             .add_systems(Update, fit_window);
+        let image = app
+            .world_mut()
+            .resource_mut::<Assets<Image>>()
+            .add(Image::default());
+        app.world_mut()
+            .spawn((WorldCamera, RenderTarget::Image(image.clone().into())));
         let window = app.world_mut().spawn(Window::default()).id();
         let camera = app
             .world_mut()
@@ -572,15 +743,25 @@ mod tests {
                 OuterCamera,
             ))
             .id();
-        for (width, height, dpi, size, position) in [
-            (1440, 810, 1.0, (1440, 810), (0, 0)),
-            (2560, 1440, 1.0, (2400, 1350), (80, 45)),
-            (3440, 1440, 1.0, (2400, 1350), (520, 45)),
-            (1080, 2560, 1.0, (960, 540), (60, 1010)),
-            (3840, 2160, 2.0, (3840, 2160), (0, 0)),
-            (2160, 1215, 1.5, (1920, 1080), (120, 67)),
-            (320, 180, 1.0, (320, 180), (0, 0)),
+        for (scale, width, height, dpi, size, position) in [
+            (2, 1440, 810, 1.0, (1440, 810), (0, 0)),
+            (2, 2560, 1440, 1.0, (2160, 1215), (200, 112)),
+            (2, 3440, 1440, 1.0, (2160, 1215), (640, 112)),
+            (2, 1080, 2560, 1.0, (720, 405), (180, 1077)),
+            (2, 3840, 2160, 2.0, (3600, 2025), (120, 67)),
+            (2, 2160, 1215, 1.5, (2160, 1215), (0, 0)),
+            (2, 320, 180, 1.0, (320, 180), (0, 0)),
+            (3, 1440, 810, 1.0, (1440, 810), (0, 0)),
+            (3, 2560, 1440, 1.0, (2400, 1350), (80, 45)),
+            (3, 3840, 2160, 2.0, (3840, 2160), (0, 0)),
+            (4, 1440, 810, 1.0, (1440, 808), (0, 1)),
+            (4, 2560, 1440, 1.0, (2520, 1414), (20, 13)),
+            (4, 3840, 2160, 2.0, (3600, 2020), (120, 70)),
+            (4, 1080, 2560, 1.0, (1080, 606), (0, 977)),
         ] {
+            app.world_mut()
+                .resource_mut::<crate::settings::Settings>()
+                .choose_scale(scale);
             let mut w = app.world_mut().get_mut::<Window>(window).unwrap();
             w.resolution.set_scale_factor(dpi);
             w.resolution.set_physical_resolution(width, height);
@@ -596,12 +777,21 @@ mod tests {
             assert_eq!(viewport.physical_position, UVec2::from(position));
             let ui_size =
                 viewport.physical_size.as_vec2() / (dpi * app.world().resource::<UiScale>().0);
-            assert!((ui_size - WINDOW_SIZE.as_vec2()).length() < 0.01);
+            let view = canvas_size(scale).as_vec2();
+            assert!((ui_size - view / view.x * WINDOW_SIZE.x as f32).length() < 0.01);
             let Projection::Orthographic(p) = app.world().get::<Projection>(camera).unwrap() else {
                 panic!("Expected orthographic camera");
             };
             let scene_size = viewport.physical_size.as_vec2() / dpi * p.scale;
-            assert!((scene_size - Vec2::new(WIDTH, HEIGHT)).length() < 0.01);
+            assert!((scene_size - view).length() < 0.01);
+            assert_eq!(
+                app.world()
+                    .resource::<Assets<Image>>()
+                    .get(&image)
+                    .unwrap()
+                    .size(),
+                canvas_size(scale)
+            );
         }
     }
 
@@ -630,23 +820,154 @@ mod tests {
     }
     #[test]
     fn walking_jumping_and_bounds() {
+        let world = yapshire_shared::World::bundled();
+        let map = &world.maps["yapshire:town"];
         let mut pos = Vec2::new(244.0, 0.0);
         let mut vy = 0.0;
         for _ in 0..60 {
-            step(&mut pos, &mut vy, 1.0, false, false, 1.0 / 60.0);
+            step(
+                &mut pos,
+                &mut vy,
+                1.0,
+                false,
+                false,
+                1.0 / 60.0,
+                map,
+                &world.content,
+                "maps/town.tmj",
+            );
         }
         assert!((pos.x - 306.0).abs() < 0.1);
-        step(&mut pos, &mut vy, 0.0, false, true, 1.0 / 60.0);
+        step(
+            &mut pos,
+            &mut vy,
+            0.0,
+            false,
+            true,
+            1.0 / 60.0,
+            map,
+            &world.content,
+            "maps/town.tmj",
+        );
         assert!(pos.y > 0.0);
         for _ in 0..180 {
-            step(&mut pos, &mut vy, -1.0, true, false, 1.0 / 60.0);
+            step(
+                &mut pos,
+                &mut vy,
+                -1.0,
+                true,
+                false,
+                1.0 / 60.0,
+                map,
+                &world.content,
+                "maps/town.tmj",
+            );
         }
         assert_eq!(pos, Vec2::new(12.0, 0.0));
         assert_eq!(vy, 0.0);
         for _ in 0..1000 {
-            step(&mut pos, &mut vy, 1.0, true, false, 1.0 / 60.0);
+            step(
+                &mut pos,
+                &mut vy,
+                1.0,
+                true,
+                false,
+                1.0 / 60.0,
+                map,
+                &world.content,
+                "maps/town.tmj",
+            );
         }
-        assert_eq!(pos.x, crate::fishing::PIER_END - 12.0);
+        assert!(
+            pos.x < 1360.0,
+            "falling off the pier returns to the map spawn"
+        );
+    }
+    #[test]
+    fn collision_tiles_drive_platforms_walls_and_ceilings() {
+        let world = yapshire_shared::World::bundled();
+        let mut map = world.maps["yapshire:tackle_shop"].clone();
+        let platform = world.content.gid("yapshire:deck/0_0").unwrap();
+        let solid = world.content.gid("yapshire:stone/2_0").unwrap();
+        for x in 14..=16 {
+            map.layers[2].data[11 * 30 + x] = platform;
+        }
+        let mut position = Vec2::new(244.0, 0.0);
+        let mut velocity = 0.0;
+        for frame in 0..90 {
+            step(
+                &mut position,
+                &mut velocity,
+                0.0,
+                false,
+                frame == 0,
+                1.0 / 60.0,
+                &map,
+                &world.content,
+                "maps/tackle-shop.tmj",
+            );
+        }
+        assert_eq!(
+            position.y, 32.0,
+            "jump through a platform, then land on its top"
+        );
+        for row in 9..13 {
+            map.layers[2].data[row * 30 + 17] = solid;
+        }
+        for _ in 0..120 {
+            step(
+                &mut position,
+                &mut velocity,
+                1.0,
+                true,
+                false,
+                1.0 / 60.0,
+                &map,
+                &world.content,
+                "maps/tackle-shop.tmj",
+            );
+        }
+        assert_eq!(position.x, 266.0, "a wall blocks the player's body");
+        for x in 14..=16 {
+            map.layers[2].data[11 * 30 + x] = 0;
+            map.layers[2].data[9 * 30 + x] = solid;
+        }
+        position = Vec2::new(244.0, 0.0);
+        let mut peak = 0.0_f32;
+        for frame in 0..90 {
+            step(
+                &mut position,
+                &mut velocity,
+                0.0,
+                false,
+                frame == 0,
+                1.0 / 60.0,
+                &map,
+                &world.content,
+                "maps/tackle-shop.tmj",
+            );
+            peak = peak.max(position.y);
+        }
+        assert_eq!(peak, 22.0, "the head stops at the ceiling");
+        assert_eq!(position.y, 0.0);
+        position = Vec2::new(80.0, 40.0);
+        velocity = -1000.0;
+        step(
+            &mut position,
+            &mut velocity,
+            0.0,
+            false,
+            false,
+            0.05,
+            &map,
+            &world.content,
+            "maps/tackle-shop.tmj",
+        );
+        assert_eq!(
+            position.y, 0.0,
+            "a fast fall must not pass through the floor"
+        );
+        assert_eq!(velocity, 0.0);
     }
     #[test]
     fn bubble_is_readable_and_bounded() {

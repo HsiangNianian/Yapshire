@@ -13,7 +13,7 @@
   "devDependencies": {
     "wrangler": "4.148.0"
   },
-  "version": "0.6.0",
+  "version": "0.7.2",
   "overrides": {
     "sharp": "0.35.5"
   }

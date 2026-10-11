@@ -58,7 +58,7 @@ export default {
       return new Response("Method not allowed", { status: 405, headers: { Allow: "GET" } });
     }
     if (url.pathname === "/") {
-      return new Response(`Yapshire 小镇\nOfficial Yapshire server\n\nYapshire v0.5.2+\nServer: wss://yap-server.mmstudio.games\nAlternate: wss://yap.meaninglessmeaning.studio\nRoom: NIANNIAN\n`, {
+      return new Response(`Yapshire 小镇\nOfficial Yapshire server\n\nProtocol 3 — use a matching Yapshire client\nServer: wss://yap-server.mmstudio.games\nAlternate: wss://yap.meaninglessmeaning.studio\nRoom: NIANNIAN\n`, {
         headers: { "Content-Type": "text/plain; charset=utf-8" },
       });
     }

@@ -11,6 +11,7 @@ pub(super) fn for_action(action: Action) -> Option<Icon> {
         Action::Tool(Tool::Eraser) => Icon::Eraser,
         Action::Tool(Tool::Pick) => Icon::Pick,
         Action::Tool(Tool::Fill) => Icon::Fill,
+        Action::Tool(Tool::Stamp) => Icon::Shop,
         Action::Undo => Icon::Undo,
         Action::Redo => Icon::Redo,
         Action::Visibility(_) => Icon::Eye,
@@ -32,7 +33,7 @@ pub(super) fn for_action(action: Action) -> Option<Icon> {
         Action::Done | Action::Quit => Icon::Done,
         Action::Folder => Icon::Folder,
         Action::Map(MapKind::Town) => Icon::Town,
-        Action::Map(MapKind::Shop) => Icon::Shop,
+        Action::Map(_) => Icon::Shop,
         Action::Pan(n) => {
             if n.x < 0 {
                 Icon::Left
@@ -40,7 +41,7 @@ pub(super) fn for_action(action: Action) -> Option<Icon> {
                 Icon::Right
             }
         }
-        Action::Palette(n) => {
+        Action::Palette(n) | Action::LayerPage(n) | Action::Stamp(n) => {
             if n < 0 {
                 Icon::Left
             } else {
@@ -59,6 +60,7 @@ pub(super) fn shortcut(action: Action) -> Option<&'static str> {
         Action::Tool(Tool::Eraser) => Some("E"),
         Action::Tool(Tool::Pick) => Some("I"),
         Action::Tool(Tool::Fill) => Some("F"),
+        Action::Tool(Tool::Stamp) => Some("P"),
         _ => None,
     }
 }
@@ -69,6 +71,7 @@ pub(super) fn hint(action: Action, editor: &Editor) -> Message {
         Action::Tool(Tool::Eraser) => tr("editor.hint.eraser"),
         Action::Tool(Tool::Pick) => tr("editor.hint.pick"),
         Action::Tool(Tool::Fill) => tr("editor.hint.fill"),
+        Action::Tool(Tool::Stamp) => tr("editor.stamp_help"),
         Action::Undo => {
             if editor.doc().can_undo() {
                 tr("editor.hint.undo")
@@ -116,7 +119,7 @@ pub(super) fn hint(action: Action, editor: &Editor) -> Message {
         Action::Done | Action::Quit => tr("editor.hint.done"),
         Action::Folder => tr("editor.hint.files"),
         Action::Map(MapKind::Town) => tr("editor.hint.town"),
-        Action::Map(MapKind::Shop) => tr("editor.hint.shop"),
+        Action::Map(_) => tr("editor.next_map"),
         Action::Pan(n) => {
             if n.x < 0 {
                 tr("editor.hint.pan_left")
@@ -124,7 +127,7 @@ pub(super) fn hint(action: Action, editor: &Editor) -> Message {
                 tr("editor.hint.pan_right")
             }
         }
-        Action::Palette(n) => {
+        Action::Palette(n) | Action::LayerPage(n) | Action::Stamp(n) => {
             if n < 0 {
                 tr("editor.hint.previous")
             } else {

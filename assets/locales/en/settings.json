@@ -2,10 +2,12 @@
   "button": "SETTINGS",
   "title": "Settings",
   "language": "LANGUAGE",
-  "hint": "Choose the language that feels like home.",
+  "hint": "Choose your language and pixel scale.",
+  "scale": "SCALE",
+  "scale_hint": "Larger pixels bring the world closer.",
   "instant": "Changes apply immediately.",
-  "saved": "Language saved on this computer.",
-  "save_failed": "Language changed for now. Could not save: {error}",
-  "load_failed": "Could not read settings; using English.",
+  "saved": "Settings saved on this computer.",
+  "save_failed": "Changes apply for now. Could not save: {error}",
+  "load_failed": "Could not read settings; using defaults.",
   "close": "DONE"
 }

@@ -4,6 +4,7 @@ COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 COPY src ./src
 COPY assets/maps ./assets/maps
+COPY assets/packs ./assets/packs
 RUN cargo build --release --locked -p yapshire-server
 
 # Reuse the released non-root runtime, replacing its server with this workspace.

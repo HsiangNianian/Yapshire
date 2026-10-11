@@ -37,8 +37,8 @@ pub(crate) enum Readout {
 #[derive(Component)]
 pub(crate) struct Cursor;
 
-const PAPER: Color = Color::srgb_u8(229, 220, 189);
-const SEA: Color = Color::srgb_u8(35, 56, 57);
+const PAPER: Color = ui::SURFACE;
+const SEA: Color = Color::srgb_u8(22, 34, 38);
 const GOLD: Color = Color::srgb_u8(235, 189, 96);
 
 fn box_at(
@@ -143,22 +143,20 @@ fn button(
         let badge = text_at(commands, id, art, key, w - 17.0, h - 17.0, 12.0, INK);
         commands
             .entity(badge)
-            .insert((BackgroundColor(CREAM), FocusPolicy::Pass));
+            .insert((BackgroundColor(ui::PANEL), FocusPolicy::Pass));
     }
     id
 }
 
-fn tile_image(gid: u32, texture: Handle<Image>) -> (ImageNode, UiTransform) {
-    let index = (gid & 0x0fff_ffff).saturating_sub(1);
-    let x = (index % 16 * 16) as f32;
-    let y = (index / 16 * 16) as f32;
+fn tile_image(gid: u32, maps: &Maps, assets: &AssetServer) -> (ImageNode, UiTransform) {
+    let (texture, rect) = maps.tile_image(gid, assets);
     let h = if gid & 0x8000_0000 != 0 { -1.0 } else { 1.0 };
     let v = if gid & 0x4000_0000 != 0 { -1.0 } else { 1.0 };
     let diagonal = gid & 0x2000_0000 != 0;
     (
         ImageNode {
             image: texture,
-            rect: Some(Rect::new(x, y, x + 16.0, y + 16.0)),
+            rect: Some(rect),
             ..default()
         },
         UiTransform {
@@ -184,6 +182,7 @@ pub(crate) fn render(
     menu: Res<Menu>,
     art: Res<Art>,
     assets: Res<AssetServer>,
+    images: Res<Assets<Image>>,
     maps: Res<Maps>,
     roots: Query<Entity, With<Root>>,
     scale: Res<UiScale>,
@@ -214,7 +213,7 @@ pub(crate) fn render(
                 height: percent(100),
                 ..default()
             },
-            BackgroundColor(CREAM),
+            BackgroundColor(ui::PANEL.with_alpha(1.0)),
         ))
         .id();
     box_at(&mut commands, root, 0.0, 0.0, 1440.0, 74.0, SEA);
@@ -242,8 +241,18 @@ pub(crate) fn render(
     }
 
     for (label, x, width, action) in [
-        (tr("editor.town"), 24.0, 110.0, Action::Map(MapKind::Town)),
-        (tr("editor.shop"), 140.0, 110.0, Action::Map(MapKind::Shop)),
+        (
+            tr("editor.map_index").arg("index", (editor.kind.0 + 1).to_string()),
+            24.0,
+            110.0,
+            Action::Map(editor.kind),
+        ),
+        (
+            tr("editor.next_map"),
+            140.0,
+            110.0,
+            Action::Map(MapKind((editor.kind.0 + 1) % editor.docs.len())),
+        ),
         (Message::default(), 282.0, 52.0, Action::Tool(Tool::Brush)),
         (Message::default(), 342.0, 52.0, Action::Tool(Tool::Eraser)),
         (Message::default(), 402.0, 52.0, Action::Tool(Tool::Pick)),
@@ -268,6 +277,7 @@ pub(crate) fn render(
         Tool::Eraser => (tr("editor.eraser"), tr("editor.eraser_help")),
         Tool::Pick => (tr("editor.pick"), tr("editor.pick_help")),
         Tool::Fill => (tr("editor.fill"), tr("editor.fill_help")),
+        Tool::Stamp => (tr("editor.stamp"), tr("editor.stamp_help")),
     };
     text_at(&mut commands, root, &art, tool_name, 700.0, 94.0, 20.0, INK);
     text_at(
@@ -310,42 +320,45 @@ pub(crate) fn render(
         ..default()
     });
     let size = editor.cell_size();
-    let map = &editor.doc().map;
+    let expanded = editor.doc().map.expanded(&maps.world.content);
+    let map = &expanded;
     let columns = (CANVAS_SIZE.x / size).ceil() as u32;
     let rows = (CANVAS_SIZE.y / size).ceil() as u32;
-    let texture = assets.load("maps/harbor.png");
-    if editor.kind == MapKind::Town {
+    if !maps.info(editor.kind).indoors {
         commands.spawn((
-            ImageNode::new(assets.load("sky.png")),
+            ImageNode::new(assets.load("hills.png")),
             Node {
                 position_type: PositionType::Absolute,
-                width: px(CANVAS_SIZE.x),
-                height: px(272.0 * editor.zoom as f32),
-                top: px(-(editor.offset.y as f32) * size),
+                width: px(map.width as f32 * size),
+                height: px(540.0 * editor.zoom as f32),
+                left: px(-(editor.offset.x as f32) * size),
+                top: px(-186.0 * editor.zoom as f32 - editor.offset.y as f32 * size),
                 ..default()
             },
             ChildOf(canvas),
         ));
     }
-    for layer in 0..5 {
-        // The original street illustration sits between the shore and terrain layers in-game.
-        if layer == 2 && editor.kind == MapKind::Town {
-            commands.spawn((
-                ImageNode {
-                    image: assets.load("town.png"),
-                    rect: Some(Rect::new(0.0, 0.0, 928.0, 192.0)),
-                    ..default()
-                },
-                Node {
+    let mut layers: Vec<_> = (0..map.layers.len()).collect();
+    layers.sort_by(|a, b| map.layers[*a].z(*a).total_cmp(&map.layers[*b].z(*b)));
+    for layer in layers {
+        if let Some(image) = &map.layers[layer].image {
+            if map.layers[layer].visible {
+                let path =
+                    yapshire_shared::content::relative(maps.filename(editor.kind), image).unwrap();
+                let handle = assets.load(maps.image_path(&path));
+                let dimensions = images.get(&handle).map_or(UVec2::splat(16), Image::size);
+                commands.spawn((ImageNode { image: handle, color: Color::WHITE.with_alpha(map.layers[layer].opacity), ..default() }, Node {
                     position_type: PositionType::Absolute,
-                    left: px(-(editor.offset.x as f32) * size),
-                    top: px((2.0 - editor.offset.y as f32) * size),
-                    width: px(928.0 * editor.zoom as f32),
-                    height: px(192.0 * editor.zoom as f32),
-                    ..default()
-                },
-                ChildOf(canvas),
-            ));
+                    left: px((map.layers[layer].offsetx / 16.0 - editor.offset.x as f32) * size),
+                    top: px((map.layers[layer].offsety / 16.0 - editor.offset.y as f32) * size),
+                    width: px(dimensions.x as f32 * editor.zoom as f32),
+                    height: px(dimensions.y as f32 * editor.zoom as f32), ..default()
+                }, ChildOf(canvas)));
+            }
+            continue;
+        }
+        if map.layers[layer].data.is_empty() {
+            continue;
         }
         for row in 0..rows {
             for col in 0..columns {
@@ -354,7 +367,8 @@ pub(crate) fn render(
                     continue;
                 }
                 let gid = map.layers[layer].data[(point.y * map.width + point.x) as usize];
-                let (image, transform) = tile_image(gid, texture.clone());
+                let (mut image, transform) = tile_image(gid, &maps, &assets);
+                image.color = Color::WHITE.with_alpha(map.layers[layer].opacity);
                 commands.spawn((
                     Cell { layer, point },
                     image,
@@ -403,34 +417,45 @@ pub(crate) fn render(
         }
     }
     if editor.guides {
-        let floor = (13.0 - editor.offset.y as f32) * size;
-        box_at(&mut commands, canvas, 0.0, floor, CANVAS_SIZE.x, 2.0, GOLD);
-        let anchors: &[(f32, Message)] = if editor.kind == MapKind::Town {
-            &[
-                (crate::fishing::SHOP_DOOR, tr("editor.guide_door")),
-                (crate::fishing::PIER_START, tr("editor.guide_cast")),
-                (crate::fishing::PIER_END, tr("editor.guide_pier")),
-            ]
-        } else {
-            &[
-                (crate::fishing::SHOP_EXIT, tr("editor.guide_exit")),
-                (crate::fishing::COUNTER, tr("editor.guide_counter")),
-            ]
-        };
-        for (world_x, name) in anchors {
-            let x = *world_x * editor.zoom as f32 - editor.offset.x as f32 * size;
-            if !(0.0..CANVAS_SIZE.x).contains(&x) {
+        for object in editor.doc().map.objects() {
+            let x = (object.x / 16.0 - editor.offset.x as f32) * size;
+            let y = (object.y / 16.0 - editor.offset.y as f32) * size;
+            if x < -object.width * editor.zoom as f32
+                || x >= CANVAS_SIZE.x
+                || y < 0.0
+                || y >= CANVAS_SIZE.y
+            {
                 continue;
             }
-            box_at(&mut commands, canvas, x, floor - 48.0, 2.0, 70.0, GOLD);
+            let guide = box_at(
+                &mut commands,
+                canvas,
+                x,
+                y,
+                (object.width * editor.zoom as f32).max(8.0),
+                (object.height * editor.zoom as f32).max(8.0),
+                Color::NONE,
+            );
+            commands.entity(guide).insert((
+                BorderColor::all(GOLD),
+                Node {
+                    position_type: PositionType::Absolute,
+                    left: px(x),
+                    top: px(y),
+                    width: px((object.width * editor.zoom as f32).max(8.0)),
+                    height: px((object.height * editor.zoom as f32).max(8.0)),
+                    border: UiRect::all(px(2)),
+                    ..default()
+                },
+            ));
             let label = text_at(
                 &mut commands,
                 canvas,
                 &art,
-                name,
-                x.min(CANVAS_SIZE.x - 120.0).max(4.0),
-                floor - 70.0,
-                16.0,
+                format!("{} / {}", object.name, object.kind),
+                x.max(0.0),
+                (y - 20.0).max(0.0),
+                14.0,
                 GOLD,
             );
             commands.entity(label).insert(BackgroundColor(SEA));
@@ -538,17 +563,28 @@ pub(crate) fn render(
         20.0,
         INK,
     );
-    text_at(
+    button(
         &mut commands,
         root,
         &art,
-        tr("editor.layer_order"),
-        1232.0,
-        96.0,
-        14.0,
-        MUTED,
+        "",
+        [1310.0, 88.0, 42.0, 30.0],
+        Action::LayerPage(-1),
     );
-    for (row, layer) in (0..5).rev().enumerate() {
+    button(
+        &mut commands,
+        root,
+        &art,
+        "",
+        [1362.0, 88.0, 42.0, 30.0],
+        Action::LayerPage(1),
+    );
+    for (row, layer) in (0..map.layers.len())
+        .rev()
+        .skip(editor.layer_page * 5)
+        .take(5)
+        .enumerate()
+    {
         let y = 124.0 + row as f32 * 30.0;
         button(
             &mut commands,
@@ -623,7 +659,7 @@ pub(crate) fn render(
             ],
             Action::Tile(gid),
         );
-        let (image, transform) = tile_image(gid, texture.clone());
+        let (image, transform) = tile_image(gid, &maps, &assets);
         commands.spawn((
             image,
             transform,
@@ -637,7 +673,7 @@ pub(crate) fn render(
         ));
     }
     let preview = box_at(&mut commands, root, 1020.0, 556.0, 64.0, 64.0, SEA);
-    let (image, transform) = tile_image(editor.tile, texture);
+    let (image, transform) = tile_image(editor.tile, &maps, &assets);
     commands.spawn((
         image,
         transform,
@@ -648,8 +684,19 @@ pub(crate) fn render(
         },
         ChildOf(preview),
     ));
-    let brush = text_at(&mut commands, root, &art, "", 1100.0, 558.0, 18.0, INK);
-    commands.entity(brush).insert(Readout::Brush);
+    let brush = text_at(&mut commands, root, &art, "", 1100.0, 544.0, 14.0, INK);
+    commands.entity(brush).insert((
+        Readout::Brush,
+        Node {
+            position_type: PositionType::Absolute,
+            left: px(1100),
+            top: px(544),
+            width: px(304),
+            height: px(40),
+            overflow: Overflow::clip(),
+            ..default()
+        },
+    ));
     button(
         &mut commands,
         root,
@@ -674,26 +721,61 @@ pub(crate) fn render(
         [1304.0, 588.0, 100.0, 30.0],
         Action::Flip(0x2000_0000),
     );
-    text_at(
-        &mut commands,
-        root,
-        &art,
-        tr("editor.make_place"),
-        1020.0,
-        644.0,
-        14.0,
-        GREEN,
-    );
-    text_at(
-        &mut commands,
-        root,
-        &art,
-        tr("editor.guide_help"),
-        1020.0,
-        674.0,
-        18.0,
-        MUTED,
-    );
+    if let Some((id, prefab)) = maps.world.content.manifest.prefabs.iter().nth(editor.stamp) {
+        button(
+            &mut commands,
+            root,
+            &art,
+            "",
+            [1020.0, 640.0, 40.0, 34.0],
+            Action::Stamp(-1),
+        );
+        button(
+            &mut commands,
+            root,
+            &art,
+            tr("editor.stamp"),
+            [1068.0, 640.0, 288.0, 34.0],
+            Action::Tool(Tool::Stamp),
+        );
+        button(
+            &mut commands,
+            root,
+            &art,
+            "",
+            [1364.0, 640.0, 40.0, 34.0],
+            Action::Stamp(1),
+        );
+        text_at(
+            &mut commands,
+            root,
+            &art,
+            id.as_str(),
+            1020.0,
+            684.0,
+            14.0,
+            ui::GOLD,
+        );
+        let size = (104.0 / prefab.width as f32).min(50.0 / prefab.height as f32);
+        for (i, id) in prefab.tiles.iter().enumerate() {
+            if let Some(gid) = maps.world.content.gid(id) {
+                let (image, transform) = tile_image(gid, &maps, &assets);
+                commands.spawn((
+                    image,
+                    transform,
+                    Node {
+                        position_type: PositionType::Absolute,
+                        left: px(1296.0 + i as f32 % prefab.width as f32 * size),
+                        top: px(680.0 + (i as u32 / prefab.width) as f32 * size),
+                        width: px(size),
+                        height: px(size),
+                        ..default()
+                    },
+                    ChildOf(root),
+                ));
+            }
+        }
+    }
 
     button(
         &mut commands,
@@ -713,7 +795,7 @@ pub(crate) fn render(
             810.0,
             Color::srgba_u8(24, 42, 40, 210),
         );
-        let panel = box_at(&mut commands, shade, 410.0, 248.0, 620.0, 314.0, CREAM);
+        let panel = box_at(&mut commands, shade, 410.0, 248.0, 620.0, 314.0, ui::PANEL);
         text_at(
             &mut commands,
             panel,
@@ -768,7 +850,7 @@ pub(crate) fn render(
             [388.0, 160.0, 204.0, 42.0],
             Action::Cancel,
         );
-        let status = text_at(&mut commands, panel, &art, "", 28.0, 222.0, 16.0, GREEN);
+        let status = text_at(&mut commands, panel, &art, "", 28.0, 222.0, 16.0, GOLD);
         commands.entity(status).insert((
             Readout::DialogStatus,
             Node {
@@ -804,6 +886,8 @@ pub(crate) fn render(
 }
 
 pub(crate) fn refresh(
+    maps: Res<Maps>,
+    assets: Res<AssetServer>,
     i18n: Res<I18n>,
     mut editor: ResMut<Editor>,
     menu: Res<Menu>,
@@ -832,12 +916,13 @@ pub(crate) fn refresh(
         return;
     }
     if editor.canvas_dirty {
-        let map = &editor.doc().map;
+        let map = editor.doc().map.expanded(&maps.world.content);
         for (cell, mut image, mut transform, mut node) in &mut cells {
             let layer = &map.layers[cell.layer];
             let gid = layer.data[(cell.point.y * map.width + cell.point.x) as usize];
-            let (new_image, new_transform) = tile_image(gid, image.image.clone());
+            let (new_image, new_transform) = tile_image(gid, &maps, &assets);
             *image = new_image;
+            image.color = Color::WHITE.with_alpha(layer.opacity);
             *transform = new_transform;
             node.display = if gid == 0 || !layer.visible {
                 Display::None
@@ -902,19 +987,15 @@ pub(crate) fn refresh(
             hovered = Some((*action, face.rect));
         }
         *color = BackgroundColor(if !available {
-            Color::srgb_u8(231, 226, 203)
+            Color::srgb_u8(29, 42, 40)
         } else if *interaction != Interaction::None {
-            Color::srgb_u8(194, 199, 146)
+            Color::srgb_u8(79, 96, 76)
         } else if selected {
-            Color::srgb_u8(173, 192, 149)
+            Color::srgb_u8(78, 96, 78)
         } else {
             PAPER
         });
-        *border = BorderColor::all(if selected {
-            GREEN
-        } else {
-            Color::srgb_u8(201, 193, 161)
-        });
+        *border = BorderColor::all(if selected { GREEN } else { ui::EDGE });
     }
     for (icon, mut image) in &mut images {
         let tint = Color::WHITE.with_alpha(if enabled(icon.0) { 1.0 } else { 0.35 });
@@ -952,7 +1033,7 @@ pub(crate) fn refresh(
     for (readout, mut text) in &mut texts {
         let value: Message = match readout {
             Readout::Title => tr("editor.title")
-                .arg("map", editor.kind.title())
+                .arg("map", maps.title(editor.kind))
                 .arg("dirty", if editor.dirty() { " *" } else { "" }),
             Readout::Status | Readout::DialogStatus => editor.status.clone(),
             Readout::Tooltip => hovered
@@ -975,7 +1056,11 @@ pub(crate) fn refresh(
                 },
             ),
             Readout::Brush => tr("editor.brush_readout")
-                .arg("tile", format!("{:03}", editor.tile & 0x0fff_ffff))
+                .arg(
+                    "tile",
+                    maps.tile(editor.tile)
+                        .map_or("?", |(_, _, tile)| tile.key()),
+                )
                 .arg(
                     "tool",
                     match editor.tool {
@@ -983,6 +1068,7 @@ pub(crate) fn refresh(
                         Tool::Eraser => tr("editor.eraser"),
                         Tool::Pick => tr("editor.pick"),
                         Tool::Fill => tr("editor.fill"),
+                        Tool::Stamp => tr("editor.stamp"),
                     },
                 ),
         };

@@ -22,12 +22,12 @@ def main(image, platform):
     with tempfile.TemporaryDirectory(prefix="container-", dir=artifacts) as directory:
         root = Path(directory)
         root.chmod(0o755)
-        shutil.copytree(Path(__file__).resolve().parent.parent / "assets/maps", root / "maps")
-        town_file = root / "maps/town.tmj"
+        shutil.copytree(Path(__file__).resolve().parent.parent / "assets/packs/yapshire", root / "maps")
+        town_file = root / "maps/maps/town.tmj"
         town = json.loads(town_file.read_text())
         town["layers"][4]["data"][500] = 0x8000005D
         town_file.write_text(json.dumps(town))
-        shop = json.loads((root / "maps/tackle-shop.tmj").read_text())
+        shop = json.loads((root / "maps/maps/tackle-shop.tmj").read_text())
         (root / "server.json").write_text(json.dumps({"name": "Container town", "maps_dir": "maps"}))
         password = "container-fixture-password"
         container = docker("run", "--detach", *options, "--read-only", "--cap-drop", "ALL", "--security-opt", "no-new-privileges:true", "--publish", "127.0.0.1::4761", "--mount", f"type=bind,src={root},dst=/data,readonly", "--env", f"YAPSHIRE_SERVER_PASSWORD={password}", image)

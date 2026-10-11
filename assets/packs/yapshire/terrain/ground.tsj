@@ -1,0 +1,741 @@
+{
+  "type": "tileset",
+  "version": "1.10",
+  "name": "terrain/ground",
+  "tilewidth": 16,
+  "tileheight": 16,
+  "tilecount": 28,
+  "columns": 16,
+  "margin": 0,
+  "spacing": 0,
+  "image": "ground.png",
+  "imagewidth": 256,
+  "imageheight": 32,
+  "tiles": [
+    {
+      "id": 0,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:ground/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:ground/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:ground/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:ground/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:stone/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:stone/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:stone/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:stone/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:deck/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "platform"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:deck/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "platform"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:floor/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:floor/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/12"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/13"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/14"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:quay/15"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:quay"
+        }
+      ]
+    }
+  ],
+  "wangsets": [
+    {
+      "name": "Quay",
+      "type": "edge",
+      "tile": 27,
+      "colors": [
+        {
+          "name": "Stone",
+          "color": "#7e8171",
+          "tile": 27,
+          "probability": 1
+        }
+      ],
+      "wangtiles": [
+        {
+          "tileid": 12,
+          "wangid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 13,
+          "wangid": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 14,
+          "wangid": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 15,
+          "wangid": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 16,
+          "wangid": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 17,
+          "wangid": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 18,
+          "wangid": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 19,
+          "wangid": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "tileid": 20,
+          "wangid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "tileid": 21,
+          "wangid": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "tileid": 22,
+          "wangid": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "tileid": 23,
+          "wangid": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "tileid": 24,
+          "wangid": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "tileid": 25,
+          "wangid": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "tileid": 26,
+          "wangid": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "tileid": 27,
+          "wangid": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

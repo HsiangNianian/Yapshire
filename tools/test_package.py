@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 import plistlib
+import shutil
 import tarfile
 import tempfile
 import unittest
@@ -15,6 +16,7 @@ class PackagingTests(unittest.TestCase):
             root = Path(tmp)
             (root / "Cargo.toml").write_text('[package]\nversion = "1.2.3"\n')
             for name in ["README.md", "README.zh-CN.md", "LICENSE.md", "CHANGELOG.md", "assets/people.png",
+                         "assets/hills.png", "assets/sky.png", "assets/cloud.png", "assets/shadow.png",
                          "assets/town.png", "assets/fonts/fusion-pixel.ttf", "assets/fonts/OFL.txt",
                          "assets/maps/town.tmj", "assets/maps/tackle-shop.tmj",
                          "assets/maps/harbor.tsj", "assets/maps/harbor.png",
@@ -24,6 +26,7 @@ class PackagingTests(unittest.TestCase):
                 path = root / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(b"test fixture")
+            shutil.copytree(Path(__file__).resolve().parent.parent / "assets/packs", root / "assets/packs")
             for target, platform in TARGETS.items():
                 binary = root / "target" / target / "release" / ("yapshire.exe" if "windows" in target else "yapshire")
                 binary.parent.mkdir(parents=True)
@@ -71,7 +74,7 @@ class PackagingTests(unittest.TestCase):
                 self.assertEqual(config["maps_dir"], "maps")
                 self.assertIn(prefix + "LICENSE.md", names)
                 self.assertFalse(any(".app/" in name or "assets/fonts/" in name for name in names))
-                for asset in ["town.tmj", "tackle-shop.tmj", "harbor.tsj", "harbor.png"]:
+                for asset in ["pack.json", "maps/town.tmj", "maps/tackle-shop.tmj", "terrain/ground.tsj", "terrain/water.png", "objects/harbor.tsj", "backgrounds/street.png"]:
                     self.assertIn(prefix + "maps/" + asset, names)
 
     def test_missing_binary_is_rejected(self):

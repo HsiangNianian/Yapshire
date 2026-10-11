@@ -28,6 +28,7 @@ pub(crate) struct Check {
 pub(crate) struct Controls<'w, 's> {
     window: Single<'w, 's, (Entity, &'static mut Window)>,
     camera: Single<'w, 's, &'static Camera, With<game::OuterCamera>>,
+    target: Single<'w, 's, &'static bevy::camera::RenderTarget, With<game::WorldCamera>>,
     settings: Query<
         'w,
         's,
@@ -84,6 +85,7 @@ pub(crate) fn drive(
     art: Res<Art>,
     mut controls: Controls,
     texts: Query<&Text>,
+    images: Res<Assets<Image>>,
 ) {
     let mode = std::env::var("YAPSHIRE_SMOKE").unwrap_or_default();
     if !mode.starts_with("i18n") {
@@ -117,13 +119,24 @@ pub(crate) fn drive(
             .spawn(Screenshot::primary_window())
             .observe(save_to_disk(format!("artifacts/{mode}-{tag}.png")));
     };
+    let check_scale = |scale| {
+        assert_eq!(settings.pixel_scale(), scale);
+        let bevy::camera::RenderTarget::Image(target) = &*controls.target else {
+            panic!("Expected pixel render target");
+        };
+        assert_eq!(
+            images.get(&target.handle).unwrap().size(),
+            game::canvas_size(scale)
+        );
+    };
     if mode == "i18n-reload" {
         assert_eq!(i18n.language, Language::Chinese);
+        check_scale(4);
         assert!(has("创建房间"));
         if check.stage == 0 {
             capture(&mut commands, "home-zh");
         } else {
-            info!("I18N RELOAD PASS: saved Chinese preference restored at startup");
+            info!("I18N RELOAD PASS: Chinese language and 4x pixel scale restored at startup");
             let window = controls.window.0;
             controls.close.write(WindowCloseRequested { window });
         }
@@ -156,7 +169,7 @@ pub(crate) fn drive(
         }
         1 => controls.settings(settings::Action::Open),
         2 => {
-            assert!(settings.open && has("Choose the language"));
+            assert!(settings.open && has("Choose your language"));
             let window = controls.window.0;
             controls.touch.write(TouchInput {
                 phase: TouchPhase::Ended,
@@ -170,7 +183,7 @@ pub(crate) fn drive(
         3 => controls.settings(settings::Action::Language(Language::Chinese)),
         4 => {
             assert_eq!(i18n.language, Language::Chinese);
-            assert!(has("选择你熟悉的语言") && has("创建房间"));
+            assert!(has("选择语言和像素缩放") && has("创建房间"));
             capture(&mut commands, "settings-zh");
         }
         5 => controls.settings(settings::Action::Close),
@@ -190,7 +203,7 @@ pub(crate) fn drive(
                     * editor.cell_size();
             let viewport = controls.camera.physical_viewport_rect().unwrap();
             let physical = viewport.min.as_vec2()
-                + ui * viewport.size().as_vec2() / game::WINDOW_SIZE.as_vec2();
+                + ui * (viewport.width() as f32 / game::WINDOW_SIZE.x as f32);
             controls
                 .window
                 .1
@@ -240,6 +253,7 @@ pub(crate) fn drive(
                 &mut commands,
                 &art,
                 crate::network::Player {
+                    map: "yapshire:town".into(),
                     id: 1,
                     name: menu.name.clone(),
                     x: 260.0,
@@ -274,6 +288,46 @@ pub(crate) fn drive(
             capture(&mut commands, "shop-zh");
         }
         24 => {
+            fishing.panel = Panel::None;
+            fishing.dirty = true;
+        }
+        25 => controls.settings(settings::Action::Open),
+        26 => controls.settings(settings::Action::Language(Language::English)),
+        27 => controls.settings(settings::Action::Scale(3)),
+        28 => {
+            check_scale(3);
+            assert!(session.connected);
+            capture(&mut commands, "scale-3-en");
+        }
+        29 => controls.settings(settings::Action::Scale(4)),
+        30 => {
+            check_scale(4);
+            capture(&mut commands, "scale-4-en");
+        }
+        31 => controls.settings(settings::Action::Close),
+        32 => capture(&mut commands, "world-4"),
+        33 => controls.keys.press(KeyCode::F11),
+        34 => {
+            check_scale(4);
+            assert_ne!(controls.window.1.mode, bevy::window::WindowMode::Windowed);
+            capture(&mut commands, "fullscreen-4");
+        }
+        35 => controls.keys.press(KeyCode::F11),
+        36 => controls.settings(settings::Action::Open),
+        37 => controls.settings(settings::Action::Language(Language::Chinese)),
+        38 => {
+            assert_eq!(controls.window.1.size(), game::WINDOW_SIZE.as_vec2());
+            check_scale(4);
+            capture(&mut commands, "scale-4-zh");
+        }
+        39 => controls.settings(settings::Action::Scale(2)),
+        40 => {
+            check_scale(2);
+            capture(&mut commands, "scale-2-zh");
+        }
+        41 => controls.settings(settings::Action::Scale(4)),
+        42 => controls.settings(settings::Action::Close),
+        43 => {
             menu.leave = true;
             menu.go(Page::Home);
         }
@@ -283,8 +337,9 @@ pub(crate) fn drive(
             let saved: serde_json::Value =
                 serde_json::from_slice(&std::fs::read(path).unwrap()).unwrap();
             assert_eq!(saved["language"], "zh-CN");
+            assert_eq!(saved["pixel_scale"], 4);
             info!(
-                "I18N SMOKE PASS: settings, English/Chinese live switch, literal nickname, editor draft, modal input isolation, satchel/shop and saved preference"
+                "I18N SMOKE PASS: settings, language, editor draft, modal input isolation, satchel/shop, 2x/3x/4x pixels, fullscreen and saved preferences"
             );
             let window = controls.window.0;
             controls.close.write(WindowCloseRequested { window });

@@ -35,7 +35,7 @@ def package(root, target, server=False):
     shutil.copy2(binary, executable_dir / binary.name)
     (executable_dir / binary.name).chmod(0o755)
     if server:
-        shutil.copytree(root / "assets/maps", stage / "maps")
+        shutil.copytree(root / "assets/packs/yapshire", stage / "maps")
         (stage / "server.json").write_text(json.dumps({"name": "My Yapshire town", "room_code": "MAIN0001", "maps_dir": "maps"}, indent=2) + "\n")
     else:
         shutil.copytree(root / "assets", executable_dir / "assets")
@@ -43,12 +43,20 @@ def package(root, target, server=False):
         shutil.copy2(root / file, stage / file)
     if (root / "docs").is_dir():
         shutil.copytree(root / "docs", stage / "docs")
-    required_assets = ["maps/town.tmj", "maps/tackle-shop.tmj", "maps/harbor.tsj", "maps/harbor.png"] if server else ["assets/people.png", "assets/town.png", "assets/fonts/fusion-pixel.ttf",
-                     "assets/maps/town.tmj", "assets/maps/tackle-shop.tmj",
-                     "assets/maps/harbor.tsj", "assets/maps/harbor.png",
-                     "assets/fishing/items.png", "assets/fishing/frame.png",
-                     "assets/fishing/slot.png", "assets/fishing/water.png",
-                     "assets/ui/editor-icons.png"]
+    pack_root = "maps" if server else "assets/packs/yapshire"
+    manifest_path = executable_dir / pack_root / "pack.json"
+    pack = json.loads(manifest_path.read_text())
+    required_assets = [pack_root + "/pack.json"]
+    required_assets += [pack_root + "/" + m["path"] for m in pack["maps"]]
+    required_assets += [pack_root + "/" + p for p in pack["tilesets"] + pack["images"]]
+    for source in pack["tilesets"]:
+        tileset = json.loads((executable_dir / pack_root / source).read_text())
+        required_assets.append(str(Path(pack_root) / Path(source).parent / tileset["image"]))
+    if not server:
+        required_assets += ["assets/people.png", "assets/fonts/fusion-pixel.ttf", "assets/fishing/items.png",
+                            "assets/hills.png", "assets/sky.png", "assets/cloud.png", "assets/shadow.png",
+                            "assets/fishing/frame.png", "assets/fishing/slot.png", "assets/fishing/water.png",
+                            "assets/ui/editor-icons.png"]
     for required in required_assets:
         if not (executable_dir / required).is_file():
             raise ValueError(f"Missing bundled asset: {required}")

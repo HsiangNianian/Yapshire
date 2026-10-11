@@ -13,9 +13,9 @@ use bevy::{
     ui::FocusPolicy,
 };
 
-const SAND: Color = Color::srgb_u8(228, 218, 186);
-const PAPER: Color = Color::srgb_u8(255, 246, 220);
-const WARN: Color = Color::srgb_u8(164, 88, 62);
+const SAND: Color = ui::SURFACE;
+const PAPER: Color = Color::srgb_u8(20, 32, 31);
+const WARN: Color = Color::srgb_u8(225, 158, 112);
 
 #[derive(Component)]
 pub(crate) struct RoomScroll;
@@ -134,7 +134,7 @@ pub fn render(
                 row_gap: px(14),
                 ..default()
             },
-            BackgroundColor(CREAM),
+            BackgroundColor(ui::PANEL),
             BorderColor::all(MUTED),
             ChildOf(root),
         ))
@@ -579,7 +579,7 @@ fn render_club(
         art,
         tr(state),
         16.0,
-        if club.error.is_some() { WARN } else { GREEN },
+        if club.error.is_some() { WARN } else { ui::GOLD },
     );
     if let Some(snapshot) = &club.snapshot {
         ui::label(
@@ -645,7 +645,7 @@ fn render_club(
                         flex_shrink: 0.0,
                         ..default()
                     },
-                    BackgroundColor(CREAM),
+                    BackgroundColor(ui::PANEL),
                     BorderColor::all(SAND),
                     ChildOf(card),
                 ))
@@ -700,7 +700,7 @@ fn render_club(
                 if snapshot.latency_ms.is_some_and(|ms| ms > 250) {
                     WARN
                 } else {
-                    GREEN
+                    ui::GOLD
                 },
             );
             if club.error.is_some() || (room.capacity > 0 && room.players >= room.capacity) {

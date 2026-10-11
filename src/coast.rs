@@ -8,8 +8,6 @@ use crate::{
 use bevy::prelude::*;
 
 #[derive(Component)]
-pub(crate) struct Interior;
-#[derive(Component)]
 pub(crate) struct Rod(u32);
 
 #[derive(Clone, Copy)]
@@ -86,11 +84,17 @@ fn curve(start: Vec2, control: Vec2, end: Vec2, t: f32) -> Vec2 {
     start.lerp(control, t).lerp(control.lerp(end, t), t)
 }
 
-fn endpoints(player_x: f32, tension: f32) -> (Vec2, Vec2) {
-    (
+fn endpoints(position: Vec2, map: &crate::maps::Map, tension: f32) -> Option<(Vec2, Vec2)> {
+    let area = map
+        .interaction(position.x, position.y)
+        .filter(|o| o.kind == "fishing")?;
+    Some((
         Vec2::new(37.0, 44.0 - tension * 10.0),
-        Vec2::new(1408.0 - player_x, -18.0),
-    )
+        Vec2::new(
+            area.x + area.width + 60.0,
+            map.origin_y() - area.y - area.height - 18.0,
+        ) - position,
+    ))
 }
 
 fn beam(
@@ -111,6 +115,7 @@ pub fn animate_rig(
     time: Res<Time>,
     session: Res<Session>,
     fishing: Res<Fishing>,
+    maps: Res<Maps>,
     actors: Query<&Actor>,
     mut parts: Query<(&RigPart, &mut Sprite, &mut Transform, &mut Visibility)>,
 ) {
@@ -128,8 +133,14 @@ pub fn animate_rig(
         } else {
             (0.0, 0.0, 0.0)
         };
-        let (tip, target) = endpoints(actor.position.x, tension);
-        let hand = Vec2::new(7.0, 17.0);
+        let Some((tip, target)) = maps
+            .by_id(&actor.player.map)
+            .and_then(|map| endpoints(actor.position, map, tension))
+        else {
+            *visibility = Visibility::Hidden;
+            continue;
+        };
+        let hand = Vec2::new(5.0, 16.0);
         let cast = (age / 0.65).clamp(0.0, 1.0);
         let mut float =
             hand.lerp(target, cast) + Vec2::Y * (cast * std::f32::consts::PI).sin() * 45.0;
@@ -268,9 +279,11 @@ mod tests {
 
     #[test]
     fn fishing_line_clears_the_deck_and_float_stays_in_open_water() {
+        let world = yapshire_shared::World::bundled();
+        let map = &world.maps["yapshire:town"];
         for x in [crate::fishing::PIER_START, crate::fishing::PIER_END - 12.0] {
             for tension in [0.0, 0.5, 1.0] {
-                let (tip, float) = endpoints(x, tension);
+                let (tip, float) = endpoints(Vec2::new(x, 0.0), map, tension).unwrap();
                 let control = tip.lerp(float, 0.5) - Vec2::Y * (1.0 - tension) * 9.0;
                 assert!(x + float.x > crate::fishing::PIER_END);
                 assert!(x + float.x < 1440.0);
@@ -282,6 +295,20 @@ mod tests {
                 }
             }
         }
+        let mut relocated = map.clone();
+        let area = relocated
+            .layers
+            .iter_mut()
+            .flat_map(|l| &mut l.objects)
+            .find(|o| o.kind == "fishing")
+            .unwrap();
+        area.x -= 800.0;
+        area.y -= 32.0;
+        assert_eq!(
+            endpoints(Vec2::new(526.0, 32.0), &relocated, 0.5),
+            endpoints(Vec2::new(1326.0, 0.0), map, 0.5)
+        );
+        assert!(endpoints(Vec2::new(1326.0, 0.0), &relocated, 0.5).is_none());
     }
 }
 
@@ -310,111 +337,108 @@ fn text(
     ));
 }
 
-pub fn setup(mut commands: Commands, art: Res<Art>, assets: Res<AssetServer>, maps: Res<Maps>) {
-    let outside = commands
-        .spawn((
-            Outside,
-            crate::maps::MapKind::Town,
-            Transform::default(),
-            Visibility::Inherited,
-        ))
-        .id();
-    maps.spawn(&mut commands, &assets, outside, &maps.town);
-    let shop = commands
-        .spawn((
-            Interior,
-            crate::maps::MapKind::Shop,
-            Transform::default(),
-            Visibility::Hidden,
-        ))
-        .id();
-    maps.spawn(&mut commands, &assets, shop, &maps.shop);
-    text(
-        &mut commands,
-        shop,
-        &art,
-        tr("world.shop"),
-        240.,
-        180.,
-        12.,
-        0xf0ddaf,
-    );
-    text(
-        &mut commands,
-        shop,
-        &art,
-        tr("world.shop_hint"),
-        240.,
-        160.,
-        12.,
-        0xc7c9a1,
-    );
-    commands.spawn((
-        Sprite::from_atlas_image(
-            art.people.clone(),
-            TextureAtlas {
-                layout: art.atlas.clone(),
-                index: 6,
-            },
-        ),
-        Transform::from_xyz(292., 20., -7.0),
-        ChildOf(shop),
-    ));
-    text(
-        &mut commands,
-        shop,
-        &art,
-        tr("world.mara"),
-        292.,
-        49.,
-        12.,
-        0x365e59,
-    );
+pub fn setup(mut commands: Commands, assets: Res<AssetServer>, art: Res<Art>, maps: Res<Maps>) {
+    spawn_maps(&mut commands, &assets, &art, &maps);
+}
+
+fn spawn_maps(commands: &mut Commands, assets: &AssetServer, art: &Art, maps: &Maps) {
+    for kind in maps.kinds() {
+        let root = commands
+            .spawn((kind, Transform::default(), Visibility::Hidden))
+            .id();
+        maps.spawn(commands, assets, root, kind);
+        let map = maps.get(kind);
+        for counter in map.objects().filter(|o| o.kind == "shop") {
+            let x = counter.x + counter.width / 2.0 + 22.0;
+            let y = map.origin_y() - counter.y - counter.height;
+            commands.spawn((
+                Sprite::from_atlas_image(
+                    art.people.clone(),
+                    TextureAtlas {
+                        layout: art.atlas.clone(),
+                        index: 6,
+                    },
+                ),
+                bevy::sprite::Anchor::BOTTOM_CENTER,
+                Transform::from_xyz(x, y, -7.0),
+                ChildOf(root),
+            ));
+            text(
+                commands,
+                root,
+                art,
+                tr("world.mara"),
+                x,
+                y + 54.0,
+                9.0,
+                0xd5b170,
+            );
+            text(
+                commands,
+                root,
+                art,
+                maps.title(kind),
+                map.width as f32 * 8.0,
+                map.origin_y() - 28.0,
+                12.0,
+                0xf0ddaf,
+            );
+            text(
+                commands,
+                root,
+                art,
+                tr("world.shop_hint"),
+                map.width as f32 * 8.0,
+                map.origin_y() - 48.0,
+                12.0,
+                0xc7c9a1,
+            );
+        }
+    }
 }
 
 pub(crate) fn reload_maps(
     mut commands: Commands,
     maps: Res<Maps>,
     assets: Res<AssetServer>,
-    roots: Query<(Entity, &crate::maps::MapKind)>,
-    layers: Query<Entity, With<crate::maps::MapLayer>>,
+    art: Res<Art>,
+    roots: Query<Entity, With<crate::maps::MapKind>>,
     mut revision: Local<u64>,
 ) {
     if *revision == maps.revision {
         return;
     }
     *revision = maps.revision;
-    for layer in &layers {
-        commands.entity(layer).despawn();
+    for root in &roots {
+        commands.entity(root).despawn();
     }
-    for (root, kind) in &roots {
-        maps.spawn(&mut commands, &assets, root, maps.get(*kind));
-    }
+    spawn_maps(&mut commands, &assets, &art, &maps);
 }
 
 pub fn animate(
     fishing: Res<Fishing>,
     session: Res<Session>,
+    maps: Res<Maps>,
     actors: Query<&Actor>,
     mut visible: Query<(
         &mut Visibility,
         Option<&Outside>,
-        Option<&Interior>,
+        Option<&crate::maps::MapKind>,
         Option<&Actor>,
         Option<&Rod>,
     )>,
 ) {
-    for (mut visibility, outside, interior, actor, rod) in &mut visible {
+    for (mut visibility, outside, kind, actor, rod) in &mut visible {
         let show = if outside.is_some() {
             Some(!fishing.indoors)
-        } else if interior.is_some() {
-            Some(fishing.indoors)
+        } else if let Some(kind) = kind {
+            Some(maps.info(*kind).id == fishing.map)
         } else if let Some(actor) = actor {
-            Some(actor.player.indoors == fishing.indoors)
+            Some(actor.player.map == fishing.map)
         } else if let Some(Rod(id)) = rod {
             Some(actors.iter().any(|a| {
                 a.player.id == *id
-                    && !a.player.indoors
+                    && a.player.map == fishing.map
                     && (a.player.fishing
                         || (Some(*id) == session.you
                             && matches!(fishing.stage, Stage::Result { fish: Some(_), .. })))

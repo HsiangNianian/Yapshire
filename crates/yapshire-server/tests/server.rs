@@ -159,14 +159,14 @@ fn lobby_probe_is_authenticated_reports_capacity_and_never_joins_a_room() {
 #[test]
 fn two_clients_share_edited_tiled_maps_and_server_assigned_identities() {
     let mut world = World::bundled();
-    world.town.layers[4].data[500] = 0x8000_005d;
-    world.shop.layers[4].data[100] = 12;
-    let world = World::new(world.town, world.shop).unwrap();
+    world.maps.get_mut("yapshire:town").unwrap().layers[4].data[500] = 0x8000_005d;
+    world.maps.get_mut("yapshire:tackle_shop").unwrap().layers[4].data[100] = 12;
+    let world = World::from_maps(world.content, world.maps).unwrap();
     let host = Running::new(Config::default(), world.clone(), "");
-    let mut a = host.open("/room/MAIN0001?protocol=2&name=Alice", "");
+    let mut a = host.open("/room/MAIN0001?protocol=3&name=Alice", "");
     assert_eq!(acknowledge(&mut a), world);
     let alice = joined(&mut a);
-    let mut b = host.open("/room/MAIN0001?protocol=2&name=Bob", "");
+    let mut b = host.open("/room/MAIN0001?protocol=3&name=Bob", "");
     assert_eq!(acknowledge(&mut b), world);
     let bob = joined(&mut b);
     assert_ne!(alice, bob);
@@ -179,9 +179,9 @@ fn two_clients_share_edited_tiled_maps_and_server_assigned_identities() {
         matches!(read(&mut b), ServerMessage::Chat { id, text } if id == alice && text == "你好，自建小镇！")
     );
     assert!(matches!(read(&mut a), ServerMessage::Chat { id, .. } if id == alice));
-    a.send(Message::text(r#"{"type":"move","x":99999,"y":-99,"moving":true,"facing":false,"indoors":true,"fishing":true}"#)).unwrap();
+    a.send(Message::text(r#"{"type":"move","map":"yapshire:tackle_shop","x":99999,"y":-99,"moving":true,"facing":false,"indoors":true,"fishing":true}"#)).unwrap();
     assert!(
-        matches!(read(&mut b), ServerMessage::Moved { player } if player.id == alice && player.x == 1428.0 && player.y == 0.0 && player.indoors && !player.fishing)
+        matches!(read(&mut b), ServerMessage::Moved { player } if player.id == alice && player.map == "yapshire:tackle_shop" && player.x == 468.0 && player.y == -64.0 && player.indoors && !player.fishing)
     );
     a.close(None).unwrap();
     drop(a);
@@ -216,13 +216,14 @@ fn passwords_origins_protocol_and_per_address_capacity_are_enforced() {
         World::bundled(),
         "test-password",
     );
-    let path = "/room/MAIN0001?protocol=2&name=Alice";
+    let path = "/room/MAIN0001?protocol=3&name=Alice";
     host.rejected(path, "", None, 401);
     host.rejected(path, "wrong-password", None, 401);
     host.rejected(path, "test-password", Some("https://foreign.example"), 403);
     host.rejected("/room/MAIN0001?protocol=1", "test-password", None, 426);
+    host.rejected("/room/MAIN0001?protocol=2", "test-password", None, 426);
     assert!(host.http("/rooms", "").starts_with("HTTP/1.1 401"));
-    assert!(host.http("/health", "").contains("\"protocol\":2"));
+    assert!(host.http("/health", "").contains("\"protocol\":3"));
     let mut socket = host.open(path, "test-password");
     acknowledge(&mut socket);
     joined(&mut socket);
@@ -233,7 +234,7 @@ fn passwords_origins_protocol_and_per_address_capacity_are_enforced() {
 #[test]
 fn incorrect_map_acknowledgement_never_creates_a_player() {
     let host = Running::new(Config::default(), World::bundled(), "");
-    let mut socket = host.open("/room/MAIN0001?protocol=2", "");
+    let mut socket = host.open("/room/MAIN0001?protocol=3", "");
     assert!(matches!(read(&mut socket), ServerMessage::World { .. }));
     socket
         .send(Message::text(
@@ -257,7 +258,7 @@ fn create_races_capacity_and_room_isolation_preserve_existing_players() {
         World::bundled(),
         "",
     );
-    let path = "/room/EXTRA001?protocol=2&create=1&room_name=Friends&name=Alice";
+    let path = "/room/EXTRA001?protocol=3&create=1&room_name=Friends&name=Alice";
     let mut a = host.open(path, "");
     let mut race = host.open(path, "");
     acknowledge(&mut a);
@@ -266,14 +267,14 @@ fn create_races_capacity_and_room_isolation_preserve_existing_players() {
     assert!(
         matches!(race.read().unwrap(), Message::Close(Some(frame)) if u16::from(frame.code) == 1008)
     );
-    host.rejected("/room/EXTRA001?protocol=2", "", None, 409);
+    host.rejected("/room/EXTRA001?protocol=3", "", None, 409);
     host.rejected(
-        "/room/EXTRA002?protocol=2&create=1&room_name=Other",
+        "/room/EXTRA002?protocol=3&create=1&room_name=Other",
         "",
         None,
         503,
     );
-    let mut b = host.open("/room/MAIN0001?protocol=2", "");
+    let mut b = host.open("/room/MAIN0001?protocol=3", "");
     acknowledge(&mut b);
     joined(&mut b);
     a.send(Message::text(r#"{"type":"chat","text":"Only my room"}"#))
@@ -293,26 +294,26 @@ fn create_races_capacity_and_room_isolation_preserve_existing_players() {
         }
         std::thread::sleep(Duration::from_millis(10));
     }
-    host.rejected("/room/EXTRA001?protocol=2", "", None, 404);
+    host.rejected("/room/EXTRA001?protocol=3", "", None, 404);
 }
 
 #[test]
 fn malformed_messages_and_shutdown_close_connections() {
     let host = Running::new(Config::default(), World::bundled(), "");
-    let mut a = host.open("/room/MAIN0001?protocol=2", "");
+    let mut a = host.open("/room/MAIN0001?protocol=3", "");
     acknowledge(&mut a);
     joined(&mut a);
     a.send(Message::text(
-        r#"{"type":"move","x":0,"y":0,"moving":"yes","facing":false}"#,
+        r#"{"type":"move","map":"yapshire:town","x":0,"y":0,"moving":"yes","facing":false}"#,
     ))
     .unwrap();
     assert!(
         matches!(a.read().unwrap(), Message::Close(Some(frame)) if u16::from(frame.code) == 1007)
     );
-    let mut b = host.open("/room/MAIN0001?protocol=2", "");
+    let mut b = host.open("/room/MAIN0001?protocol=3", "");
     acknowledge(&mut b);
     joined(&mut b);
-    let mut pending = host.open("/room/MAIN0001?protocol=2", "");
+    let mut pending = host.open("/room/MAIN0001?protocol=3", "");
     assert!(matches!(read(&mut pending), ServerMessage::World { .. }));
     host.stop.store(true, Ordering::Relaxed);
     assert!(matches!(b.read().unwrap(), Message::Close(_)));
@@ -322,14 +323,14 @@ fn malformed_messages_and_shutdown_close_connections() {
 #[test]
 fn oversized_binary_and_flooding_clients_do_not_interrupt_the_room() {
     let host = Running::new(Config::default(), World::bundled(), "");
-    let mut observer = host.open("/room/MAIN0001?protocol=2&name=Observer", "");
+    let mut observer = host.open("/room/MAIN0001?protocol=3&name=Observer", "");
     acknowledge(&mut observer);
     let observer_id = joined(&mut observer);
     for (message, code) in [
         (Message::text("x".repeat(2049)), 1009),
         (Message::Binary(vec![1, 2].into()), 1003),
     ] {
-        let mut offender = host.open("/room/MAIN0001?protocol=2", "");
+        let mut offender = host.open("/room/MAIN0001?protocol=3", "");
         acknowledge(&mut offender);
         let offender_id = joined(&mut offender);
         assert!(matches!(read(&mut observer), ServerMessage::Joined { .. }));
@@ -339,7 +340,7 @@ fn oversized_binary_and_flooding_clients_do_not_interrupt_the_room() {
         );
         assert!(matches!(read(&mut observer), ServerMessage::Left { id } if id == offender_id));
     }
-    let mut flood = host.open("/room/MAIN0001?protocol=2", "");
+    let mut flood = host.open("/room/MAIN0001?protocol=3", "");
     acknowledge(&mut flood);
     let flood_id = joined(&mut flood);
     assert!(matches!(read(&mut observer), ServerMessage::Joined { .. }));
@@ -371,7 +372,7 @@ fn standalone_cli_initializes_and_checks_the_same_editor_map_files() {
     let config = Config::load(&config_path).unwrap();
     assert_eq!(config.world().unwrap(), World::bundled());
     // Windows users may already have CRLF copies from previous downloads.
-    let metadata = folder.join("maps/harbor.tsj");
+    let metadata = folder.join("maps/terrain/ground.tsj");
     let crlf = std::fs::read_to_string(&metadata)
         .unwrap()
         .replace("\r\n", "\n")
@@ -381,8 +382,8 @@ fn standalone_cli_initializes_and_checks_the_same_editor_map_files() {
     std::fs::write(&metadata, b"{}\n").unwrap();
     assert!(config.world().is_err());
     std::fs::write(&metadata, crlf).unwrap();
-    let town_file = folder.join("maps/town.tmj");
-    let mut town = config.world().unwrap().town;
+    let town_file = folder.join("maps/maps/town.tmj");
+    let mut town = config.world().unwrap().maps["yapshire:town"].clone();
     town.layers[4].data[500] = 0x8000_005d;
     let edited = serde_json::to_vec(&town).unwrap();
     std::fs::write(&town_file, &edited).unwrap();
@@ -417,10 +418,14 @@ fn standalone_cli_initializes_and_checks_the_same_editor_map_files() {
     );
     std::fs::write(&town_file, pretty).unwrap();
     assert!(config.world().is_ok());
-    let palette = folder.join("maps/harbor.png");
+    let palette = folder.join("maps/objects/harbor.png");
     std::fs::write(&palette, b"not the shared palette").unwrap();
     assert!(config.world().is_err());
-    std::fs::write(&palette, yapshire_shared::TEXTURE).unwrap();
+    std::fs::write(
+        &palette,
+        yapshire_shared::bundled_file("objects/harbor.png").unwrap(),
+    )
+    .unwrap();
     std::fs::write(
         &town_file,
         vec![b' '; yapshire_shared::MAX_MAP_BYTES as usize + 1],

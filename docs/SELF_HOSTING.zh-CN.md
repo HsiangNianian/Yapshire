@@ -3,14 +3,14 @@
 [English](SELF_HOSTING.md) · [返回首页](../README.zh-CN.md)
 
 `yapshire-server` 是独立的无界面服务端，不需要显卡、Node.js 或 Cloudflare 账号，
-可以运行在家用电脑、VPS 或 Docker 中。v0.6.0 或更新客户端在**在线大厅 → 添加 Club**中
+可以运行在家用电脑、VPS 或 Docker 中。v0.7.x 或更新客户端在**在线大厅 → 添加 Club**中
 填写地址，可设置仅自己可见的别名。保存后自动展示房间、人数和实测延迟；选中 Club
 可在其中创建房间。修改或移除订阅不会更改真实服务器的名称或停止服务器。
-已发布的 v0.5.2 客户端仍使用单个服务器地址输入框。
+客户端与服务端需要使用 v0.7.x（协议 3）及匹配的内容包，旧版客户端需要先更新。
 
 官方的 **Yapshire 小镇**使用 `wss://yap-server.mmstudio.games`，
 `wss://yap.meaninglessmeaning.studio` 也连接同一个小镇。
-已有的 v0.5.2 或更新客户端可以直接填写其中任意一个地址。
+v0.7.x 客户端可以直接填写其中任意一个地址。
 
 ## 用独立程序开服
 
@@ -46,7 +46,7 @@ docker run -d --name yapshire --restart unless-stopped \
   -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:latest
 ```
 
-可以用 `:v0.6.0` 等版本标签固定版本。仓库提供了 [`compose.yaml`](../compose.yaml)，
+可以用 `:v0.7.2` 等版本标签固定版本。仓库提供了 [`compose.yaml`](../compose.yaml)，
 运行 `docker compose up -d` 即可启动默认小镇。
 镜像以 UID/GID **10001** 运行，内置 HTTP 健康检查，从 `/data` 读取配置，不会写入地图。
 
@@ -65,49 +65,39 @@ docker run -d --name yapshire-custom --restart unless-stopped \
   -p 4761:4761 --read-only --cap-drop ALL \
   --security-opt no-new-privileges:true \
   --mount "type=bind,src=$PWD/my-town,dst=/data,readonly" \
-  ghcr.io/hsiangnianian/yapshire-server:v0.6.0
+  ghcr.io/hsiangnianian/yapshire-server:v0.7.2
 ```
 
 目录和文件需要允许 UID 10001 读取。使用 Compose 时，取消 `./my-town:/data:ro` 挂载行的注释。
 如果 4761 已被游戏或另一台服务端占用，可以换宿主机端口。容器内部保持 4761，健康检查即可
 直接使用；修改内部监听端口时，也需要同步覆盖健康检查地址。
 
-## 使用游戏编辑器的地图
+## 使用地图与内容包
 
-1. 运行 `./yapshire-server --init ./my-town`，生成配置和两张原版地图。初始化不会覆盖已有文件。
-2. 在游戏中打开**地图编辑器**，完成修改并**保存**。
-3. 点击**地图文件**，将编辑后的 `town.tmj` 和／或 `tackle-shop.tmj` 复制到 `my-town/maps/`，
-   仅替换对应地图，保留另一张地图。服务端需要两张文件都存在。
-4. 检查并启动：
+以下步骤对应 **v0.7.x（协议 3）**，客户端与服务端需要使用匹配的内容包。
+v0.7.1 和 v0.7.2 可以互相联机。
+旧版使用协议 2，无法加入新版房间。
+
+1. 执行 `./yapshire-server --init ./my-town`，创建配置和位于 `my-town/maps/` 的完整官方内容包，不覆盖旧文件。
+2. 在游戏编辑器中修改、保存，然后点击“地图文件”。
+3. 把保存目录的内容复制到 `my-town/maps/`。清单位于 `my-town/maps/pack.json`，地图位于 `my-town/maps/maps/*.tmj`。
+4. 校验后启动：
 
 ```sh
 ./yapshire-server --config ./my-town/server.json --check
 ./yapshire-server --config ./my-town/server.json
 ```
 
-编辑器、客户端和服务端使用**同一套 Tiled JSON `.tmj` 格式与 Rust 校验模块**，
-不需要转换或重新编译客户端。也可以直接用 Tiled 编辑。修改文件后重启服务端，
-玩家重新连接即可收到新地图。
+`maps_dir` 和 `--maps` 指向内容包根目录。包含原版 `town.tmj`、`tackle-shop.tmj`、`harbor.*` 的旧目录
+也可以导入，加载不会改写原文件。编辑器、客户端和服务端共用校验代码。
+稳定 ID、Tiled 编辑、多地图、交互、碰撞、地形连接及迁移限制详见[内容包规范 v1](CONTENT_PACKS.zh-CN.md)。
 
-加入时，服务端下发两张地图及内容版本，客户端校验尺寸、图块编号、图块集指纹和内容版本，
-确认完全一致后才进入房间。远程地图只保留在内存里，离开或断线后恢复玩家自己的本地地图，
-不会覆盖编辑器保存的文件。
+服务端下发地图布局和内容定义；客户端在进入房间前校验已安装的包 ID、版本、图片指纹和世界版本。
+自定义内容包需要所有客户端预先安装并选择，不从房间服务器自动下载图片。
+仅修改地图布局无需重编译客户端。远程布局只保留在内存，离开房间恢复本地地图，不覆盖编辑器文件。
 
-目前支持的地图范围：
-
-- 小镇 **90 × 17**、渔具店 **30 × 17**，**16 × 16** 像素图块，五层有限正交 tile layer，
-  未压缩 JSON 数组，保持原尺寸和零偏移。
-- 共用随游戏发布的 **359 个图块**，请保持 `harbor.tsj` 和 `harbor.png` 不变。
-  暂不传输或支持自定义图片、图块集、脚本、对象层及不同尺寸的地图。
-- 保留空图块、翻转、图层显隐与 Tiled 元数据。每张输入 `.tmj` 上限 **256 KiB**，
-  整个网络地图消息上限 **512 KiB**。无效地图会在开放监听端口之前报错。
-- 碰撞和交互仍固定；编辑器中的金色辅助线标出了行走面、门、柜台和垂钓区。
-  修改美术不会移动这些位置，详见[地图说明](DEVELOPMENT.md#tilemaps)。
-
-游戏内局域网房主通过同一服务端模块共享自己保存的地图，官方 Cloudflare 部署也运行
-这一 Rust 服务端，使用内置地图。地图同步要求 **v0.5.2 或更新的客户端**（协议 2）。
-旧官方 Worker 地址转发到 Rust 服务端，v0.5 之前的客户端需要升级。
-早期 Windows v0.5.0/v0.5.1 包的图块集指纹受 CRLF 换行影响，与 Linux/macOS 联机前请更新。
+局域网使用同一协议和检查。Cloudflare 网关转发至相同 Rust 服务端；迁移到协议 3 时需同步更新客户端和容器。
+本次源码修改不会自动更新正在运行的公共服务。
 
 ## 配置
 

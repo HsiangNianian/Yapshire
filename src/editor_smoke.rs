@@ -74,7 +74,7 @@ pub(crate) fn drive(
     let point_ui = |window: &mut Window, ui: Vec2| {
         let viewport = camera.physical_viewport_rect().unwrap();
         let physical =
-            viewport.min.as_vec2() + ui * viewport.size().as_vec2() / game::WINDOW_SIZE.as_vec2();
+            viewport.min.as_vec2() + ui * (viewport.width() as f32 / game::WINDOW_SIZE.x as f32);
         window.set_physical_cursor_position(Some(physical.as_dvec2()));
     };
     let point = |window: &mut Window, cell: UVec2| {
@@ -97,7 +97,7 @@ pub(crate) fn drive(
                 return;
             }
             if mode == "editor-reload" {
-                assert_eq!(maps.town.layers[4].data[5 * 90 + 50], 93);
+                assert_eq!(maps.get(MapKind::Town).layers[4].data[5 * 90 + 50], 93);
             }
             for (action, mut interaction) in &mut home {
                 if matches!(action, crate::ui::Action::Go(Page::Editor)) {
@@ -132,7 +132,7 @@ pub(crate) fn drive(
                 &[93; 4]
             );
             assert_eq!(
-                &maps.town.layers[4].data[5 * 90 + 50..5 * 90 + 54],
+                &maps.get(MapKind::Town).layers[4].data[5 * 90 + 50..5 * 90 + 54],
                 &check.before
             );
             keys.press(KeyCode::ControlLeft);
@@ -156,11 +156,11 @@ pub(crate) fn drive(
         }
         7 => {
             assert!(!editor.dirty(), "{}", editor.status);
-            assert_eq!(maps.town.layers[4].data[5 * 90 + 50], 93);
+            assert_eq!(maps.get(MapKind::Town).layers[4].data[5 * 90 + 50], 93);
             assert!(
-                tiles
-                    .iter()
-                    .any(|(pos, tile)| pos.x == 50 && pos.y == 11 && tile.0 == 92),
+                tiles.iter().any(|(pos, tile)| pos.x == 50
+                    && pos.y == 11
+                    && tile.0 == maps.tile(93).unwrap().2.id),
                 "Saved tile must appear in the runtime tilemap"
             );
             check.tiles = tiles.iter().count();
@@ -201,7 +201,7 @@ pub(crate) fn drive(
         14 => {
             assert!(menu.page == Page::Home);
             assert!(!editor.dirty());
-            assert_ne!(maps.shop.layers[4].data[11 * 30 + 16], 0);
+            assert_ne!(maps.get(MapKind::Shop).layers[4].data[11 * 30 + 16], 0);
             menu.go(Page::Editor);
         }
         15 => {

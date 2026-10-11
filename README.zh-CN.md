@@ -36,32 +36,31 @@
 
 **Yapshire** 是用 **Rust 和 Bevy** 制作的原生多人像素小游戏。
 经过咖啡馆，停下来聊会儿天，或者买好渔具，到码头钓鱼。
-会动的像素小人、缓缓飘过的云、暖色窗灯和聊天气泡，组成一个可以一起待着的小地方。
+修长的像素小人、雾中的秋日山林、暖色窗灯和聊天气泡，组成一个可以一起待着的小地方。
 
 <p align="center">
   <img src="docs/readme/gameplay-zh.gif" alt="Yapshire 实机动图：两个联机玩家在咖啡馆外走动、跳跃并发送聊天消息" width="960">
 </p>
 
-<p align="center"><sub>两个真实客户端联机录制。录制画面为英文，自带像素字体；图片配有中文说明。</sub></p>
+<p align="center"><sub>两个真实客户端联机录制，使用游戏内中文界面和随包提供的像素字体。</sub></p>
 
 ## 下载即玩
 
 **[下载最新版本](https://github.com/HsiangNianian/Yapshire/releases/latest)**，完整解压后启动。
 游玩不需要安装 Rust、Node.js，也不需要 Cloudflare 账号。
 
-| 平台 | 下载 v0.6.0 | 解压后启动 |
+| 平台 | 下载 v0.7.2 | 解压后启动 |
 | --- | --- | --- |
-| Windows · x64 | [下载 ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-windows-x64.zip) | 打开 `yapshire.exe` |
-| Linux · x64 | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-linux-x64.tar.gz) | 运行 `./yapshire` |
-| macOS · Apple Silicon | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-macos-arm64.tar.gz) | 打开 `Yapshire.app` |
-| macOS · Intel | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-macos-x64.tar.gz) | 打开 `Yapshire.app` |
+| Windows · x64 | [下载 ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-windows-x64.zip) | 打开 `yapshire.exe` |
+| Linux · x64 | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-linux-x64.tar.gz) | 运行 `./yapshire` |
+| macOS · Apple Silicon | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-macos-arm64.tar.gz) | 打开 `Yapshire.app` |
+| macOS · Intel | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-macos-x64.tar.gz) | 打开 `Yapshire.app` |
 
 请解压**整个压缩包**。Windows 和 Linux 需要将 `assets/` 与程序放在一起；
 macOS 的资源已经放在应用内部。像素字体随包提供，包含中英文字形。
 每次发布同时提供 `SHA256SUMS` 校验文件和 `CHANGELOG.md`，更新日志与 Release Notes 同步。
 
-独立服务端与局域网地图同步需要 **v0.5.2 或更新的客户端**。
-客户端仍兼容现有内置公共 Worker，连接时使用其原版地图。详见[开服指南](docs/SELF_HOSTING.zh-CN.md)。
+客户端与服务端需要使用 **v0.7.x**（协议 3）及匹配的内容包，公共服务使用同一套版本化内容包。旧版客户端需要先更新。详见[开服指南](docs/SELF_HOSTING.zh-CN.md)。
 
 <details>
 <summary><strong>各平台说明</strong></summary>
@@ -88,7 +87,7 @@ macOS 的资源已经放在应用内部。像素字体随包提供，包含中�
 也可以使用 `wss://yap.meaninglessmeaning.studio`。两个地址共用房间和玩家列表。
 `NIANNIAN` 是常驻房间，玩家也可以创建临时房间。旧官方地址继续兼容已有客户端；
 更新后的客户端会把已保存的旧官方地址迁移到新默认地址。
-请使用 **v0.5.2 或更新的客户端**；v0.5 之前的客户端不支持服务端地图同步。
+请使用 **v0.7.x 客户端**，以匹配公共服务器的协议 3 和版本化内容包。
 
 在线大厅打开时，各 Club 每八秒独立刷新，显示房间人数／容量与实测延迟。
 延迟是同一 Club 共用的 WebSocket 往返时间；旧服务端不支持的延迟或容量显示为未知，
@@ -121,7 +120,7 @@ macOS 的资源已经放在应用内部。像素字体随包提供，包含中�
 
 ```sh
 docker run -d --name yapshire --restart unless-stopped \
-  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.6.0
+  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.7.2
 ```
 
 提供 Linux AMD64/ARM64 镜像，以及四个平台的原生服务端下载。
@@ -130,7 +129,7 @@ docker run -d --name yapshire --restart unless-stopped \
 
 ## 去海边钓一会儿
 
-**上方 v0.6.0 下载包已包含钓鱼、渔具店与像素背包。**
+**上方 v0.7.2 下载包已包含钓鱼、渔具店与像素背包。**
 
 沿街向右走，跟着路牌找到 **Tide & Tackle** 渔具店。在门口按 **E** 进入，
 走到 Mara 的柜台前再按 **E** 购物。新昵称拥有 **100 枚金币**：
@@ -155,7 +154,7 @@ docker run -d --name yapshire --restart unless-stopped \
 
 街道路面、海岸、码头和渔具店使用 **16 × 16 Tilemap**，海水采用动画图块。
 可以用 Tiled 打开随附的 `.tmj` 地图，修改后重启游戏即可查看布局。
-当前碰撞和交互位置仍固定，具体限制见[地图编辑说明](docs/DEVELOPMENT.md#tilemaps)。
+当前源码的碰撞和交互由地图定义，具体规范见[内容包说明](docs/CONTENT_PACKS.zh-CN.md)。
 
 ## 编辑自己的小镇
 
@@ -168,14 +167,23 @@ docker run -d --name yapshire --restart unless-stopped \
 其中的 `.tmj` 与图块集可继续在 Tiled 中编辑。原始资源保持不变，**Original** 可将原地图
 恢复为一份可撤销的草稿，退出时会提示保存或丢弃未保存的修改。
 局域网房主会共享自己保存的地图，独立服务端会下发配置的地图；加入房间不会覆盖本地编辑器文件。
-金色辅助线标出固定的行走面和交互位置，修改美术不会移动这些位置。
+金色辅助标记直接显示地图定义的交互对象。
 详细操作见[游戏内编辑器指南](docs/DEVELOPMENT.md#in-game-map-editor)。
+
+**v0.7.1 引入：**[内容包规范 v1](docs/CONTENT_PACKS.zh-CN.md) 将地形、水体、建筑、物件和背景拆为独立资源，
+提供稳定 ID、自动连接地形、完整物件印章、多地图与可变尺寸，以及地图定义的碰撞、传送门、商店和钓鱼区域。
+社区内容包与官方资源共用加载流程。此版本使用协议 3，需要匹配的协议 3 服务端；旧版协议 2 无法加入新版房间。
+
+本版还加入了[秋日湖岸美术更新](docs/ART_DIRECTION.zh-CN.md)：雾蓝远山、针叶林、金色白桦、
+雪松木屋与深森林色配黄铜色界面，继续支持可编辑 tilemap 和内置中英文字体。
 
 ## 设置与语言
 
 主菜单、游戏和地图编辑器**右上角常驻纯像素齿轮**，小窗口下保留至少 48 点的点击区域。
 点击后可以
-即时切换 **English / 简体中文**，重启后会记住选择。缺失的翻译默认显示英文。
+即时切换 **English / 简体中文**，重启后会记住选择。**像素缩放（SCALE）**可选
+**2x / 3x / 4x**，默认 **2x**；倍率越大，人物和地形越大、视野越近。
+切换立即生效，重启后保留，支持窗口和全屏。缺失的翻译默认显示英文。
 文案按功能拆分在 `assets/locales/` 下，翻译方式见[翻译指南](docs/TRANSLATING.md)。
 
 ## 操作方式
@@ -220,7 +228,7 @@ cargo run --locked
 
 ## 用像素搭起来
 
-- **Rust · Bevy 0.18.1 · bevy_ecs_tilemap：**480 × 270 的世界画面，整数倍像素缩放、原创角色与地块、分层场景。
+- **Rust · Bevy 0.18.1 · bevy_ecs_tilemap：**720 × 405 的世界画面，整数倍像素缩放、原创角色与地块、分层场景。
 - **Fusion Pixel Font：**随游戏打包的像素字体，用于菜单、聊天和气泡。
 - **WebSockets · Cloudflare Containers：**局域网、自建服务器和官方在线服务共用 Rust 服务端；Worker 与 Durable Object 将官方入口的连接转发到服务端容器。
 
@@ -232,7 +240,10 @@ cargo run --locked
 欢迎提交问题、玩法改进、像素美术和文档修改。报告连接问题时，请附上平台、
 局域网或在线模式，以及复现步骤。详见[贡献指南](CONTRIBUTING.md)。
 
+首次使用时先[安装 pre-commit hooks](CONTRIBUTING.md#pre-commit-checks)，然后运行：
+
 ```sh
+pre-commit run --all-files
 cargo fmt --all -- --check
 cargo test --workspace --locked
 node --test .github/scripts/*.test.mjs

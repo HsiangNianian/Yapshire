@@ -27,6 +27,7 @@ pub struct RoomEntry {
 pub struct Player {
     pub id: u32,
     pub name: String,
+    pub map: String,
     pub x: f32,
     pub y: f32,
     pub moving: bool,
@@ -44,6 +45,7 @@ pub enum ClientMessage {
         revision: String,
     },
     Move {
+        map: String,
         x: f32,
         y: f32,
         moving: bool,

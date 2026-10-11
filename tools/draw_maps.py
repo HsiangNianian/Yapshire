@@ -1,18 +1,17 @@
-"""Rebuild the harbor tileset and Tiled maps: uv run --with Pillow tools/draw_maps.py.
+"""Rebuild the official content pack: uv run --with Pillow tools/draw_maps.py.
 
-This overwrites the two shipped map layouts. Keep hand-edited maps before running.
+This overwrites the official pack layouts. Legacy assets/maps fixtures stay read-only.
 """
 
 from pathlib import Path
-import json
 import random
 from PIL import Image, ImageDraw, ImageFont
 
-OUT = Path(__file__).resolve().parents[1] / "assets/maps"
-TILE, HEIGHT, COLUMNS = 16, 17, 16
+ASSETS = Path(__file__).resolve().parents[1] / "assets"
+TILE, HEIGHT = 16, 17
 random.seed(73)
 tiles, animations = [], []
-font = ImageFont.truetype(str(OUT.parent / "fonts/fusion-pixel.ttf"), 12)
+font = ImageFont.truetype(str(ASSETS / "fonts/fusion-pixel.ttf"), 12)
 
 
 def canvas(w=16, h=16, color=(0, 0, 0, 0)):
@@ -52,7 +51,7 @@ def layer(width):
     return [[0] * width for _ in range(HEIGHT)]
 
 
-def write_map(name, width, layers):
+def make_map(width, layers):
     data = {
         "type": "map", "version": "1.10", "orientation": "orthogonal",
         "renderorder": "right-down", "infinite": False,
@@ -64,50 +63,45 @@ def write_map(name, width, layers):
                         data=[gid for row in cells for gid in row])
                    for i, (label, cells) in enumerate(layers)],
     }
-    # One map row per line keeps hand edits and version-control diffs readable.
-    text = json.dumps(data, indent=2)
-    for item, (_, cells) in zip(data["layers"], layers):
-        pretty = "[\n" + ",\n".join("        " + ",".join(map(str, row)) for row in cells) + "\n      ]"
-        text = text.replace(json.dumps(item["data"], indent=2).replace("\n", "\n      "), pretty, 1)
-    (OUT / name).write_text(text + "\n")
+    return data
 
 
-# Street tiles share the original town's palette, including its continuous lip.
+# Mossy earth and weathered slate keep the walking edge readable without a bright curb.
 ground = []
 for index in range(4):
-    im, d = canvas(color="#aa9677" if index < 2 else "#7e795f")
-    grain(d, (0, 0, 15, 15), ["#91876a", "#b4a080", "#9e8d6c"], 17)
+    im, d = canvas(color="#706950" if index < 2 else "#4b5044")
+    grain(d, (0, 0, 15, 15), ["#5b5b47", "#867c57", "#666c4d"], 17)
     if index < 2:
-        d.rectangle((0, 0, 15, 2), fill="#dbca9b")
-        d.line((0, 3, 15, 3), fill="#8f8b67")
-        d.line((15, 5, 15, 14), fill="#968567")
+        d.line((0, 0, 15, 0), fill="#a99a6c")
+        d.line((0, 1, 15, 1), fill="#788052")
+        for x in range(index, 16, 5):
+            d.line((x, 0, x + 1, 2 + x % 3), fill="#92965e")
     else:
-        d.rectangle((0, 14, 15, 15), fill="#6f7058")
+        d.line((0, 15, 15, 15), fill="#424b40")
     ground.append(tile(im))
 
 stone = []
 for index in range(4):
-    im, d = canvas(color="#7e8171")
+    im, d = canvas(color="#53646a")
     for y in [0, 8]:
         offset = (y // 8 + index) % 2 * 8
-        d.line((0, y, 15, y), fill="#596e63")
-        d.line((0, y + 1, 15, y + 1), fill="#a4a386")
-        d.line((offset, y, offset, y + 7), fill="#596e63")
-    grain(d, (0, 2, 15, 15), ["#92957d", "#707e69", "#b0a68a"], 10)
+        d.line((0, y, 15, y), fill="#35494d")
+        d.line((0, y + 1, 15, y + 1), fill="#829085")
+        d.line((offset, y, offset, y + 7), fill="#35494d")
+    grain(d, (0, 2, 15, 15), ["#677b7a", "#4b6264", "#8c967f"], 10)
     if index < 2:
-        d.rectangle((0, 0, 15, 2), fill="#dbca9b")
-        d.line((0, 3, 15, 3), fill="#8f8b67")
-        d.line((15, 0, 15, 2), fill="#b1a483")
+        d.line((0, 0, 15, 0), fill="#b7ad8b")
+        d.line((0, 2, 15, 2), fill="#7b8270")
     stone.append(tile(im))
 
 deck = []
 for index in range(2):
     im, d = canvas()
-    d.rectangle((0, 0, 15, 7), fill="#8e7158")
-    d.rectangle((0, 0, 15, 2), fill="#d7b989")
-    d.line((0, 3, 15, 3), fill="#b18d66")
-    d.line((15, 0, 15, 7), fill="#665b4d")
-    d.line((2, 5, 12, 5), fill="#aa8760")
+    d.rectangle((0, 0, 15, 7), fill="#534d3e")
+    d.rectangle((0, 0, 15, 1), fill="#b39a6d")
+    d.line((0, 3, 15, 3), fill="#8b7956")
+    d.line((15, 0, 15, 7), fill="#303a33")
+    d.line((2, 5, 12, 5), fill="#796447")
     for x in [2, 12]:
         d.point((x, 1), fill="#77755c")
     deck.append(tile(im))
@@ -122,14 +116,18 @@ for band in range(9):
             im, d = canvas()
             for y in range(16):
                 t = (band * 16 + y) / 143
-                base = tuple(round(a + (b - a) * t) for a, b in zip((141, 173, 166), (68, 108, 117)))
-                d.line((0, y, 15, y), fill=base)
+                base = tuple(round(a + (b - a) * t) for a, b in zip((91, 133, 148), (25, 55, 69)))
+                # Transparent distance blends the animated water into the painted lake.
+                alpha = round(max(0, min(1, (band * 16 + y - 35) / 35)) * 255)
+                d.line((0, y, 15, y), fill=(*base, alpha))
             # Some cells remain quiet so there is no obvious checkerboard of waves.
-            if variant < 2:
+            if variant < 2 and band >= 3:
                 start = (variant * 7 + band * 3 + frame) % 12
                 y = (band * 5 + variant * 7) % 14 + 1
                 d.line((start, y, min(start + 4, 15), y),
-                       fill="#acc5b5" if band < 4 else "#789f9b")
+                       fill="#b9c5b4" if band < 5 else "#607f84")
+                if variant == 0 and band in (4, 6):
+                    d.line((2 + frame, 11, 5 + frame, 11), fill="#b7a470")
             tile(im)
         animations.append({"id": first, "animation": [
             {"tileid": first + frame, "duration": 600} for frame in range(4)]})
@@ -138,17 +136,17 @@ for band in range(9):
 
 # Multi-tile stamps retain hand-drawn outlines, while terrain and walls repeat.
 shop, d = canvas(176, 144)
-d.rectangle((8, 44, 167, 143), fill="#6b7765")
-d.rectangle((11, 48, 163, 141), fill="#dbd0a8")
-d.rectangle((156, 48, 163, 141), fill="#b2b394")
-for y in range(49, 140, 10):
-    d.line((11, y, 155, y), fill="#bfc19e")
-    d.line((12, y + 1, 155, y + 1), fill="#e5dbb5")
-d.polygon([(0, 47), (27, 5), (143, 5), (175, 47)], fill="#435f59")
-d.polygon([(3, 41), (29, 3), (143, 3), (172, 41)], fill="#627f6c")
+d.rectangle((8, 44, 167, 143), fill="#3b443a")
+d.rectangle((11, 48, 163, 141), fill="#927657")
+d.rectangle((156, 48, 163, 141), fill="#5e5743")
+for y in range(49, 140, 5):
+    d.line((11, y, 155, y), fill="#615640")
+    d.line((12, y + 1, 155, y + 1), fill="#b19266")
+d.polygon([(0, 47), (27, 5), (143, 5), (175, 47)], fill="#253c3b")
+d.polygon([(3, 41), (29, 3), (143, 3), (172, 41)], fill="#415752")
 for y in range(7, 42, 6):
     left, right = int(29 - (y - 3) * .7), int(143 + (y - 3) * .76)
-    d.line((left, y, right, y), fill="#99a281")
+    d.line((left, y, right, y), fill="#728074")
     for x in range(left + 4 + (y % 4), right, 12):
         d.line((x, y + 1, x, y + 4), fill="#49695e")
 d.rectangle((2, 44, 173, 48), fill="#4d6255")
@@ -157,7 +155,7 @@ d.line((12, 58, 162, 58), fill="#849575")
 d.text((88, 65), "TIDE & TACKLE", font=font, fill="#f4dfac", anchor="mm")
 for x in range(8, 168, 10):
     d.polygon([(x, 78), (x + 9, 78), (x + 11, 87), (x - 2, 87)],
-              fill="#d6c391" if x % 20 == 8 else "#71917b")
+              fill="#a9a087" if x % 20 == 8 else "#4b6455")
 d.rectangle((6, 87, 169, 89), fill="#4b695b")
 for x in [22, 119]:
     d.rectangle((x - 2, 95, x + 32, 128), fill="#70745b")
@@ -208,13 +206,13 @@ d.text((40, 13), "PIER >", font=font, fill="#efdcac", anchor="mm")
 sign_stamp = stamp(sign)
 
 lighthouse, d = canvas(64, 32)
-d.polygon([(0, 31), (16, 27), (50, 27), (63, 31)], fill="#78938a")
-d.polygon([(28, 28), (30, 8), (35, 8), (38, 28)], fill="#c5c9ad")
-d.polygon([(34, 8), (35, 8), (38, 28), (34, 28)], fill="#9fab97")
-d.rectangle((29, 18, 36, 21), fill="#a88b76")
-d.rectangle((28, 7, 38, 8), fill="#668579")
-d.rectangle((30, 3, 35, 6), fill="#e3d4a2")
-d.polygon([(27, 2), (33, 0), (39, 2)], fill="#678478")
+d.polygon([(0, 31), (16, 27), (50, 27), (63, 31)], fill="#496a70")
+d.polygon([(28, 28), (30, 8), (35, 8), (38, 28)], fill="#afbdb3")
+d.polygon([(34, 8), (35, 8), (38, 28), (34, 28)], fill="#7f9693")
+d.rectangle((29, 18, 36, 21), fill="#8e8980")
+d.rectangle((28, 7, 38, 8), fill="#527779")
+d.rectangle((30, 3, 35, 6), fill="#d5cbaa")
+d.polygon([(27, 2), (33, 0), (39, 2)], fill="#527779")
 lighthouse_stamp = stamp(lighthouse)
 
 # The street meets a stone quay, then continues across a timber pier at y = 0.
@@ -231,7 +229,7 @@ for y in range(13, HEIGHT):
         elif y == 13 and x < 85:
             terrain[y][x] = deck[x % 2]
 put(buildings, 55, 4, shop_stamp)
-put(shore, 85, 6, lighthouse_stamp)
+put(shore, 85, 10, lighthouse_stamp)
 for x in [68, 72, 76, 80, 84]:
     put(shore, x, 11, post_stamp)
 for x in range(68, 81):
@@ -249,10 +247,10 @@ put(props, 47, 8, stamp(sign))
 # Indoor walls and floor are reusable tiles too; furniture is multi-tile artwork.
 wall = []
 for index in range(3):
-    im, d = canvas(color="#adb79a")
-    d.line((0, 0, 0, 15), fill="#899e82")
-    d.line((1, 0, 1, 15), fill="#c6c9a6")
-    grain(d, (3, 0, 14, 15), ["#a6b293", "#b8bfa0"], 6)
+    im, d = canvas(color="#594d40")
+    d.line((0, 0, 0, 15), fill="#343930")
+    d.line((1, 0, 1, 15), fill="#857153")
+    grain(d, (3, 0, 14, 15), ["#655742", "#776248"], 6)
     if index == 1:
         d.rectangle((0, 0, 15, 3), fill="#637e65")
         d.line((0, 4, 15, 4), fill="#c8c9a3")
@@ -262,11 +260,11 @@ for index in range(3):
     wall.append(tile(im))
 floor = []
 for index in range(2):
-    im, d = canvas(color="#a28b66")
+    im, d = canvas(color="#6d5e46")
     d.line((0, 0, 15, 0), fill="#6e7154")
     d.line((0, 1, 15, 1), fill="#c4ac7d")
     d.line((index * 8, 0, index * 8, 15), fill="#847650")
-    grain(d, (1, 3, 14, 14), ["#b6a072", "#927e59", "#c1aa79"], 9)
+    grain(d, (1, 3, 14, 14), ["#867351", "#5b533f", "#93805c"], 9)
     floor.append(tile(im))
 dark = tile(canvas(color="#2c4946")[0])
 
@@ -342,25 +340,20 @@ put(interior[3], 20, 6, shelf_stamp)
 put(interior[3], 20, 8, shelf_stamp)
 put(interior[4], 15, 11, counter_stamp)
 
-OUT.mkdir(parents=True, exist_ok=True)
-atlas, _ = canvas(COLUMNS * TILE, ((len(tiles) + COLUMNS - 1) // COLUMNS) * TILE)
-for i, im in enumerate(tiles):
-    atlas.paste(im, ((i % COLUMNS) * TILE, (i // COLUMNS) * TILE))
-atlas.save(OUT / "harbor.png")
-tileset = dict(type="tileset", version="1.10", name="Harbor", tilewidth=TILE,
-               tileheight=TILE, tilecount=len(tiles), columns=COLUMNS, margin=0, spacing=0,
-               image="harbor.png", imagewidth=atlas.width, imageheight=atlas.height,
-               tiles=animations)
-(OUT / "harbor.tsj").write_text(json.dumps(tileset, indent=2) + "\n")
-write_map("town.tmj", 90, list(zip(["Water", "Shore and pilings", "Terrain", "Buildings", "Props"],
-                                   [sea, shore, terrain, buildings, props])))
-write_map("tackle-shop.tmj", 30, list(zip(["Backdrop", "Walls", "Floor", "Furniture", "Counter"], interior)))
+maps = {
+    "town": make_map(90, list(zip(["Water", "Shore and pilings", "Terrain", "Buildings", "Props"],
+                                  [sea, shore, terrain, buildings, props]))),
+    "tackle-shop": make_map(30, list(zip(["Backdrop", "Walls", "Floor", "Furniture", "Counter"], interior))),
+}
 
-for name, width in [("town.tmj", 90), ("tackle-shop.tmj", 30)]:
-    data = json.loads((OUT / name).read_text())
+for name, width in [("town", 90), ("tackle-shop", 30)]:
+    data = maps[name]
     for item in data["layers"]:
         assert len(item["data"]) == width * HEIGHT
         assert all(0 <= gid <= len(tiles) for gid in item["data"])
     # A continuous walking surface matches the current side-scroller physics.
     assert all(data["layers"][2]["data"][13 * width + x] for x in range(1, 85 if width == 90 else width - 1))
 print(f"Wrote two Tiled maps and {len(tiles)} tiles ({len(animations)} water animations).")
+
+from build_content import build
+build(globals())

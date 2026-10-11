@@ -75,7 +75,7 @@ fn main() {
         .insert_resource(settings)
         .insert_resource(clubs)
         .insert_resource(i18n)
-        .insert_resource(ClearColor(Color::srgb_u8(35, 56, 57)))
+        .insert_resource(ClearColor(Color::srgb_u8(22, 34, 38)))
         .init_resource::<Session>()
         .insert_resource(menu)
         .init_resource::<ui::Chat>()
@@ -157,6 +157,10 @@ fn main() {
         .add_systems(Update, editor_smoke::drive.before(ui::buttons))
         .add_systems(Update, i18n_smoke::drive.before(settings::update))
         .add_systems(Update, smoke::record.after(ui::render));
+    #[cfg(debug_assertions)]
+    if std::env::var_os("YAPSHIRE_SMOKE").is_some() {
+        app.insert_resource(bevy::winit::WinitSettings::continuous());
+    }
     app.run();
 }
 
@@ -195,11 +199,6 @@ fn connect_requests(
             network::Mode::HostCloud { .. } | network::Mode::JoinCloud { .. }
         ) {
             settings.remember_server(&menu.server);
-        }
-        // Older Workers have no map transfer. Their default world must not inherit
-        // a player's local editor override. LAN hosts publish their own saved maps.
-        if !matches!(mode, network::Mode::HostLan(_)) {
-            maps.apply_world(&yapshire_shared::World::bundled());
         }
         session.link = Some(network::start_with_options(
             mode,
@@ -294,12 +293,15 @@ fn network_events(
                     if player.id == session.you.unwrap_or(0) {
                         continue;
                     }
-                    if !player.x.is_finite() || !player.y.is_finite() {
+                    if !player.x.is_finite()
+                        || !player.y.is_finite()
+                        || maps.by_id(&player.map).is_none()
+                    {
                         continue;
                     }
                     for (_, mut actor) in &mut actors {
                         if actor.player.id == player.id {
-                            if actor.player.indoors != player.indoors {
+                            if actor.player.map != player.map {
                                 actor.teleport(Vec2::new(player.x, player.y));
                             }
                             actor.player = player.clone();

@@ -84,22 +84,17 @@ impl Config {
 
     pub fn initialize(folder: &Path) -> io::Result<()> {
         use std::io::Write;
-        let files: [(&str, Vec<u8>); 5] = [
-            (
-                "server.json",
-                serde_json::to_vec_pretty(&Self {
-                    maps_dir: Some("maps".into()),
-                    ..Self::default()
-                })?,
-            ),
-            ("maps/town.tmj", yapshire_shared::TOWN.as_bytes().to_vec()),
-            (
-                "maps/tackle-shop.tmj",
-                yapshire_shared::SHOP.as_bytes().to_vec(),
-            ),
-            ("maps/harbor.tsj", yapshire_shared::TILESET.to_vec()),
-            ("maps/harbor.png", yapshire_shared::TEXTURE.to_vec()),
-        ];
+        let mut files: Vec<(String, Vec<u8>)> = yapshire_shared::BUNDLED_FILES
+            .iter()
+            .map(|(name, bytes)| (format!("maps/{name}"), bytes.to_vec()))
+            .collect();
+        files.push((
+            "server.json".into(),
+            serde_json::to_vec_pretty(&Self {
+                maps_dir: Some("maps".into()),
+                ..Self::default()
+            })?,
+        ));
         if files.iter().any(|(name, _)| folder.join(name).exists()) {
             return Err(io::Error::new(
                 io::ErrorKind::AlreadyExists,
@@ -108,6 +103,7 @@ impl Config {
         }
         std::fs::create_dir_all(folder.join("maps"))?;
         for (name, bytes) in files {
+            std::fs::create_dir_all(folder.join(&name).parent().unwrap())?;
             std::fs::OpenOptions::new()
                 .write(true)
                 .create_new(true)

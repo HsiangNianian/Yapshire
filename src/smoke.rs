@@ -143,163 +143,208 @@ pub fn drive(
         return;
     }
     let mut action = None;
-    let advance = match smoke.stage {
-        0 if now > 3.0 => {
-            smoke.local_world = Some(maps.world().unwrap());
-            if cloud {
-                if let Ok(server) = std::env::var("YAPSHIRE_TEST_SERVER") {
-                    *clubs = crate::clubs::Browser::new(
-                        vec![crate::clubs::SavedClub::new("Smoke Club", &server).unwrap()],
-                        &server,
-                    );
-                    menu.server = server;
+    // Window focus changes can clear held input while recording two clients.
+    if smoke.stage == 4 && smoke.mode != "readme" {
+        let (code, letter) = if host {
+            (KeyCode::KeyD, "d")
+        } else {
+            (KeyCode::KeyA, "a")
+        };
+        key(
+            &mut keyboard,
+            code,
+            Key::Character(letter.into()),
+            None,
+            true,
+        );
+    }
+    let advance = if smoke.mode == "readme" {
+        match smoke.stage {
+            0 if now > 3.0 => {
+                capture(&mut commands, "readme", "home");
+                true
+            }
+            1 if now - smoke.since > 0.6 => {
+                action = Some(Action::Go(Page::Host));
+                true
+            }
+            2 if now - smoke.since > 0.6 => {
+                menu.room_name = "Lakeside Friends".into();
+                action = Some(Action::Hosting(true));
+                true
+            }
+            3 if now - smoke.since > 0.8 => {
+                capture(&mut commands, "readme", "host");
+                true
+            }
+            4 if now - smoke.since > 0.8 => {
+                info!("README CAPTURE PASS: native home and online host form");
+                close.write(WindowCloseRequested { window: window.0 });
+                true
+            }
+            _ => false,
+        }
+    } else {
+        match smoke.stage {
+            0 if now > 3.0 => {
+                smoke.local_world = Some(maps.world().unwrap());
+                if cloud {
+                    if let Ok(server) = std::env::var("YAPSHIRE_TEST_SERVER") {
+                        *clubs = crate::clubs::Browser::new(
+                            vec![crate::clubs::SavedClub::new("Smoke Club", &server).unwrap()],
+                            &server,
+                        );
+                        menu.server = server;
+                    }
+                    menu.server_password =
+                        std::env::var("YAPSHIRE_TEST_PASSWORD").unwrap_or_default();
                 }
-                menu.server_password = std::env::var("YAPSHIRE_TEST_PASSWORD").unwrap_or_default();
-            }
-            capture(&mut commands, &smoke.mode, "menu");
-            menu.name = name.into();
-            menu.room_name = "Sunset Club".into();
-            action = Some(Action::Go(if host {
-                Page::Host
-            } else if cloud {
-                Page::Cloud
-            } else {
-                Page::Lan
-            }));
-            true
-        }
-        1 if now - smoke.since > 0.5 => {
-            if host {
-                action = Some(Action::Hosting(cloud));
-                capture(&mut commands, &smoke.mode, "host");
+                capture(&mut commands, &smoke.mode, "menu");
+                menu.name = name.into();
+                menu.room_name = "Sunset Club".into();
+                action = Some(Action::Go(if host {
+                    Page::Host
+                } else if cloud {
+                    Page::Cloud
+                } else {
+                    Page::Lan
+                }));
                 true
-            } else if let Some(index) = menu
-                .rooms
-                .iter()
-                .position(|r| r.name == if cloud { "Sunset Club" } else { "Rowan" })
-            {
-                smoke.room = index;
-                capture(&mut commands, &smoke.mode, "lobby");
-                true
-            } else {
-                false
             }
-        }
-        2 if now - smoke.since > 0.8 => {
-            action = Some(if host {
-                Action::Connect
-            } else {
-                Action::JoinRoom(smoke.room)
-            });
-            true
-        }
-        3 if session.connected && actors.iter().count() >= 2 => {
-            if let Some(folder) = std::env::var_os("YAPSHIRE_TEST_MAPS") {
-                let expected = yapshire_shared::World::load(std::path::Path::new(&folder)).unwrap();
-                assert_eq!(
-                    maps.world().unwrap(),
-                    expected,
-                    "Runtime must use server maps"
+            1 if now - smoke.since > 0.5 => {
+                if host {
+                    action = Some(Action::Hosting(cloud));
+                    capture(&mut commands, &smoke.mode, "host");
+                    true
+                } else if let Some(index) = menu
+                    .rooms
+                    .iter()
+                    .position(|r| r.name == if cloud { "Sunset Club" } else { "Rowan" })
+                {
+                    smoke.room = index;
+                    capture(&mut commands, &smoke.mode, "lobby");
+                    true
+                } else {
+                    false
+                }
+            }
+            2 if now - smoke.since > 0.8 => {
+                action = Some(if host {
+                    Action::Connect
+                } else {
+                    Action::JoinRoom(smoke.room)
+                });
+                true
+            }
+            3 if session.connected && actors.iter().count() >= 2 => {
+                if let Some(folder) = std::env::var_os("YAPSHIRE_TEST_MAPS") {
+                    let expected =
+                        yapshire_shared::World::load(std::path::Path::new(&folder)).unwrap();
+                    assert_eq!(
+                        maps.world().unwrap(),
+                        expected,
+                        "Runtime must use server maps"
+                    );
+                    assert_eq!(
+                        session.local_world, smoke.local_world,
+                        "Keep the local world for leaving"
+                    );
+                    info!(
+                        "GPU SMOKE {} verified server world {}",
+                        smoke.mode, expected.revision
+                    );
+                }
+                smoke.start_x = mine.unwrap().position.x;
+                let (code, letter) = if host {
+                    (KeyCode::KeyD, "d")
+                } else {
+                    (KeyCode::KeyA, "a")
+                };
+                key(
+                    &mut keyboard,
+                    code,
+                    Key::Character(letter.into()),
+                    None,
+                    true,
                 );
+                key(&mut keyboard, KeyCode::Space, Key::Space, None, true);
+                true
+            }
+            4 if now - smoke.since > 1.5 => {
+                let moved = (mine.unwrap().position.x - smoke.start_x).abs();
+                assert!(moved > 40.0, "Real keyboard movement failed: {moved}");
+                info!("GPU SMOKE {} walked {:.1} world pixels", smoke.mode, moved);
+                let (code, letter) = if host {
+                    (KeyCode::KeyD, "d")
+                } else {
+                    (KeyCode::KeyA, "a")
+                };
+                key(
+                    &mut keyboard,
+                    code,
+                    Key::Character(letter.into()),
+                    None,
+                    false,
+                );
+                key(&mut keyboard, KeyCode::Space, Key::Space, None, false);
+                key(&mut keyboard, KeyCode::Enter, Key::Enter, None, true);
+                true
+            }
+            5 if now - smoke.since > 0.25 => {
+                key(&mut keyboard, KeyCode::Enter, Key::Enter, None, false);
+                key(
+                    &mut keyboard,
+                    KeyCode::KeyH,
+                    Key::Character("h".into()),
+                    Some(format!("Hello from {name}!").into()),
+                    true,
+                );
+                true
+            }
+            6 if now - smoke.since > 0.25 => {
+                key(
+                    &mut keyboard,
+                    KeyCode::KeyH,
+                    Key::Character("h".into()),
+                    None,
+                    false,
+                );
+                key(&mut keyboard, KeyCode::Enter, Key::Enter, None, true);
+                true
+            }
+            7 if now - smoke.since > 1.0
+                && ["Hello from Rowan!", "Hello from June!"]
+                    .iter()
+                    .all(|s| session.log.iter().any(|line| line.to_string().contains(s))) =>
+            {
+                capture(&mut commands, &smoke.mode, "chat");
+                info!(
+                    "GPU SMOKE {} PASS: lobby join, walking, chat received by both players",
+                    smoke.mode
+                );
+                true
+            }
+            8 if now - smoke.since > 5.0 => {
+                menu.leave = true;
+                menu.go(Page::Home);
+                true
+            }
+            9 if now - smoke.since > 1.0 => {
+                assert!(!session.connected && actors.is_empty());
                 assert_eq!(
-                    session.local_world, smoke.local_world,
-                    "Keep the local world for leaving"
+                    Some(maps.world().unwrap()),
+                    smoke.local_world,
+                    "Leaving restores local editor maps"
                 );
                 info!(
-                    "GPU SMOKE {} verified server world {}",
-                    smoke.mode, expected.revision
+                    "GPU SMOKE {} PASS: local maps restored after leaving",
+                    smoke.mode
                 );
+                close.write(WindowCloseRequested { window: window.0 });
+                true
             }
-            smoke.start_x = mine.unwrap().position.x;
-            let (code, letter) = if host {
-                (KeyCode::KeyD, "d")
-            } else {
-                (KeyCode::KeyA, "a")
-            };
-            key(
-                &mut keyboard,
-                code,
-                Key::Character(letter.into()),
-                None,
-                true,
-            );
-            key(&mut keyboard, KeyCode::Space, Key::Space, None, true);
-            true
+            _ => false,
         }
-        4 if now - smoke.since > 1.5 => {
-            let moved = (mine.unwrap().position.x - smoke.start_x).abs();
-            assert!(moved > 40.0, "Real keyboard movement failed: {moved}");
-            info!("GPU SMOKE {} walked {:.1} world pixels", smoke.mode, moved);
-            let (code, letter) = if host {
-                (KeyCode::KeyD, "d")
-            } else {
-                (KeyCode::KeyA, "a")
-            };
-            key(
-                &mut keyboard,
-                code,
-                Key::Character(letter.into()),
-                None,
-                false,
-            );
-            key(&mut keyboard, KeyCode::Space, Key::Space, None, false);
-            key(&mut keyboard, KeyCode::Enter, Key::Enter, None, true);
-            true
-        }
-        5 if now - smoke.since > 0.25 => {
-            key(&mut keyboard, KeyCode::Enter, Key::Enter, None, false);
-            key(
-                &mut keyboard,
-                KeyCode::KeyH,
-                Key::Character("h".into()),
-                Some(format!("Hello from {name}!").into()),
-                true,
-            );
-            true
-        }
-        6 if now - smoke.since > 0.25 => {
-            key(
-                &mut keyboard,
-                KeyCode::KeyH,
-                Key::Character("h".into()),
-                None,
-                false,
-            );
-            key(&mut keyboard, KeyCode::Enter, Key::Enter, None, true);
-            true
-        }
-        7 if now - smoke.since > 1.0
-            && ["Hello from Rowan!", "Hello from June!"]
-                .iter()
-                .all(|s| session.log.iter().any(|line| line.to_string().contains(s))) =>
-        {
-            capture(&mut commands, &smoke.mode, "chat");
-            info!(
-                "GPU SMOKE {} PASS: lobby join, walking, chat received by both players",
-                smoke.mode
-            );
-            true
-        }
-        8 if now - smoke.since > 5.0 => {
-            menu.leave = true;
-            menu.go(Page::Home);
-            true
-        }
-        9 if now - smoke.since > 1.0 => {
-            assert!(!session.connected && actors.is_empty());
-            assert_eq!(
-                Some(maps.world().unwrap()),
-                smoke.local_world,
-                "Leaving restores local editor maps"
-            );
-            info!(
-                "GPU SMOKE {} PASS: local maps restored after leaving",
-                smoke.mode
-            );
-            close.write(WindowCloseRequested { window: window.0 });
-            true
-        }
-        _ => false,
     };
     if let Some(action) = action {
         let mut found = false;

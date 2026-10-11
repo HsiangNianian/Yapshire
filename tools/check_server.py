@@ -67,7 +67,7 @@ class Client:
 
 def check(address, password="", expected_world=None):
     health = http(address, "/health")
-    assert health["ok"] and health["protocol"] == 2
+    assert health["ok"] and health["protocol"] == 3
     if password:
         try:
             http(address, "/rooms")
@@ -81,17 +81,22 @@ def check(address, password="", expected_world=None):
     try:
         worlds, ids = [], []
         for name in ["Alice", "Bob"]:
-            client = Client(address, f"/room/MAIN0001?protocol=2&name={name}", password)
+            client = Client(address, f"/room/MAIN0001?protocol=3&name={name}", password)
             clients.append(client)
             payload = client.receive()
             assert payload["type"] == "world"
             world = payload["world"]
             assert world["revision"] == health["world"]
             if expected_world:
-                for name in ["town", "shop"]:
+                for name, map_id in [("town", "yapshire:town"), ("shop", "yapshire:tackle_shop")]:
                     expected = expected_world[name]
-                    normalized = {**expected, "layers": [{"offsetx": 0, "offsety": 0, **layer} for layer in expected["layers"]]}
-                    assert world[name] == normalized
+                    actual = world["maps"][map_id]
+                    assert (actual["width"], actual["height"]) == (expected["width"], expected["height"])
+                    assert actual["tilesets"] == expected["tilesets"]
+                    assert len(actual["layers"]) == len(expected["layers"])
+                    for actual_layer, layer in zip(actual["layers"], expected["layers"]):
+                        for key, value in layer.items():
+                            assert actual_layer.get(key) == value, (name, key)
             worlds.append(world)
             client.send({"type": "world_ready", "revision": world["revision"]})
             welcome = client.receive()
@@ -103,9 +108,9 @@ def check(address, password="", expected_world=None):
         for client in clients:
             message = client.receive()
             assert message == {"type": "chat", "id": ids[0], "text": "你好，自建小镇！"}
-        clients[0].send({"type": "move", "x": 600, "y": 20, "moving": True, "facing": False, "indoors": True, "fishing": False})
+        clients[0].send({"type": "move", "map": "yapshire:tackle_shop", "x": 400, "y": 20, "moving": True, "facing": False, "indoors": True, "fishing": False})
         moved = clients[1].receive()
-        assert moved["type"] == "moved" and moved["player"]["id"] == ids[0] and moved["player"]["x"] == 600 and moved["player"]["indoors"]
+        assert moved["type"] == "moved" and moved["player"]["id"] == ids[0] and moved["player"]["x"] == 400 and moved["player"]["indoors"]
         assert http(address, "/rooms", password)["rooms"][0]["players"] == 2
         clients[0].close()
         assert clients[1].receive() == {"type": "left", "id": ids[0]}

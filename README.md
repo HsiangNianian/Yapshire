@@ -36,14 +36,14 @@
 
 **Yapshire** is a small native multiplayer game built with **Rust and Bevy**.
 Walk past the coffee shop, stop for a chat, or buy some tackle and fish at the pier.
-Animated pixel characters, drifting clouds, warm windows, and speech bubbles
+Slender pixel characters, misty autumn mountains, warm windows, and speech bubbles
 make a place to spend a little time together.
 
 <p align="center">
   <img src="docs/readme/gameplay-en.gif" alt="Actual Yapshire gameplay: two networked players walk, jump, and chat outside the coffee shop" width="960">
 </p>
 
-<p align="center"><sub>Recorded in the game with two connected clients. English interface; bundled pixel font.</sub></p>
+<p align="center"><sub>Recorded in the game with two connected clients. English interface; 720 × 405 pixel canvas and bundled font.</sub></p>
 
 ## Download and play
 
@@ -51,21 +51,20 @@ make a place to spend a little time together.
 download a game archive, extract it, and launch. Rust, Node.js, and a Cloudflare
 account are not needed to play.
 
-| Platform | Download v0.6.0 | After extracting |
+| Platform | Download v0.7.2 | After extracting |
 | --- | --- | --- |
-| Windows · x64 | [Download ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-windows-x64.zip) | Open `yapshire.exe` |
-| Linux · x64 | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-linux-x64.tar.gz) | Run `./yapshire` |
-| macOS · Apple Silicon | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-macos-arm64.tar.gz) | Open `Yapshire.app` |
-| macOS · Intel | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.6.0/yapshire-0.6.0-macos-x64.tar.gz) | Open `Yapshire.app` |
+| Windows · x64 | [Download ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-windows-x64.zip) | Open `yapshire.exe` |
+| Linux · x64 | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-linux-x64.tar.gz) | Run `./yapshire` |
+| macOS · Apple Silicon | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-macos-arm64.tar.gz) | Open `Yapshire.app` |
+| macOS · Intel | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-macos-x64.tar.gz) | Open `Yapshire.app` |
 
 Extract the **whole archive**. On Windows and Linux, keep `assets/` beside the
 executable; on macOS, the assets are inside the app. The bundled pixel font supports
 English and Simplified Chinese. Every release also includes `SHA256SUMS` and
 `CHANGELOG.md`, with matching Release Notes.
 
-Use **v0.5.2 or later** clients for dedicated servers and LAN map synchronization.
-The client also connects to the existing built-in public Worker, using its
-original map. See [self-hosting](docs/SELF_HOSTING.md) for compatibility and setup.
+Use **v0.7.x** clients and servers with matching content packs (protocol 3).
+The official online service uses the same versioned content pack. See [self-hosting](docs/SELF_HOSTING.md) for compatibility and setup.
 
 <details>
 <summary><strong>Platform notes</strong></summary>
@@ -105,7 +104,7 @@ The official server is **Yapshire Town (Yapshire 小镇)** at
 players. Its `NIANNIAN` room is always listed, and players can create temporary
 rooms. The previous official addresses remain available for existing clients;
 updated clients migrate saved official addresses to the new default. Use
-**v0.5.2+** clients; pre-v0.5 clients do not support its map handshake.
+**v0.7.x** clients; earlier versions use a different map protocol.
 
 While the online lobby is open, Clubs refresh independently every eight seconds
 and show room names, player counts/capacity and measured latency. Room latency
@@ -142,7 +141,7 @@ window is required. Join `ws://127.0.0.1:4761` and choose **MAIN0001**.
 
 ```sh
 docker run -d --name yapshire --restart unless-stopped \
-  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.6.0
+  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.7.2
 ```
 
 The Linux AMD64/ARM64 image and four native server downloads use the same
@@ -153,7 +152,7 @@ Compose, configuration and public access.
 
 ## An afternoon of fishing
 
-**Included in the v0.6.0 downloads above.**
+**Included in the v0.7.2 downloads above.**
 
 Walk east past the street sign to **Tide & Tackle**. Press **E** at the door to
 enter, walk up to Mara's counter, and press **E** again to shop. A new nickname
@@ -183,7 +182,7 @@ updated client and server.
 The street floor, coast, pier and tackle shop use 16 × 16 tilemaps, including
 animated water. Edit the shipped `.tmj` maps in Tiled and restart the game to see
 your layout changes. See the [map editing guide](docs/DEVELOPMENT.md#tilemaps)
-for the demo's fixed collision and interaction limits.
+for the supported authoring workflow.
 
 ## Make the town your own
 
@@ -199,15 +198,27 @@ launch. **Map files** opens the saved `.tmj` files and their Tiled-compatible
 tileset. Original bundled maps stay intact; **Original** restores one as an
 undoable draft. Leaving with unsaved edits asks whether to save or discard them.
 LAN hosting shares your saved maps; dedicated servers distribute their configured
-maps. Joining never overwrites your local editor files. Gold guides show the fixed walking
-surface and interaction points; editing artwork does not move them.
+maps. Joining never overwrites your local editor files. Gold guides preview the map's interaction objects.
 See the [in-game editor guide](docs/DEVELOPMENT.md#in-game-map-editor).
+
+**Since v0.7.1:** [Content packs v1](docs/CONTENT_PACKS.md)
+splits terrain, water, buildings, objects and backgrounds into reusable resources.
+It adds stable asset IDs, terrain connections, complete object stamps, variable map
+lists and sizes, and map-defined collision/portals/shops/fishing regions. Custom
+packs use the same pipeline as official content. This build uses protocol 3;
+run a matching protocol 3 server. Earlier releases use protocol 2 and cannot join these rooms.
+
+This release also includes an [autumn lakeside art update](docs/ART_DIRECTION.md):
+misty mountains, conifers, gold birches, cedar buildings and a dark forest/brass UI.
+It keeps the editable tile grid and bundled fonts in both languages.
 
 ## Settings and language
 
 Open the icon-only pixel gear in the **top-right corner** from the
 menu, game or map editor. Its tap target stays at least 48 points on small windows. Switch between **English** and **简体中文** immediately;
-your choice is remembered after restarting. Missing translations fall back to
+your choice is remembered after restarting. **SCALE** offers **2x / 3x / 4x**
+(default **2x**). Larger pixels bring the world closer; changes apply immediately
+and persist after restart, in windowed and fullscreen modes. Missing translations fall back to
 English. Translation files are split by feature under `assets/locales/`; see the
 [translation guide](docs/TRANSLATING.md) to contribute.
 
@@ -256,7 +267,7 @@ for hosting a LAN room.
 
 ## Made with pixels
 
-- **Rust · Bevy 0.18.1 · bevy_ecs_tilemap** — a 480 × 270 world, integer pixel
+- **Rust · Bevy 0.18.1 · bevy_ecs_tilemap** — a 720 × 405 world, integer pixel
   scaling, original sprites and tiles, and layered scenery.
 - **Fusion Pixel Font** — a bundled bitmap-style font for menus, chat, and
   speech bubbles.
@@ -274,7 +285,11 @@ Bug reports, gameplay improvements, pixel art, and documentation are welcome.
 For connection issues, include the platform, LAN or online mode, and steps to
 reproduce. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
+Install the [pre-commit hooks](CONTRIBUTING.md#pre-commit-checks) once per checkout,
+then run:
+
 ```sh
+pre-commit run --all-files
 cargo fmt --all -- --check
 cargo test --workspace --locked
 node --test .github/scripts/*.test.mjs

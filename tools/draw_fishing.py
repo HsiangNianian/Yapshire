@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw
 
 OUT = Path(__file__).resolve().parents[1] / "assets/fishing"
 OUT.mkdir(parents=True, exist_ok=True)
-INK, LIGHT = "#344e50", "#f5dfab"
+INK, LIGHT = "#263d40", "#e6d6ae"
 sheet = Image.new("RGBA", (128, 128))
 
 
@@ -58,8 +58,8 @@ def coin(d):
 
 
 def fish(d, species, silhouette=False):
-    palettes = [("#719b9c", "#c9d8bd", "#416b78"), ("#56877e", "#c1d1a4", "#365b63"),
-                ("#879a7a", "#d5d5a0", "#4e7565"), ("#d4a35c", "#f5d999", "#a6764f")]
+    palettes = [("#738e94", "#c8c8b1", "#4a666e"), ("#647b5b", "#b6ba8d", "#3d564e"),
+                ("#9a886c", "#d2c79e", "#626c55"), ("#b99152", "#e2c886", "#806440")]
     back, belly, fin = palettes[species]
     if silhouette:
         back = belly = fin = "#3e6970"
@@ -141,22 +141,22 @@ for i, draw in [(8, bobber), (9, ripple), (10, splash), (11, creel),
 sheet.save(OUT / "items.png")
 
 for name, slot in [("frame.png", False), ("slot.png", True)]:
-    im = Image.new("RGBA", (32, 32), "#5d6c55" if slot else "#334e47")
+    im = Image.new("RGBA", (32, 32), "#25372f" if slot else "#182925")
     d = ImageDraw.Draw(im)
-    for inset, color in [(1, "#b39565"), (2, "#e5c991"), (3, "#92724e"),
-                          (5, "#d3c194" if slot else "#e8dab2"),
-                          (6, "#daceac" if slot else "#f3e5bf")]:
+    for inset, color in [(1, "#786849"), (2, "#b09b6f"), (3, "#3e4a39"),
+                          (5, "#445448" if slot else "#283b32"),
+                          (6, "#394c40" if slot else "#1e2e2a")]:
         d.rectangle((inset, inset, 31 - inset, 31 - inset), fill=color)
     for x, y in [(3, 3), (27, 3), (3, 27), (27, 27)]:
-        d.rectangle((x, y, x + 1, y + 1), fill="#f9e4b1")
-    # Store a 3x nearest copy so UI borders use the same pixel pitch as the world.
-    im.resize((96, 96), Image.Resampling.NEAREST).save(OUT / name)
+        d.rectangle((x, y, x + 1, y + 1), fill="#cdb98d")
+    # Store a 2x nearest copy so UI borders use the same pixel pitch as the world.
+    im.resize((64, 64), Image.Resampling.NEAREST).save(OUT / name)
 
 im = Image.new("RGBA", (128, 56))
 d = ImageDraw.Draw(im)
 for y in range(56):
     t = y / 55
-    c = tuple(round(a + (b - a) * t) for a, b in zip((120, 168, 160), (45, 86, 94)))
+    c = tuple(round(a + (b - a) * t) for a, b in zip((100, 140, 150), (27, 57, 71)))
     d.line((0, y, 127, y), fill=c)
 d.line((0, 2, 127, 2), fill="#bad2b4")
 for x in [9, 29, 73, 103]:

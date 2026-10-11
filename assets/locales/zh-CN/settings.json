@@ -2,10 +2,12 @@
   "button": "设置",
   "title": "设置",
   "language": "语言",
-  "hint": "选择你熟悉的语言。",
+  "hint": "选择语言和像素缩放倍率。",
+  "scale": "像素缩放",
+  "scale_hint": "像素越大，视野越近。",
   "instant": "切换后立即生效。",
-  "saved": "已保存本机语言偏好。",
-  "save_failed": "语言已切换，但未能保存偏好：{error}",
-  "load_failed": "无法读取设置，已使用英文。",
+  "saved": "已保存本机设置。",
+  "save_failed": "设置已生效，但未能保存：{error}",
+  "load_failed": "无法读取设置，已使用默认值。",
   "close": "完成"
 }
