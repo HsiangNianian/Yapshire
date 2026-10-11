@@ -1,6 +1,6 @@
 //! Native acceptance through the actual editor controls; input stays inside this app.
 use crate::{
-    editor::{self, Action, Editor, Tool},
+    editor::{Action, Editor, Tool},
     editor_ui::Readout,
     game,
     maps::{MapKind, Maps},
@@ -73,14 +73,13 @@ pub(crate) fn drive(
     };
     let point_ui = |window: &mut Window, ui: Vec2| {
         let viewport = camera.physical_viewport_rect().unwrap();
-        let physical =
-            viewport.min.as_vec2() + ui * (viewport.width() as f32 / game::WINDOW_SIZE.x as f32);
+        let physical = viewport.min.as_vec2() + ui * (viewport.width() as f32 / editor.ui_size.x);
         window.set_physical_cursor_position(Some(physical.as_dvec2()));
     };
     let point = |window: &mut Window, cell: UVec2| {
         point_ui(
             window,
-            editor::CANVAS
+            editor.canvas.min
                 + ((cell - editor.offset).as_vec2() + Vec2::splat(0.5)) * editor.cell_size(),
         );
     };
@@ -116,6 +115,9 @@ pub(crate) fn drive(
             check
                 .before
                 .copy_from_slice(&editor.docs[0].map.layers[4].data[5 * 90 + 50..5 * 90 + 54]);
+            // The default is the topmost tile layer, which changes as art
+            // layers are added. Select the tested Props layer explicitly.
+            click(&mut mouse, Action::Layer(4));
             click(&mut mouse, Action::Tile(93));
         }
         2 => {

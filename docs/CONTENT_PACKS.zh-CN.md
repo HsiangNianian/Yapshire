@@ -40,7 +40,11 @@ my_pack/
   terrain/water.tsj  + water.png
   buildings/tackle.tsj + tackle.png
   objects/harbor.tsj + harbor.png
-  backgrounds/street.png
+  terrain/natural.tsj + natural.png
+  buildings/modules.tsj + modules.png
+  nature/garden.tsj + garden.png
+  objects/street.tsj + street.png
+  backgrounds/street.png  # 兼容旧版自定义地图
   maps/town.tmj
   maps/tackle-shop.tmj
 ```
@@ -80,6 +84,8 @@ Tiled 左上角为原点，x 向右、y 向下。角色位置指脚底，换算�
 
 | 定义 | 效果 |
 | --- | --- |
+| 图块字符串属性 `build_layer` | 可选 `wall`、`solid`、`decor`，指定建造目录的默认图层 |
+| 图块字符串属性 `label` | 可选英文名称；内置翻译位于 `tiles` 独立模块 |
 | 图块字符串属性 `collision` | `none` 无碰撞、`solid` 实心、`platform` 单向平台 |
 | tile layer 布尔属性 `collision` | 设为 `true` 后，该层使用图块的碰撞定义 |
 | `solid` 矩形对象 | 独立于美术的实心碰撞区域 |
@@ -89,10 +95,15 @@ Tiled 左上角为原点，x 向右、y 向下。角色位置指脚底，换算�
 角色能站在不同高度的地面上，从下方穿过单向平台，在下落时落到平台上，并受到墙面和天花板阻挡。
 掉出地图底部后回到该地图的出生点。镜头范围随地图尺寸变化。
 角色深度为 `z=5`；前景物件放在更高的图层，背景家具放在更低的图层。
-美术外轮廓与实际占地不一致时，另画 `solid` 矩形。本版没有斜坡、旋转碰撞和可破坏地形。
+美术外轮廓与实际占地不一致时，另画 `solid` 矩形。联机的预制地图在游玩时保持不变，
+本地生成世界支持分层挖掘与放置。本版没有斜坡或旋转碰撞。
 
-背景 image layer 使用清单登记的 PNG 和像素偏移。原来的街道插画也变成了内容包里的普通背景层。
-天空、云等室外氛围仍是游戏共用表现，作者可用背景层覆盖。
+官方 1.2.0 素材包包含八张图集、855 个瓦片 ID 和 46 个组合模板。
+所有自带房屋、近景树木、灌木和装饰物都是 tile layer：房屋复用墙板、屋顶和窗户，植被复用可连接的叶片。
+游戏内地图编辑器与开放世界建造目录共用这些 ID；模板印章放下后仍是可独立修改的格子。
+
+自定义内容包仍支持氛围背景 image layer。旧 `backgrounds/street.png` 仅为兼容以前制作的地图保留，
+自带地图已经不再引用它。远处山湖全景、天空和云继续作为可编辑活动区域之外的氛围背景。
 暂不支持嵌套图层、无限分块、压缩数据、带 `gid` 的 tile object、Tiled 模板、多边形和视差层；会明确拒绝这些格式。
 
 ## 出生点、门、商店和钓鱼区域
@@ -148,3 +159,6 @@ Tiled 左上角为原点，x 向右、y 向下。角色位置指脚底，换算�
 格式依据 Tiled 的 [JSON 文件规范](https://doc.mapeditor.org/en/stable/reference/json-map-format/)、
 [GID 规则](https://doc.mapeditor.org/en/stable/reference/global-tile-ids/)
 和[地形规则](https://doc.mapeditor.org/en/stable/manual/terrain/)。
+
+前景原稿、生成提示词与瓦片导出规则见 [素材说明](../tools/art_sources/README.md)。
+建筑窗框与墙面纹理逐格对齐，树冠保留枝条和透空；细节部件与自由建造用的连接叶片都可单格编辑。

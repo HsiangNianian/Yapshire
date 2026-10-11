@@ -417,6 +417,7 @@ pub(crate) fn reload_maps(
 
 pub fn animate(
     fishing: Res<Fishing>,
+    wilds: Res<crate::wilds::Wilds>,
     session: Res<Session>,
     maps: Res<Maps>,
     actors: Query<&Actor>,
@@ -429,7 +430,11 @@ pub fn animate(
     )>,
 ) {
     for (mut visibility, outside, kind, actor, rod) in &mut visible {
-        let show = if outside.is_some() {
+        let show = if wilds.active.is_some() && (kind.is_some() || rod.is_some()) {
+            Some(false)
+        } else if wilds.active.is_some() && actor.is_some() {
+            Some(actor.unwrap().player.map == crate::wilds::MAP_ID)
+        } else if outside.is_some() {
             Some(!fishing.indoors)
         } else if let Some(kind) = kind {
             Some(maps.info(*kind).id == fishing.map)

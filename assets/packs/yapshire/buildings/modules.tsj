@@ -1,0 +1,5416 @@
+{
+  "type": "tileset",
+  "version": "1.10",
+  "name": "buildings/modules",
+  "tilewidth": 16,
+  "tileheight": 16,
+  "tilecount": 216,
+  "columns": 16,
+  "margin": 0,
+  "spacing": 0,
+  "image": "modules.png",
+  "imagewidth": 256,
+  "imageheight": 224,
+  "tiles": [
+    {
+      "id": 0,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar siding"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:planks/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber block"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/2_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/3_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/2_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster/3_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Lime plaster"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:brick/1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Weathered brick"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/2_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/3_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/2_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof/3_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate shingles"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:foundation/2_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Mossy stone foundation"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_left"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_left/0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_left/1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_left/2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_left/3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_right"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_right/0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_right/1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_right/2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_right/3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Slate roof slope"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:sash_window/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sash window"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:sash_window/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sash window"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:sash_window/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sash window"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:sash_window/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sash window"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:sash_window/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sash window"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:sash_window/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sash window"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cottage_door/1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cottage door"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar cornice"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar cornice"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar cornice"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar cornice"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:striped_awning/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Striped awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:chimney/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Brick chimney"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:chimney/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Brick chimney"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:chimney/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Brick chimney"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tackle_name/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tide & Tackle sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 130,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 131,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 132,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 133,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 134,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 135,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 136,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 137,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 138,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 139,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 140,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 141,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 142,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 145,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in cedar wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 146,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 147,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 148,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 149,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 150,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 151,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 152,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 153,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in plaster wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 154,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:window"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Small sash window"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 155,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:door_top"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door upper half"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 156,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:door_bottom"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door lower half"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 157,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:beam"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber beam"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:awning_green"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sage awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 159,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:awning_cream"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Linen awning"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 160,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:platform"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "platform"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Timber platform"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 161,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:roof_chimney/chimney_0_2_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Roof around chimney"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 162,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice_roof/roof_left_3_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar roof eave"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 163,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice_roof/roof_1_3_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar roof eave"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 164,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice_roof/roof_2_3_2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar roof eave"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 165,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice_roof/roof_3_3_3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar roof eave"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 166,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice_roof/roof_0_3_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar roof eave"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 167,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cornice_roof/roof_right_3_3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar roof eave"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 168,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_2_0_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 169,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_3_0_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 170,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_2_1_0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 171,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_3_1_1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_2_0_0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 173,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_3_0_1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 174,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_0_0_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 175,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_1_0_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 176,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_0_1_0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 177,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_1_1_1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 178,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_0_0_0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 179,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_window/cedar_1_0_1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 180,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/cedar_1_1_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 181,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/cedar_2_1_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/cedar_1_0_0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 183,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/cedar_2_0_1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 184,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/cedar_1_1_0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 185,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/cedar_2_1_1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 186,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/foundation_2_1_0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 187,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_door/foundation_0_1_1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 188,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_2_2_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 189,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_3_2_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 190,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_2_3_0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 191,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_3_3_1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 192,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_2_0_0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 193,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_3_0_1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 194,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_0_2_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 195,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_1_2_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 196,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_0_3_0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 197,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_1_3_1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 198,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_0_0_0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 199,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_window/plaster_1_0_1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Window in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 200,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/plaster_1_3_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 201,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/plaster_2_3_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 202,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/plaster_1_0_0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 203,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/plaster_2_0_1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 204,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/plaster_1_1_0_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 205,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/plaster_2_1_1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 206,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/foundation_2_1_0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 207,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:plaster_door/foundation_0_1_1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Door in wall"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_0_1_0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 209,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_1_1_1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 210,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_2_1_2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 211,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_3_1_3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 212,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_0_0_0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 213,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_1_0_1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 214,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_2_0_2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shop_sign_backed/cedar_3_0_3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Tackle shop sign"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    }
+  ]
+}

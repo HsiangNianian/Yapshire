@@ -97,5 +97,8 @@
   "stamp": "物件印章",
   "stamp_help": "一次放置完整物件 / P",
   "map_index": "地图 {index}",
-  "tiled_layer": "对象层和背景层请在 Tiled 中编辑；“地图文件”可打开所在目录。"
+  "tiled_layer": "对象层和背景层请在 Tiled 中编辑；“地图文件”可打开所在目录。",
+  "layer.street_trees": "街道树木",
+  "layer.street_houses": "街道房屋",
+  "layer.street_garden": "街道绿化"
 }

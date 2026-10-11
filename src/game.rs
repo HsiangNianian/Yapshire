@@ -44,7 +44,7 @@ pub struct Art {
 pub struct Actor {
     pub player: Player,
     pub position: Vec2,
-    velocity_y: f32,
+    pub(crate) velocity_y: f32,
     phase: f32,
     send_time: f32,
     last_sent: (Vec2, bool, bool, String, bool),
@@ -291,8 +291,6 @@ fn step(
     content: &yapshire_shared::content::Content,
     path: &str,
 ) {
-    const HALF: f32 = 6.0;
-    const HEIGHT: f32 = 26.0;
     let old = *position;
     let mut surfaces = Vec::new();
     let min = old - Vec2::new(24.0, 32.0 + (-*velocity_y).max(0.0) * dt);
@@ -322,15 +320,49 @@ fn step(
             true,
         ));
     }
+    let spawn = map
+        .objects()
+        .find(|o| o.kind == "spawn")
+        .and_then(|o| map.spawn(&o.name))
+        .unwrap_or([12.0, 0.0]);
+    step_on_surfaces(
+        position,
+        velocity_y,
+        direction,
+        run,
+        jump,
+        dt,
+        &surfaces,
+        map.width as f32 * 16.0,
+        -64.0,
+        Vec2::from_array(spawn),
+    );
+}
+
+pub(crate) fn step_on_surfaces(
+    position: &mut Vec2,
+    velocity_y: &mut f32,
+    direction: f32,
+    run: bool,
+    jump: bool,
+    dt: f32,
+    surfaces: &[(Rect, bool)],
+    width: f32,
+    floor: f32,
+    spawn: Vec2,
+) {
+    const HALF: f32 = 6.0;
+    const HEIGHT: f32 = 26.0;
+    let old = *position;
     let grounded = surfaces
         .iter()
         .any(|(r, _)| overlaps_x(old.x, r.min.x, r.max.x) && (old.y - r.max.y).abs() < 0.1);
     if jump && grounded {
         *velocity_y = 180.0;
     }
-    position.x = (old.x + direction * if run { 105.0 } else { 62.0 } * dt)
-        .clamp(12.0, map.width as f32 * 16.0 - 12.0);
-    for (r, solid) in &surfaces {
+    position.x =
+        (old.x + direction * if run { 105.0 } else { 62.0 } * dt).clamp(12.0, width - 12.0);
+    for (r, solid) in surfaces {
         if *solid
             && old.y < r.max.y - 0.01
             && old.y + HEIGHT > r.min.y + 0.01
@@ -347,7 +379,7 @@ fn step(
     }
     *velocity_y -= 460.0 * dt;
     position.y = old.y + *velocity_y * dt;
-    for (r, solid) in &surfaces {
+    for (r, solid) in surfaces {
         if !overlaps_x(position.x, r.min.x, r.max.x) {
             continue;
         }
@@ -363,15 +395,9 @@ fn step(
             *velocity_y = 0.0;
         }
     }
-    if position.y < -64.0 {
-        if let Some(spawn) = map
-            .objects()
-            .find(|o| o.kind == "spawn")
-            .and_then(|o| map.spawn(&o.name))
-        {
-            *position = Vec2::from_array(spawn);
-            *velocity_y = 0.0;
-        }
+    if position.y < floor {
+        *position = spawn;
+        *velocity_y = 0.0;
     }
 }
 
@@ -477,6 +503,7 @@ pub fn walk(
 pub fn animate(
     time: Res<Time>,
     maps: Res<crate::maps::Maps>,
+    wilds: Res<crate::wilds::Wilds>,
     mut actors: Query<(&mut Actor, &mut Sprite, &mut Transform, &Children)>,
     mut clouds: Query<(&Cloud, &mut Transform), Without<Actor>>,
     mut motes: Query<(&Mote, &mut Transform, &mut Sprite), (Without<Actor>, Without<Cloud>)>,
@@ -488,7 +515,12 @@ pub fn animate(
     let t = time.elapsed_secs();
     for (mut actor, mut sprite, mut transform, children) in &mut actors {
         actor.phase += time.delta_secs() * if actor.player.moving { 9.0 } else { 1.3 };
-        let frame = if actor.player.y > 1.0 {
+        let airborne = if actor.player.map == crate::wilds::MAP_ID {
+            actor.velocity_y.abs() > 0.1
+        } else {
+            actor.player.y > 1.0
+        };
+        let frame = if airborne {
             3
         } else if actor.player.moving {
             2 + actor.phase as usize % 4
@@ -501,26 +533,37 @@ pub fn animate(
         sprite.flip_x = actor.player.facing;
         transform.translation.x = actor.position.x.round();
         transform.translation.y = actor.position.y.round();
-        let ground = maps
-            .world
-            .content
-            .manifest
-            .maps
-            .iter()
-            .find(|info| info.id == actor.player.map)
-            .and_then(|info| {
-                shadow_ground_y(
-                    actor.position,
-                    maps.by_id(&info.id)?,
-                    &maps.world.content,
-                    &info.path,
-                )
-            });
+        let ground = if actor.player.map == crate::wilds::MAP_ID {
+            wilds
+                .active
+                .as_ref()
+                .and_then(|run| terrain_shadow_y(actor.position, &run.saved.terrain, &run.catalog))
+        } else {
+            maps.world
+                .content
+                .manifest
+                .maps
+                .iter()
+                .find(|info| info.id == actor.player.map)
+                .and_then(|info| {
+                    shadow_ground_y(
+                        actor.position,
+                        maps.by_id(&info.id)?,
+                        &maps.world.content,
+                        &info.path,
+                    )
+                })
+        };
         for child in children.iter() {
             if let Ok((mut shadow, mut visibility)) = shadows.get_mut(child) {
                 if let Some(y) = ground {
                     // Keep parenting for horizontal movement and cleanup; cancel the jump.
                     shadow.translation.y = y.round() + 1.0 - transform.translation.y;
+                    // Use unrounded height for a smooth ascent/descent. The nearest-sampled
+                    // pixel canvas keeps edges crisp; leave depth and opacity unchanged.
+                    let height = (actor.position.y - y).max(0.0);
+                    let scale = 1.0 - 0.35 * (height / 35.0).clamp(0.0, 1.0);
+                    shadow.scale = Vec3::new(scale, scale, 1.0);
                     *visibility = Visibility::Inherited;
                 } else {
                     *visibility = Visibility::Hidden;
@@ -539,6 +582,29 @@ pub fn animate(
             .color
             .set_alpha(0.18 + (t * 0.8 + mote.phase).sin().max(0.0) * 0.4);
     }
+}
+
+fn terrain_shadow_y(
+    position: Vec2,
+    terrain: &yapshire_shared::terrain::Terrain,
+    catalog: &yapshire_shared::construction::Catalog,
+) -> Option<f32> {
+    use yapshire_shared::{
+        construction::Collision,
+        terrain::{HEIGHT, TILE, WIDTH},
+    };
+    let first_col = (((position.x - 6.0) / TILE).floor() as i32).max(0);
+    let last_col = (((position.x + 6.0) / TILE).floor() as i32).min(WIDTH - 1);
+    let top_row = (((position.y + 0.1) / TILE).floor() as i32 - 1).min(HEIGHT - 1);
+    (0..=top_row)
+        .rev()
+        .find(|&row| {
+            (first_col..=last_col).any(|col| {
+                overlaps_x(position.x, col as f32 * TILE, (col + 1) as f32 * TILE)
+                    && terrain.collision(col, row, catalog) != Collision::None
+            })
+        })
+        .map(|row| (row + 1) as f32 * TILE)
 }
 
 fn shadow_ground_y(
@@ -574,6 +640,7 @@ fn shadow_ground_y(
 
 pub fn follow_camera(
     maps: Res<crate::maps::Maps>,
+    wilds: Res<crate::wilds::Wilds>,
     settings: Res<crate::settings::Settings>,
     time: Res<Time>,
     session: Res<Session>,
@@ -583,6 +650,33 @@ pub fn follow_camera(
     mut previous_map: Local<String>,
 ) {
     let mine = actors.iter().find(|a| Some(a.player.id) == session.you);
+    if wilds.active.is_some() {
+        if let Some(actor) = mine {
+            let view = canvas_size(settings.pixel_scale()).as_vec2();
+            camera.translation.x = actor
+                .position
+                .x
+                .clamp(
+                    view.x / 2.0,
+                    yapshire_shared::terrain::WIDTH as f32 * 16.0 - view.x / 2.0,
+                )
+                .round();
+            camera.translation.y = (actor.position.y + 40.0)
+                .clamp(
+                    view.y / 2.0,
+                    yapshire_shared::terrain::HEIGHT as f32 * 16.0 - view.y / 2.0,
+                )
+                .round();
+            for (backdrop, sprite, mut transform) in &mut backdrops {
+                let width = sprite.custom_size.map_or(WIDTH, |s| s.x);
+                transform.translation.x = backdrop.x(camera.translation.x, width, view.x);
+                transform.translation.y =
+                    backdrop.base.y + camera.translation.y - (view.y / 2.0 - 64.0);
+            }
+        }
+        *previous_map = crate::wilds::MAP_ID.into();
+        return;
+    }
     let map_id = mine.map_or(maps.world.entry().0, |a| a.player.map.as_str());
     let map = maps
         .by_id(map_id)
@@ -733,7 +827,15 @@ pub fn fit_window(
     if let Projection::Orthographic(p) = &mut *camera.1 {
         p.scale = window.scale_factor() / scale;
     }
-    ui_scale.0 = size.x as f32 / WINDOW_SIZE.x as f32 / window.scale_factor();
+    ui_scale.0 = size.x as f32 / WINDOW_SIZE.x as f32 / window.scale_factor()
+        * settings.ui_scale() as f32
+        / 100.0;
+}
+
+/// Logical UI bounds inside the pixel canvas, independent of window DPI.
+pub(crate) fn ui_size(settings: &crate::settings::Settings) -> Vec2 {
+    let view = canvas_size(settings.pixel_scale()).as_vec2();
+    view / view.x * WINDOW_SIZE.x as f32 * (100.0 / settings.ui_scale() as f32)
 }
 
 pub fn capture(
@@ -770,6 +872,40 @@ pub fn capture(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn wilderness_shadows_follow_generated_and_edited_support() {
+        use yapshire_shared::{
+            construction::{Catalog, Layer},
+            terrain::{TILE, Terrain},
+        };
+        let catalog = Catalog::new(&yapshire_shared::content::Content::bundled());
+        let mut terrain = Terrain::new("Shadow test".into(), 42);
+        terrain.vegetation = 0;
+        let position = terrain.position;
+        let ground = position[1];
+        let x = (position[0] / TILE).floor() as i32;
+        let y = (ground / TILE).floor() as i32 - 1;
+        let jumping = Vec2::from_array(position) + Vec2::Y * 32.0;
+        assert_eq!(terrain_shadow_y(jumping, &terrain, &catalog), Some(ground));
+        assert!(terrain.dig_tile(Layer::Solid, x, y, position, &catalog));
+        let lower = terrain_shadow_y(jumping, &terrain, &catalog).unwrap();
+        assert!(lower < ground, "Mining removes the old supporting surface");
+        assert!(terrain.place_tile(Layer::Solid, x, y, "yapshire:deck/0_0", position, &catalog));
+        assert_eq!(terrain_shadow_y(jumping, &terrain, &catalog), Some(ground));
+        assert!(terrain.dig_tile(Layer::Solid, x, y, position, &catalog));
+        for (layer, tile) in [
+            (Layer::Wall, "yapshire:cedar"),
+            (Layer::Decor, "yapshire:flowers"),
+        ] {
+            assert!(terrain.place_tile(layer, x, y, tile, position, &catalog));
+        }
+        assert_eq!(terrain_shadow_y(jumping, &terrain, &catalog), Some(lower));
+        assert_eq!(
+            terrain_shadow_y(Vec2::new(position[0], -1.0), &terrain, &catalog),
+            None
+        );
+    }
 
     #[test]
     fn shadows_match_physics_at_tile_and_object_edges() {
@@ -834,7 +970,7 @@ mod tests {
     }
 
     #[test]
-    fn jumping_shadows_stay_on_the_ground_and_platforms() {
+    fn jumping_shadows_scale_with_height_on_ground_and_platforms() {
         for (map_id, ground) in [("yapshire:town", 0.0), ("yapshire:tackle_shop", 32.0)] {
             let mut maps = crate::maps::Maps::load(std::path::Path::new(concat!(
                 env!("CARGO_MANIFEST_DIR"),
@@ -861,6 +997,7 @@ mod tests {
             let mut app = App::new();
             app.add_plugins((MinimalPlugins, TransformPlugin))
                 .insert_resource(maps)
+                .init_resource::<crate::wilds::Wilds>()
                 .add_systems(Update, animate);
             let art = Art {
                 font: default(),
@@ -898,7 +1035,15 @@ mod tests {
                 .query_filtered::<Entity, With<Shadow>>()
                 .single(app.world())
                 .unwrap();
+            app.update();
+            assert_eq!(
+                app.world().get::<Transform>(shadow).unwrap().scale,
+                Vec3::ONE
+            );
             let mut peak = ground;
+            let mut smallest = 1.0_f32;
+            let mut previous_height = 0.0;
+            let mut previous_scale = 1.0;
             for frame in 0..60 {
                 {
                     let mut actor = app.world_mut().get_mut::<Actor>(actor).unwrap();
@@ -944,9 +1089,22 @@ mod tests {
                     ground + 1.0,
                     "Shadow must remain on its supporting surface"
                 );
+                let scale = app.world().get::<GlobalTransform>(shadow).unwrap().scale();
+                let height = app.world().get::<Actor>(actor).unwrap().position.y - ground;
+                assert!((0.65..=1.0).contains(&scale.x));
+                assert_eq!(scale.x, scale.y);
+                assert_eq!(scale.z, 1.0, "Scaling must not change drawing depth");
+                if height > previous_height {
+                    assert!(scale.x <= previous_scale, "Shrink while rising");
+                } else {
+                    assert!(scale.x >= previous_scale, "Grow while descending");
+                }
+                smallest = smallest.min(scale.x);
+                previous_height = height;
+                previous_scale = scale.x;
                 assert_eq!(
-                    app.world().get::<Transform>(shadow).unwrap().scale,
-                    Vec3::ONE
+                    app.world().get::<Sprite>(shadow).unwrap().color,
+                    Color::WHITE
                 );
                 assert_eq!(
                     app.world().get::<Visibility>(shadow),
@@ -954,7 +1112,26 @@ mod tests {
                 );
             }
             assert!(peak > ground + 30.0, "Exercise a complete jump");
+            assert!((0.65..0.70).contains(&smallest), "Apex size: {smallest}");
             assert_eq!(app.world().get::<Actor>(actor).unwrap().position.y, ground);
+            assert_eq!(
+                app.world().get::<Transform>(shadow).unwrap().scale,
+                Vec3::ONE
+            );
+            for (height, expected) in [(17.5, 0.825), (35.0, 0.65), (350.0, 0.65), (0.0, 1.0)] {
+                app.world_mut().get_mut::<Actor>(actor).unwrap().position.y = ground + height;
+                app.update();
+                let scale = app.world().get::<Transform>(shadow).unwrap().scale;
+                assert!((scale.x - expected).abs() < 0.0001);
+                assert_eq!(
+                    app.world()
+                        .get::<GlobalTransform>(shadow)
+                        .unwrap()
+                        .translation()
+                        .y,
+                    ground + 1.0
+                );
+            }
         }
     }
 
@@ -1021,33 +1198,43 @@ mod tests {
             let mut w = app.world_mut().get_mut::<Window>(window).unwrap();
             w.resolution.set_scale_factor(dpi);
             w.resolution.set_physical_resolution(width, height);
-            app.update();
-            let viewport = app
-                .world()
-                .get::<Camera>(camera)
-                .unwrap()
-                .viewport
-                .as_ref()
-                .unwrap();
-            assert_eq!(viewport.physical_size, UVec2::from(size));
-            assert_eq!(viewport.physical_position, UVec2::from(position));
-            let ui_size =
-                viewport.physical_size.as_vec2() / (dpi * app.world().resource::<UiScale>().0);
-            let view = canvas_size(scale).as_vec2();
-            assert!((ui_size - view / view.x * WINDOW_SIZE.x as f32).length() < 0.01);
-            let Projection::Orthographic(p) = app.world().get::<Projection>(camera).unwrap() else {
-                panic!("Expected orthographic camera");
-            };
-            let scene_size = viewport.physical_size.as_vec2() / dpi * p.scale;
-            assert!((scene_size - view).length() < 0.01);
-            assert_eq!(
-                app.world()
-                    .resource::<Assets<Image>>()
-                    .get(&image)
+            for percent in [75, 100, 125, 150] {
+                app.world_mut()
+                    .resource_mut::<crate::settings::Settings>()
+                    .choose_ui_scale(percent);
+                app.update();
+                let viewport = app
+                    .world()
+                    .get::<Camera>(camera)
                     .unwrap()
-                    .size(),
-                canvas_size(scale)
-            );
+                    .viewport
+                    .as_ref()
+                    .unwrap();
+                assert_eq!(viewport.physical_size, UVec2::from(size));
+                assert_eq!(viewport.physical_position, UVec2::from(position));
+                let ui_size =
+                    viewport.physical_size.as_vec2() / (dpi * app.world().resource::<UiScale>().0);
+                let view = canvas_size(scale).as_vec2();
+                assert!(
+                    (ui_size - view / view.x * WINDOW_SIZE.x as f32 * (100.0 / percent as f32))
+                        .length()
+                        < 0.01
+                );
+                let Projection::Orthographic(p) = app.world().get::<Projection>(camera).unwrap()
+                else {
+                    panic!("Expected orthographic camera");
+                };
+                let scene_size = viewport.physical_size.as_vec2() / dpi * p.scale;
+                assert!((scene_size - view).length() < 0.01);
+                assert_eq!(
+                    app.world()
+                        .resource::<Assets<Image>>()
+                        .get(&image)
+                        .unwrap()
+                        .size(),
+                    canvas_size(scale)
+                );
+            }
         }
     }
 

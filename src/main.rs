@@ -5,6 +5,8 @@ mod clubs;
 mod clubs_smoke;
 mod clubs_ui;
 mod coast;
+#[cfg(debug_assertions)]
+mod construction_smoke;
 mod editor;
 #[cfg(debug_assertions)]
 mod editor_smoke;
@@ -25,6 +27,10 @@ mod settings;
 #[cfg(debug_assertions)]
 mod smoke;
 mod ui;
+mod wilds;
+#[cfg(debug_assertions)]
+mod wilds_smoke;
+mod wilds_ui;
 
 use bevy::prelude::*;
 use i18n::tr;
@@ -80,6 +86,7 @@ fn main() {
         .insert_resource(menu)
         .init_resource::<ui::Chat>()
         .init_resource::<fishing::Fishing>()
+        .init_resource::<wilds::Wilds>()
         .add_plugins(
             DefaultPlugins
                 .set(ImagePlugin::default_nearest())
@@ -114,17 +121,19 @@ fn main() {
             Update,
             (
                 (settings::update, ui::buttons).chain(),
+                game::fit_window,
+                ui::scroll,
                 ui::discover,
                 ui::keyboard,
                 clubs::update,
                 clubs_ui::scroll,
-                editor::update,
+                (editor::update, wilds::update).chain(),
                 connect_requests,
                 network_events,
                 fishing::update,
                 game::walk,
                 game::animate,
-                game::follow_camera,
+                (game::follow_camera, wilds::draw).chain(),
                 coast::reload_maps,
                 coast::animate,
                 coast::animate_rig,
@@ -137,10 +146,11 @@ fn main() {
                     editor_ui::refresh,
                     fishing_ui::refresh,
                     settings::render,
+                    wilds_ui::render,
+                    wilds_ui::hint,
                     i18n::refresh,
                 )
                     .chain(),
-                game::fit_window,
                 game::capture,
             )
                 .chain(),
@@ -151,12 +161,39 @@ fn main() {
         .init_resource::<i18n_smoke::Check>()
         .init_resource::<fishing_smoke::Check>()
         .init_resource::<clubs_smoke::Check>()
+        .init_resource::<construction_smoke::Check>()
+        .add_systems(Update, construction_smoke::drive.before(settings::update))
+        .add_systems(
+            PreUpdate,
+            construction_smoke::cursor
+                .after(bevy::input::InputSystems)
+                .before(bevy::ui::UiSystems::Focus),
+        )
+        .init_resource::<wilds_smoke::Check>()
+        .add_systems(Update, wilds_smoke::drive.before(settings::update))
+        .add_systems(
+            PreUpdate,
+            wilds_smoke::cursor
+                .after(bevy::input::InputSystems)
+                .before(bevy::ui::UiSystems::Focus),
+        )
         .add_systems(Update, clubs_smoke::drive.before(ui::buttons))
         .add_systems(Update, fishing_smoke::drive.before(ui::buttons))
         .add_systems(Update, smoke::drive.before(ui::buttons))
         .add_systems(Update, editor_smoke::drive.before(ui::buttons))
         .add_systems(Update, i18n_smoke::drive.before(settings::update))
+        .add_systems(
+            PreUpdate,
+            i18n_smoke::position_cursor
+                .after(bevy::input::InputSystems)
+                .before(bevy::ui::UiSystems::Focus),
+        )
         .add_systems(Update, smoke::record.after(ui::render));
+    #[cfg(debug_assertions)]
+    app.add_systems(
+        PostUpdate,
+        smoke::check_shadows.after(bevy::transform::TransformSystems::Propagate),
+    );
     #[cfg(debug_assertions)]
     if std::env::var_os("YAPSHIRE_SMOKE").is_some() {
         app.insert_resource(bevy::winit::WinitSettings::continuous());

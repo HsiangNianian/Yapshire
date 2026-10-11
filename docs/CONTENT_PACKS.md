@@ -50,7 +50,11 @@ my_pack/
   terrain/water.tsj  + water.png
   buildings/tackle.tsj + tackle.png
   objects/harbor.tsj + harbor.png
-  backgrounds/street.png
+  terrain/natural.tsj + natural.png
+  buildings/modules.tsj + modules.png
+  nature/garden.tsj + garden.png
+  objects/street.tsj + street.png
+  backgrounds/street.png  # compatibility for older authored maps
   maps/town.tmj
   maps/tackle-shop.tmj
 ```
@@ -98,6 +102,8 @@ feet positions. World conversion is `world_x = tiled_x`,
 
 | Definition | Behavior |
 | --- | --- |
+| Tile property `build_layer` | Optional string `wall`, `solid` or `decor`: default construction layer |
+| Tile property `label` | Optional English display name; bundled translations use the `tiles` domain |
 | Tile property `collision` | String: `none` (default), `solid`, or `platform` |
 | Tile-layer property `collision` | Boolean: opt the entire layer into physical collision |
 | Object type `solid` | Axis-aligned rectangular solid collider, independent of artwork |
@@ -109,12 +115,21 @@ players descending through the top. Jumping works from elevated surfaces;
 falling below the map returns to a named spawn. The camera uses map dimensions.
 A foreground object uses a layer depth above actors (`z=5`); background furniture
 uses a lower depth. Keep collision separate when the art's footprint differs
-from its physical shape. No slopes, rotated collision or destructible terrain yet.
+from its physical shape. Authored multiplayer maps are immutable during play;
+local generated worlds support per-layer tile editing. No slopes or rotated
+collision are implemented.
 
-Image layers reference registered background PNGs and use pixel offsets. The
-original street illustration is now an ordinary pack image layer. The existing
-outdoor sky/cloud ambience remains shared game presentation; an authored image
-layer can cover it. Layer groups, infinite chunks, compressed arrays, tile
+The official 1.2.0 pack has eight atlases, 855 tile IDs and 46 prefab recipes.
+All supplied buildings, foreground trees, bushes and decorations are tile layers.
+Street houses and the harbor shop reuse textured wall/roof/window modules; trees
+and shrubs use detailed branch/leaf cells. Connected foliage is also available
+for freeform construction. Both the in-game editor and local building catalog use these same IDs.
+A prefab stamp expands into independently editable cells, not one large sprite.
+
+Image layers remain supported for custom atmosphere/backgrounds. The old
+`backgrounds/street.png` is kept only so previously authored packs still load;
+no supplied scene references it. The distant mountain/lake panorama, sky and
+cloud ambience remain presentation backgrounds, outside the editable play area. Layer groups, infinite chunks, compressed arrays, tile
 objects with `gid`, Tiled templates, polygons and parallax layers are rejected.
 
 ## Interactions

@@ -86,6 +86,10 @@ viewport and integer pixel scale, including on HiDPI and ultrawide displays.
 
 ## Fishing and local progress
 
+The separate **Explore & Build** mode implements the first local open-world slice.
+See [world generation, saves and native acceptance](OPEN_WORLD.md). It does not
+alter the Club protocol or the authored-map editor.
+
 Version 0.3.0 includes a walkable tackle-shop interior and a coastal pier.
 New nicknames start with 100 coins. The counter sells a rod (45), a reusable hook
 (15), and five worms (10); both tackle items equip automatically. Each cast spends
@@ -245,9 +249,11 @@ creator leaving while others remain, and close when empty. Chat history and
 positions are not saved between sessions. The old `yapshire-multiplayer` address
 is a service-binding gateway to this server, not a separate room backend.
 
-v0.7.2 uses protocol **3** and world format **2**. Clients require a
+v0.8.0 uses protocol **3** and world format **2**. Clients require a
 validated world and matching installed content before acknowledging entry. Update
-the game and server together; older releases use incompatible protocol 2. There is no legacy no-world handshake fallback in this build.
+the game and server together; v0.7.x uses an older content pack and earlier
+releases use incompatible protocol 2. There is no legacy no-world handshake
+fallback in this build.
 Positions are transmitted
 at up to 20 Hz only when changed; remote players interpolate between updates.
 Connections have timeouts and heartbeats. Each room allows 16 players, names are
@@ -390,8 +396,14 @@ and the restored window size, saving screenshots of all three stages under
 `YAPSHIRE_SMOKE=i18n-scale` exercises the settings buttons, all three pixel scales,
 fullscreen, the language switch and editor pointer mapping. Follow it with
 `YAPSHIRE_SMOKE=i18n-reload` using the same isolated settings directory to verify
-that Chinese and 4x are restored. Set separate `YAPSHIRE_SETTINGS_DIR`,
+that the saved language, scene scale and UI scale are restored. Set separate `YAPSHIRE_SETTINGS_DIR`,
 `YAPSHIRE_MAP_DIR` and `YAPSHIRE_SAVE_DIR` directories for this check.
+
+`YAPSHIRE_SMOKE=i18n-ui` also measures actual text/button sizes at every UI
+percentage, selects sizes and closes settings through real touch coordinates,
+paints a known editor cell at 150%, and captures the enlarged menus, inventory,
+shop, Club directory and a compact window. Scene scale stays at 4x during these
+UI-only changes. Follow it with `i18n-reload` using the same isolated directories.
 
 For a full native GPU acceptance run, launch two debug builds with
 `YAPSHIRE_SMOKE=host-lan` and `YAPSHIRE_SMOKE=guest-lan` (or `host-cloud` and
@@ -449,13 +461,14 @@ uv run --with Pillow tools/draw_readme.py
 The panorama `assets/hills.png` is a separately generated illustration and is
 preserved by these commands. `assets/maps/` contains frozen legacy migration
 fixtures; the pack generator never rewrites them. The official art pack is now
-version 1.1.0; peers need matching definitions and images. Tile IDs, walking routes
-and interactions are unchanged from pack 1.0.0; the decorative lighthouse now
-sits at the lake horizon.
+version 1.2.0; peers need matching definitions and images. Legacy tile IDs,
+walking routes and interactions are preserved. New construction modules replace
+the supplied street and storefront facades; the decorative lighthouse sits at
+the lake horizon. Foreground source sheets and prompts live in `tools/art_sources/`.
 
-This release's native GPU gameplay, editor and language UI are verified on Linux.
+This release's native GPU gameplay, editor and language UI are verified on macOS Intel.
 GitHub Actions builds and tests Windows, Linux, and both macOS architectures.
-GUI play on Windows/macOS and sessions between two separate
+GUI play on Windows, Linux and macOS Apple Silicon, and sessions between two separate
 physical LAN machines still need manual verification.
 
 ## Cross-platform CI
@@ -495,18 +508,18 @@ root, update both README download tables and add the version entry to
 `CHANGELOG.md`, then review and commit the changes before tagging:
 
 ```sh
-RELEASE_TAG=v0.7.2 node .github/scripts/validate-release.mjs --write
+RELEASE_TAG=v0.8.0 node .github/scripts/validate-release.mjs --write
 node .github/scripts/validate-release.mjs
 git add Cargo.toml Cargo.lock crates/*/Cargo.toml server/package.json server/package-lock.json
 git add README.md README.zh-CN.md CHANGELOG.md
-git commit -m "chore: release v0.7.2"
+git commit -m "chore: release v0.8.0"
 # Once the release commit is on main:
-git tag -a v0.7.2 -m "Release v0.7.2"
-git push --atomic origin main v0.7.2
+git tag -a v0.8.0 -m "Release v0.8.0"
+git push --atomic origin main v0.8.0
 ```
 
 For an unchanged first version, skip the empty version commit. PowerShell users
-can set `$env:RELEASE_TAG = "v0.7.2"` before running the same Node command.
+can set `$env:RELEASE_TAG = "v0.8.0"` before running the same Node command.
 Only stable `vX.Y.Z` tags are accepted. CI rejects source/tag version mismatches;
 it never changes source versions during a release.
 
@@ -535,3 +548,12 @@ must allow its changelog commit. Tagged releases do not deploy the Worker.
 
 Project code and original artwork: [AGPL-3.0-only](../LICENSE.md).
 The bundled font and its upstream notices retain their licenses in `assets/fonts/`.
+
+### Shared construction tiles
+
+The official 1.2.0 pack builds all supplied scenery from tile layers.
+`tools/construction_tiles.py` exports the original sheets in `tools/art_sources/` as reusable 16px building, plant and garden
+pieces; `tools/build_content.py` assembles the street from their stable IDs.
+The open-world catalog uses these same pack definitions, with independently
+saved wall/solid/decoration cells. See [OPEN_WORLD.md](OPEN_WORLD.md) for format
+compatibility, controls and the `wilds-tiles` native acceptance modes.

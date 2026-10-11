@@ -20,8 +20,9 @@ Actual development build (English):
 | Asset | Source | Contract |
 | --- | --- | --- |
 | `assets/hills.png` | Built-in `image_gen`, prompt below | Opaque 3:1 panorama; 1620 × 540 world pixels, parallax constrained to cover wide maps |
-| `assets/town.png`, `people.png`, `sky.png`, `cloud.png`, `shadow.png` | `tools/draw_assets.py` | Transparent foreground and 20 × 32 character cells |
-| `assets/packs/yapshire/` | `tools/draw_maps.py` → `tools/build_content.py` | Pack 1.1.0, four 16px tilesets, 375 stable tile IDs, ten prefabs |
+| `assets/people.png`, `sky.png`, `cloud.png`, `shadow.png` | `tools/draw_assets.py` | 20 × 32 character cells and atmosphere; `town.png` is a legacy source preview |
+| `tools/art_sources/*.png` | Built-in `image_gen`; [prompts and export rules](../tools/art_sources/README.md) | Detailed foreground material/plant/prop sheets, sliced into 16px cells |
+| `assets/packs/yapshire/` | `tools/draw_maps.py` → `tools/build_content.py` + `tools/construction_tiles.py` | Pack 1.2.0, eight 16px tilesets, 855 stable tile IDs, 46 prefabs |
 | `assets/fishing/` | `tools/draw_fishing.py` | 32px inventory cells, sliced panel borders and underwater view |
 | UI colors | `src/ui.rs` | Shared forest surfaces, ivory text, muted sage and brass accents |
 
@@ -33,7 +34,7 @@ continue to use the existing localization system.
 Run the generators in the order documented in [DEVELOPMENT.md](DEVELOPMENT.md).
 They preserve `hills.png` and the frozen `assets/maps/` legacy fixtures. Generating
 the official pack replaces its supplied layouts; keep authored copies elsewhere.
-The art update preserves all tile IDs, atlas cell positions, animation frames,
+The art update preserves legacy tile IDs and atlas positions, animation frames,
 walking routes and gameplay interaction positions. The decorative lighthouse
 moves down to the new lake horizon. Installed pack assets still need
 to match the host's pack version and image hashes when playing online.
@@ -46,3 +47,10 @@ at `assets/hills.png`; the game handles sizing and nearest sampling.
 ```text
 Use case: stylized-concept. Asset type: an actual in-game scrolling background plate for a side-view pixel-art exploration and fishing game, not a screenshot or concept layout. Generate an original exceptionally beautiful quiet northern lakeshore in early autumn morning. Very wide panoramic composition, ideally 3072 by 768 pixels (4:1). Pixel-art painting with crisp square pixel clusters, hand-placed textured edges, no antialiasing and no smooth photographic rendering. At native game viewing scale it should resemble detailed 16-bit landscape painting: hazy powder-blue distant mountain ridges, several layers of muted blue-grey and slate-green fir forests along the opposite shore, some ochre and faded gold birch patches catching sunlight, pale silver-blue morning fog drifting between layers. Calm deep desaturated blue-green lake occupies the lower 35 percent, with long thin horizontal broken reflections and silver-gold scattered highlights. Sky occupies the top 25 percent: soft pale blue and cream cumulus cloud bands. Beautiful atmospheric perspective and restrained natural colors, deep forest shadows balanced with warm light, tranquil and spacious. A coherent continuous horizon across the full very wide image. No near foreground trees, no foreground land strip, no buildings, no boats, no people, no lettering, no logos, no frame, no interface. The foreground walkable bank, fishing pier, characters and shops will be drawn separately by the game. Entire canvas must be fully painted and opaque. The scene must feel like a real contemplative landscape rather than a vector illustration: irregular organic silhouettes, subtle clustered pixel texture, readable value separation. Do not copy an existing game's composition or assets.
 ```
+
+The construction update replaces flat canopy masks and repeated window icons
+with textured branch/leaf cells and coherent multi-cell frames. Wall textures
+keep their phase across window boundaries. Check both town and generated-world
+views against the panorama at native 2× scale, not only enlarged source sheets.
+The foreground sheets are original generated artwork; the game uses only the
+exported atlases, with per-cell editing, collision and save data.

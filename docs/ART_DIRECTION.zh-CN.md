@@ -16,7 +16,7 @@ Yapshire 的场景、角色、地砖和界面采用雾蓝色远山、深色针�
 | --- | --- | --- |
 | `assets/hills.png` | 内置 `image_gen` 生成的原创远景 | 3:1 不透明全景；以 1620 × 540 世界像素显示，水平视差限制在覆盖视口的范围内 |
 | 小镇前景、人物、天空、薄云与阴影 | `tools/draw_assets.py` | 前景保持透明，人物动画单元为 20 × 32 |
-| `assets/packs/yapshire/` | `tools/draw_maps.py`、`tools/build_content.py` | 内容包 1.1.0；四张 16px 图集、375 个稳定 ID、十个预制图案 |
+| `assets/packs/yapshire/` | `tools/draw_maps.py`、`tools/build_content.py`、`tools/construction_tiles.py` | 内容包 1.2.0；八张 16px 图集、855 个稳定 ID、46 个组合模板 |
 | `assets/fishing/` | `tools/draw_fishing.py` | 物品图标、可伸缩像素边框和水下视图 |
 | 界面配色 | `src/ui.rs` | 深色森林底、象牙白文字、鼠尾草绿和黄铜色强调 |
 
@@ -31,3 +31,10 @@ Yapshire 的场景、角色、地砖和界面采用雾蓝色远山、深色针�
 本次更新保留原有 tile ID、图集位置、动画帧、行走路线和交互位置，
 装饰灯塔向下移至新的湖面地平线。
 联机仍校验资源包版本与图片哈希，房主和玩家需要使用同一套资源。
+
+## 建造瓦片的细节
+
+前景建筑、枝叶与街道摆件使用 [原稿与提示词](../tools/art_sources/README.md) 中的素材，导出成 16px 瓦片。
+窗户与门框由连续瓦片组成，墙面纹理在边界保持对齐；树冠保留枝条和透空。
+`town.png` 保留为旧版原稿预览，运行时前景由内容包瓦片组成。
+验收同时查看小镇与生成世界的 2× 实机画面，逐格拆建与存档能力保持不变。

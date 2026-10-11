@@ -320,6 +320,8 @@ pub(crate) struct Editor {
     pub stamp: usize,
     pub zoom: u32,
     pub offset: UVec2,
+    pub canvas: Rect,
+    pub ui_size: Vec2,
     pub grid: bool,
     pub guides: bool,
     pub dialog: Option<Dialog>,
@@ -401,6 +403,8 @@ impl Editor {
             stamp: 0,
             zoom: 2,
             offset: UVec2::new(48, 0),
+            canvas: Rect::from_corners(CANVAS, CANVAS + CANVAS_SIZE),
+            ui_size: game::WINDOW_SIZE.as_vec2(),
             grid: true,
             guides: true,
             dialog: None,
@@ -434,16 +438,31 @@ impl Editor {
     }
 
     pub fn cell_at(&self, ui: Vec2) -> Option<UVec2> {
-        let local = ui - CANVAS;
-        if local.cmplt(Vec2::ZERO).any() || local.cmpge(CANVAS_SIZE).any() {
+        let local = ui - self.canvas.min;
+        if local.cmplt(Vec2::ZERO).any() || local.cmpge(self.canvas.size()).any() {
             return None;
         }
         let cell = (local / self.cell_size()).floor().as_uvec2() + self.offset;
         (cell.x < self.doc().map.width && cell.y < self.doc().map.height).then_some(cell)
     }
 
+    pub(crate) fn resize_ui(&mut self, size: Vec2) {
+        if self.ui_size == size {
+            return;
+        }
+        self.finish();
+        self.ui_size = size;
+        let compact = size.x < 1200.0;
+        self.canvas = Rect::from_corners(
+            Vec2::new(24.0, if compact { 176.0 } else { 154.0 }),
+            Vec2::new(size.x - 456.0, size.y - if compact { 140.0 } else { 112.0 }),
+        );
+        self.clamp_offset();
+        self.ui_dirty = true;
+    }
+
     fn clamp_offset(&mut self) {
-        let visible = (CANVAS_SIZE / self.cell_size()).floor().as_uvec2();
+        let visible = (self.canvas.size() / self.cell_size()).floor().as_uvec2();
         self.offset = self
             .offset
             .min(UVec2::new(self.doc().map.width, self.doc().map.height).saturating_sub(visible));
@@ -685,13 +704,13 @@ impl Editor {
 }
 
 // Use the uniform UI scale; 4x world pixels leave a two-pixel vertical border.
-pub(crate) fn ui_point(cursor: Vec2, viewport: URect) -> Option<Vec2> {
+pub(crate) fn ui_point(cursor: Vec2, viewport: URect, ui_width: f32) -> Option<Vec2> {
     let point = cursor - viewport.min.as_vec2();
     let size = viewport.size().as_vec2();
     if size.min_element() <= 0.0 || point.cmplt(Vec2::ZERO).any() || point.cmpge(size).any() {
         return None;
     }
-    Some(point * (game::WINDOW_SIZE.x as f32 / size.x))
+    Some(point * (ui_width / size.x))
 }
 
 fn line(from: UVec2, to: UVec2) -> Vec<UVec2> {
@@ -714,6 +733,7 @@ fn line(from: UVec2, to: UVec2) -> Vec<UVec2> {
 
 pub(crate) fn update(
     settings: Res<crate::settings::Settings>,
+    wilds: Res<crate::wilds::Wilds>,
     mut commands: Commands,
     mut editor: ResMut<Editor>,
     mut menu: ResMut<Menu>,
@@ -738,11 +758,12 @@ pub(crate) fn update(
     if !open {
         wheel.clear();
         editor.was_open = false;
-        if close_requested {
+        if close_requested && wilds.active.is_none() {
             commands.entity(window_entity).insert(ClosingWindow);
         }
         return;
     }
+    editor.resize_ui(game::ui_size(&settings));
     if !editor.was_open {
         editor.was_open = true;
         editor.ui_dirty = true;
@@ -814,9 +835,11 @@ pub(crate) fn update(
             return;
         }
     }
-    let point = window
-        .physical_cursor_position()
-        .and_then(|p| camera.physical_viewport_rect().and_then(|v| ui_point(p, v)));
+    let point = window.physical_cursor_position().and_then(|p| {
+        camera
+            .physical_viewport_rect()
+            .and_then(|v| ui_point(p, v, editor.ui_size.x))
+    });
     editor.hover = point.and_then(|p| editor.cell_at(p));
     if settings.blocks_input() {
         editor.hover = None;

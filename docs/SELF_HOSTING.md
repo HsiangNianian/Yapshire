@@ -8,11 +8,11 @@ players choose **Online lobby → Add Club**, enter its address and optionally g
 it a personal alias. Each saved Club automatically lists its rooms, occupancy and
 measured latency. Select a Club to create a room there; editing or removing the
 subscription does not rename or stop the actual server. Clients and servers must
-use v0.7.x builds with matching content packs (protocol 3); older clients need to update first.
+use v0.8.0 builds with matching content packs (protocol 3, official pack 1.2.0).
 
 The official **Yapshire Town (Yapshire 小镇)** uses
 `wss://yap-server.mmstudio.games`; `wss://yap.meaninglessmeaning.studio` reaches
-the same town. Enter either address in a v0.7.x client.
+the same town. Enter either address in a v0.8.0 client.
 
 ## Start with the standalone download
 
@@ -53,7 +53,7 @@ docker run -d --name yapshire --restart unless-stopped \
   -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:latest
 ```
 
-Use a version tag such as `:v0.7.2` to pin a release. The repository also includes
+Use a version tag such as `:v0.8.0` to pin a release. The repository also includes
 [`compose.yaml`](../compose.yaml): `docker compose up -d` starts the default town.
 The image runs as UID/GID **10001**, includes an HTTP health check, and reads
 configuration from `/data`. It never needs to write to your maps.
@@ -73,7 +73,7 @@ docker run -d --name yapshire-custom --restart unless-stopped \
   -p 4761:4761 --read-only --cap-drop ALL \
   --security-opt no-new-privileges:true \
   --mount "type=bind,src=$PWD/my-town,dst=/data,readonly" \
-  ghcr.io/hsiangnianian/yapshire-server:v0.7.2
+  ghcr.io/hsiangnianian/yapshire-server:v0.8.0
 ```
 
 Ensure the directory and files are readable by UID 10001. In Compose, enable the
@@ -83,9 +83,10 @@ health check; for a custom internal port, override the health check as well.
 
 ## Use maps and content packs
 
-The following describes **v0.7.x** (protocol 3). Client and server must use
-matching content packs. v0.7.1 and v0.7.2 can play together. Earlier releases use
-protocol 2 and cannot join these rooms.
+The following describes **v0.8.0** (protocol 3). Client and server must use
+matching content packs. v0.7.x uses official pack 1.1.0 and cannot join rooms
+using the new 1.2.0 pack. Upgrade client and server together. The generated
+Explore & Build worlds are local saves and cannot be hosted by this server yet.
 
 1. Run `./yapshire-server --init ./my-town`. This creates `server.json` and a
    complete official pack under `my-town/maps/`, without overwriting files.

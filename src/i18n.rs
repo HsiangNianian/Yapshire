@@ -36,7 +36,17 @@ type Catalog = BTreeMap<String, String>;
 
 // Register new domains here. Keeping English embedded guarantees a fallback in
 // every native build, without depending on the working directory or a network.
-const DOMAINS: [(&str, &str, &str); 7] = [
+const DOMAINS: [(&str, &str, &str); 9] = [
+    (
+        "tiles",
+        include_str!("../assets/locales/en/tiles.json"),
+        include_str!("../assets/locales/zh-CN/tiles.json"),
+    ),
+    (
+        "wilds",
+        include_str!("../assets/locales/en/wilds.json"),
+        include_str!("../assets/locales/zh-CN/wilds.json"),
+    ),
     (
         "clubs",
         include_str!("../assets/locales/en/clubs.json"),

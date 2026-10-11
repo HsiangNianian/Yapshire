@@ -29,6 +29,14 @@ bundled_files!(
     "buildings/tackle.png",
     "objects/harbor.tsj",
     "objects/harbor.png",
+    "terrain/natural.tsj",
+    "terrain/natural.png",
+    "buildings/modules.tsj",
+    "buildings/modules.png",
+    "nature/garden.tsj",
+    "nature/garden.png",
+    "objects/street.tsj",
+    "objects/street.png",
     "backgrounds/street.png",
     "maps/town.tmj",
     "maps/tackle-shop.tmj"
@@ -151,7 +159,8 @@ impl World {
         map.tilesets = bundled.tilesets;
         map.layers[2].properties = bundled.layers[2].properties.clone();
         map.layers.extend(bundled.layers.into_iter().skip(5));
-        map.extra.insert("nextlayerid".into(), 8.into());
+        map.extra
+            .insert("nextlayerid".into(), (map.layers.len() + 1).into());
         map.extra.insert("nextobjectid".into(), 5.into());
         Ok(true)
     }

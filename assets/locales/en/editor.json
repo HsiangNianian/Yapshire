@@ -97,5 +97,8 @@
   "stamp": "OBJECT STAMP",
   "stamp_help": "PLACE A WHOLE OBJECT / P",
   "map_index": "MAP {index}",
-  "tiled_layer": "Edit object and background layers in Tiled. Map files opens their folder."
+  "tiled_layer": "Edit object and background layers in Tiled. Map files opens their folder.",
+  "layer.street_trees": "Street trees",
+  "layer.street_houses": "Street houses",
+  "layer.street_garden": "Street garden"
 }
