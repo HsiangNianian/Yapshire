@@ -7,6 +7,52 @@ and commits it after all platform archives have been uploaded and verified.
 
 ## [Unreleased]
 
+## [v0.8.0] - 2026-10-11
+
+### Explore and build
+
+- Add **Explore & Build**: local solo worlds with repeatable seeds, hills,
+  caves, mining, placement and multiple independent saves. Each world spans
+  2048 × 256 tiles, streamed in visible 32 × 32 chunks.
+- Build on independent wall, solid and decoration layers using the same
+  855 tiles and 46 prefab recipes as the map editor and authored town. Place
+  building parts, trunks, leaves, shrubs, fences and furniture one cell at a time.
+- Replace the supplied street's flat building backdrop with detailed tile-built
+  scenery. Preserve stable tile IDs, legacy edited maps and versioned vegetation
+  layouts so upgrades do not regrow previously removed trees.
+- Autosave and resume terrain edits, construction, materials and player position.
+  Detect corrupt, future-version and externally modified saves without overwriting
+  them; retain older local worlds through save-format migration.
+
+### Interface and character rendering
+
+- Add independent **UI Scale** at 75%, 100%, 125% and 150%, alongside 2x/3x/4x
+  scene scale. Resize text, buttons and panels immediately, remember preferences,
+  and keep larger menus and the editor usable through scrolling and reflow.
+- Add modular English and Simplified Chinese construction/world catalogs with
+  English fallback for untranslated keys.
+- Keep character shadows on the supporting ground or elevated platform while
+  jumping, including strict collision-edge handling. (by @jyh20030112, #5)
+- Shrink shadows smoothly with height above their supporting surface, down to
+  65% per dimension at 35 world pixels. Restore their original size on landing,
+  keep opacity unchanged, and apply the behavior to local and remote characters
+  and edited open-world terrain. Closes #6.
+- Optimize nine images losslessly while excluding compatibility-sensitive map
+  and pack assets from automatic optimization. (by @imgbot, #3)
+
+### Compatibility and verification
+
+- Upgrade clients and servers together: the official content pack is now **1.2.0**.
+  Protocol 3 and authored-world format 2 remain unchanged, but v0.7.x pack assets
+  do not match this release.
+- Generated worlds and building are **local solo** features. Club and LAN rooms
+  still use authored maps; multiplayer building, crafting, combat and fluid
+  simulation are not included.
+- Verify local and remote jumping shadows with two native clients; exercise
+  mining, tile-layer construction, save/restart, bilingual UI scaling and touch
+  controls in the native renderer. Ship game and server archives for Windows,
+  Linux and both macOS architectures, plus AMD64/ARM64 server container images.
+
 ## [v0.7.2] - 2026-10-10
 
 ### Pixel scale settings
