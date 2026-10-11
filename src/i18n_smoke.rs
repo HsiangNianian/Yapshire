@@ -59,7 +59,7 @@ pub(crate) struct Controls<'w, 's> {
             &'static ScrollPosition,
         ),
     >,
-    wheel: MessageWriter<'w, bevy::input::mouse::MouseWheel>,
+    wheel: ResMut<'w, Messages<bevy::input::mouse::MouseWheel>>,
     mouse: ResMut<'w, ButtonInput<MouseButton>>,
     keys: ResMut<'w, ButtonInput<KeyCode>>,
     close: MessageWriter<'w, WindowCloseRequested>,
@@ -163,6 +163,9 @@ pub(crate) fn drive(
     if !mode.starts_with("i18n") {
         return;
     }
+    // Native wheel events can arrive while the automated window is open.
+    // Keep these steps driven by their own input, like the keys and buttons below.
+    controls.wheel.clear();
     if mode == "i18n-compact" && check.stage == 0 && controls.window.1.width() != 844.0 {
         controls.window.1.resolution.set(844.0, 390.0);
     }

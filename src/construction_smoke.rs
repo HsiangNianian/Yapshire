@@ -88,6 +88,7 @@ impl Controls<'_, '_> {
     }
 }
 fn capture(commands: &mut Commands, tag: &str) {
+    std::fs::create_dir_all("artifacts").expect("Create construction screenshot directory");
     commands
         .spawn(Screenshot::primary_window())
         .observe(save_to_disk(format!("artifacts/construction-{tag}.png")));

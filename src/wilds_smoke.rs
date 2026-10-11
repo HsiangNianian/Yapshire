@@ -30,6 +30,7 @@ pub(crate) fn cursor(check: Res<Check>, mut window: Single<&mut Window>) {
 }
 
 fn capture(commands: &mut Commands, name: &str) {
+    std::fs::create_dir_all("artifacts").expect("Create wilderness screenshot directory");
     commands
         .spawn(Screenshot::primary_window())
         .observe(save_to_disk(format!("artifacts/wilds-{name}.png")));
