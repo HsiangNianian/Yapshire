@@ -5,8 +5,13 @@ use crate::{
     network::{self, ClientMessage, Mode},
 };
 use bevy::{
-    input::keyboard::{Key, KeyboardInput},
+    input::{
+        keyboard::{Key, KeyboardInput},
+        mouse::{MouseScrollUnit, MouseWheel},
+        touch::{TouchInput, TouchPhase},
+    },
     prelude::*,
+    ui::RelativeCursorPosition,
 };
 use std::sync::{Mutex, mpsc};
 
@@ -18,6 +23,8 @@ pub enum Page {
     Cloud,
     Playing,
     Editor,
+    Worlds,
+    Exploring,
 }
 #[derive(Clone, Copy, PartialEq, Eq, Component)]
 pub enum Field {
@@ -31,6 +38,8 @@ pub enum Field {
     ClubAlias,
     ClubServer,
     ClubPassword,
+    WorldName,
+    WorldSeed,
 }
 
 #[derive(Resource)]
@@ -61,6 +70,8 @@ pub struct Menu {
     pub(crate) club_server: String,
     pub(crate) club_password: String,
     pub(crate) club_submit: bool,
+    pub(crate) world_name: String,
+    pub(crate) world_seed: String,
 }
 
 impl Default for Menu {
@@ -92,6 +103,8 @@ impl Default for Menu {
             club_server: String::new(),
             club_password: String::new(),
             club_submit: false,
+            world_name: "My world".into(),
+            world_seed: String::new(),
         }
     }
 }
@@ -109,6 +122,8 @@ impl Menu {
             Field::ClubAlias => &self.club_alias,
             Field::ClubServer => &self.club_server,
             Field::ClubPassword => &self.club_password,
+            Field::WorldName => &self.world_name,
+            Field::WorldSeed => &self.world_seed,
         }
     }
     fn field_mut(&mut self, field: Field) -> &mut String {
@@ -135,6 +150,8 @@ impl Menu {
                 &mut self.club_server
             }
             Field::ClubPassword => &mut self.club_password,
+            Field::WorldName => &mut self.world_name,
+            Field::WorldSeed => &mut self.world_seed,
         }
     }
     fn fields(&self) -> Vec<Field> {
@@ -149,7 +166,8 @@ impl Menu {
                 vec![Field::ClubAlias, Field::ClubServer, Field::ClubPassword]
             }
             Page::Cloud => vec![Field::ServerPassword, Field::Room],
-            Page::Playing | Page::Editor => vec![],
+            Page::Worlds => vec![Field::WorldName, Field::WorldSeed],
+            Page::Playing | Page::Editor | Page::Exploring => vec![],
         }
     }
     pub(crate) fn go(&mut self, page: Page) {
@@ -301,9 +319,108 @@ pub enum Action {
     NextRooms,
     Fishing(crate::fishing::Action),
     Club(crate::clubs::Action),
+    Wild(crate::wilds::Action),
 }
 #[derive(Component)]
 pub struct Root;
+
+#[derive(Component)]
+#[require(ScrollPosition, RelativeCursorPosition)]
+pub(crate) struct ScrollArea {
+    pub settings: bool,
+}
+
+/// Keep the contents at their chosen size; only the containing panel scrolls.
+pub(crate) fn scroll_content(
+    commands: &mut Commands,
+    parent: Entity,
+    gap: f32,
+    settings: bool,
+) -> Entity {
+    commands.entity(parent).insert(ScrollArea { settings });
+    commands
+        .spawn((
+            Node {
+                width: percent(100),
+                flex_direction: FlexDirection::Column,
+                flex_shrink: 0.0,
+                row_gap: px(gap),
+                ..default()
+            },
+            ChildOf(parent),
+        ))
+        .id()
+}
+
+pub(crate) fn scroll(
+    mut wheel: MessageReader<MouseWheel>,
+    mut touch: MessageReader<TouchInput>,
+    mut previous_touch: Local<Option<(u64, Vec2)>>,
+    scale: Res<UiScale>,
+    settings: Res<crate::settings::Settings>,
+    mut areas: Query<(
+        &ScrollArea,
+        &RelativeCursorPosition,
+        &ComputedNode,
+        &mut ScrollPosition,
+    )>,
+) {
+    let mut delta: f32 = wheel
+        .read()
+        .map(|event| {
+            event.y
+                * match event.unit {
+                    MouseScrollUnit::Line => 36.0,
+                    MouseScrollUnit::Pixel => 1.0 / scale.0,
+                }
+        })
+        .sum();
+    for event in touch.read() {
+        match event.phase {
+            TouchPhase::Started if previous_touch.is_none() => {
+                *previous_touch = Some((event.id, event.position))
+            }
+            TouchPhase::Moved => {
+                if let Some((id, position)) = previous_touch.as_mut() {
+                    if *id == event.id {
+                        delta += (event.position.y - position.y) / scale.0;
+                        *position = event.position;
+                    }
+                }
+            }
+            TouchPhase::Ended | TouchPhase::Canceled
+                if previous_touch.is_some_and(|(id, _)| id == event.id) =>
+            {
+                *previous_touch = None
+            }
+            _ => {}
+        }
+    }
+    let active = areas
+        .iter()
+        .filter(|(area, cursor, _, _)| {
+            cursor.cursor_over()
+                && if area.settings {
+                    settings.open
+                } else {
+                    !settings.blocks_input()
+                }
+        })
+        .map(|(_, _, node, _)| node.stack_index())
+        .max();
+    for (_, _, node, mut position) in &mut areas {
+        if node.size().y <= 0.0 {
+            continue;
+        }
+        let max = ((node.content_size().y - node.size().y) * node.inverse_scale_factor()).max(0.0);
+        let movement = if Some(node.stack_index()) == active {
+            delta
+        } else {
+            0.0
+        };
+        position.0.y = (position.0.y - movement).clamp(0.0, max);
+    }
+}
 #[derive(Component)]
 pub struct FieldValue(Field);
 #[derive(Component)]
@@ -330,6 +447,7 @@ pub(crate) const GOLD: Color = Color::srgb_u8(213, 177, 112);
 
 pub fn buttons(
     mut settings: ResMut<crate::settings::Settings>,
+    mut wilds: ResMut<crate::wilds::Wilds>,
     mut clubs: ResMut<crate::clubs::Browser>,
     mut interactions: Query<
         (&Interaction, &Action, &mut BackgroundColor, &BaseColor),
@@ -357,6 +475,12 @@ pub fn buttons(
             continue;
         }
         match *action {
+            Action::Wild(action) => {
+                if mouse.just_pressed(MouseButton::Left) || touches.any_just_pressed() {
+                    wilds.pending = Some(action);
+                    break;
+                }
+            }
             Action::Go(page) => menu.go(page),
             Action::Focus(field) => {
                 menu.active = Some(field);
@@ -475,6 +599,7 @@ fn edit(
 
 pub fn keyboard(
     settings: Res<crate::settings::Settings>,
+    mut wilds: ResMut<crate::wilds::Wilds>,
     mut input: MessageReader<KeyboardInput>,
     mut ime: MessageReader<Ime>,
     keys: Res<ButtonInput<KeyCode>>,
@@ -484,7 +609,7 @@ pub fn keyboard(
     mut window: Single<&mut Window>,
     mut fishing: ResMut<crate::fishing::Fishing>,
 ) {
-    if menu.page == Page::Editor || settings.blocks_input() {
+    if matches!(menu.page, Page::Editor | Page::Exploring) || settings.blocks_input() {
         input.clear();
         ime.clear();
         window.ime_enabled = false;
@@ -597,6 +722,8 @@ pub fn keyboard(
                 menu.club_submit = true;
             } else if menu.page == Page::Home {
                 menu.active = None;
+            } else if menu.page == Page::Worlds {
+                wilds.pending = Some(crate::wilds::Action::Create);
             } else {
                 menu.connect();
             }
@@ -639,6 +766,7 @@ pub fn keyboard(
                 KeyCode::Digit2 => menu.go(Page::Lan),
                 KeyCode::Digit3 => menu.go(Page::Cloud),
                 KeyCode::Digit4 | KeyCode::F2 => menu.go(Page::Editor),
+                KeyCode::Digit5 => menu.go(Page::Worlds),
                 _ => {}
             }
         } else if menu.page == Page::Host
@@ -697,6 +825,8 @@ fn field_limit(field: Field) -> usize {
         Field::Room => 280,
         Field::RoomName => 24,
         Field::ClubAlias => 32,
+        Field::WorldName => 32,
+        Field::WorldSeed => 10,
         Field::Port => 5,
         Field::ServerPassword | Field::ClubPassword => 128,
         _ => 200,
@@ -831,19 +961,22 @@ pub fn render(
     mut menu: ResMut<Menu>,
     art: Res<Art>,
     roots: Query<Entity, With<Root>>,
+    sidebars: Query<(&crate::clubs_ui::Sidebar, &ScrollPosition)>,
     clubs: Res<crate::clubs::Browser>,
     scale: Res<UiScale>,
-    mut last_scale: Local<f32>,
+    settings: Res<crate::settings::Settings>,
+    mut last_layout: Local<(f32, Vec2)>,
 ) {
-    if !menu.dirty && !i18n.is_changed() && *last_scale == scale.0 {
+    let size = crate::game::ui_size(&settings);
+    if !menu.dirty && !i18n.is_changed() && *last_layout == (scale.0, size) {
         return;
     }
     for entity in &roots {
         commands.entity(entity).despawn();
     }
     menu.dirty = false;
-    *last_scale = scale.0;
-    if menu.page == Page::Editor {
+    *last_layout = (scale.0, size);
+    if matches!(menu.page, Page::Editor | Page::Worlds | Page::Exploring) {
         return;
     }
     let root = commands
@@ -933,15 +1066,29 @@ pub fn render(
         .entity(root)
         .insert(BackgroundColor(Color::srgba_u8(18, 29, 32, 12)));
     if menu.page == Page::Cloud {
-        crate::clubs_ui::render(&mut commands, root, &art, &menu, &clubs, scale.0);
+        let key = crate::clubs_ui::Sidebar::new(&menu, &clubs);
+        let scroll = sidebars
+            .iter()
+            .find(|(sidebar, _)| **sidebar == key)
+            .map_or(Vec2::ZERO, |(_, position)| position.0);
+        crate::clubs_ui::render(&mut commands, root, &art, &menu, &clubs, scale.0, scroll);
         return;
     }
+    let compact = size.x < 1200.0;
+    let panel_width = if menu.page == Page::Home {
+        372.0
+    } else {
+        424.0
+    };
+    let side_width = (size.x - panel_width - 72.0).min(460.0);
     let panel = commands
         .spawn((
             Node {
                 position_type: PositionType::Absolute,
-                left: percent(6),
-                top: percent(8),
+                left: if compact { px(24) } else { percent(6) },
+                top: if compact { px(24) } else { percent(8) },
+                max_height: px(size.y - if compact { 88.0 } else { size.y * 0.08 + 64.0 }),
+                overflow: Overflow::scroll_y(),
                 width: px(if menu.page == Page::Home { 372 } else { 424 }),
                 padding: UiRect::all(px(24)),
                 flex_direction: FlexDirection::Column,
@@ -954,6 +1101,7 @@ pub fn render(
         ))
         .id();
     commands.entity(root).add_child(panel);
+    let panel = scroll_content(&mut commands, panel, 10.0, false);
     label(&mut commands, panel, &art, "Y A P S H I R E", 16.0, GOLD);
     label(&mut commands, panel, &art, "Yapshire", 36.0, INK);
     if menu.page == Page::Home {
@@ -962,6 +1110,15 @@ pub fn render(
     match menu.page {
         Page::Home => {
             field(&mut commands, panel, &art, tr("menu.nickname"), Field::Name);
+            button(
+                &mut commands,
+                panel,
+                &art,
+                tr("wilds.menu"),
+                tr("wilds.menu_hint"),
+                Action::Go(Page::Worlds),
+                true,
+            );
             button(
                 &mut commands,
                 panel,
@@ -1117,7 +1274,7 @@ pub fn render(
                 false,
             );
         }
-        Page::Cloud | Page::Playing | Page::Editor => {}
+        Page::Cloud | Page::Playing | Page::Editor | Page::Worlds | Page::Exploring => {}
     }
     let status = label(
         &mut commands,
@@ -1131,9 +1288,10 @@ pub fn render(
     let caption = commands
         .spawn(Node {
             position_type: PositionType::Absolute,
-            left: percent(62),
-            top: percent(12),
-            width: px(460),
+            left: if compact { Val::Auto } else { percent(62) },
+            right: if compact { px(24) } else { Val::Auto },
+            top: if compact { px(96) } else { percent(12) },
+            width: px(side_width),
             flex_direction: FlexDirection::Column,
             row_gap: px(16),
             ..default()
@@ -1174,9 +1332,12 @@ pub fn render(
             .spawn((
                 Node {
                     position_type: PositionType::Absolute,
-                    left: percent(62),
-                    top: percent(34),
-                    width: px(460),
+                    left: if compact { Val::Auto } else { percent(62) },
+                    right: if compact { px(24) } else { Val::Auto },
+                    top: if compact { px(200) } else { percent(34) },
+                    width: px(side_width),
+                    max_height: px(size.y - if compact { 264.0 } else { size.y * 0.34 + 64.0 }),
+                    overflow: Overflow::scroll_y(),
                     padding: UiRect::all(px(22)),
                     flex_direction: FlexDirection::Column,
                     row_gap: px(12),
@@ -1188,6 +1349,7 @@ pub fn render(
             ))
             .id();
         commands.entity(root).add_child(lobby);
+        let lobby = scroll_content(&mut commands, lobby, 12.0, false);
         label(
             &mut commands,
             lobby,
@@ -1288,8 +1450,9 @@ pub fn render(
     let footer = commands
         .spawn(Node {
             position_type: PositionType::Absolute,
-            right: px(36),
-            bottom: px(24),
+            right: px(24),
+            bottom: px(20),
+            max_width: px(size.x - 48.0),
             ..default()
         })
         .id();
@@ -1415,6 +1578,7 @@ mod tests {
             .init_resource::<crate::settings::Settings>()
             .init_resource::<crate::fishing::Fishing>()
             .init_resource::<crate::clubs::Browser>()
+            .init_resource::<crate::wilds::Wilds>()
             .init_resource::<ButtonInput<MouseButton>>()
             .init_resource::<Touches>()
             .add_systems(Update, buttons);

@@ -1,0 +1,6 @@
+{
+  "ignoredFiles": [
+    "assets/maps/*",
+    "assets/packs/*"
+  ]
+}

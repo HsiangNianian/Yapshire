@@ -8,7 +8,7 @@ use yapshire_shared::{
 #[test]
 fn official_pack_and_legacy_saves_preserve_tile_identity() {
     let world = World::bundled();
-    assert_eq!(world.content.sets.len(), 4);
+    assert_eq!(world.content.sets.len(), 8);
     assert_eq!(
         world
             .content
@@ -16,7 +16,7 @@ fn official_pack_and_legacy_saves_preserve_tile_identity() {
             .values()
             .map(|s| s.tilecount)
             .sum::<u32>(),
-        375
+        855
     );
     assert_eq!(world.entry(), ("yapshire:town", [244.0, 0.0]));
     let migrated = World::new(

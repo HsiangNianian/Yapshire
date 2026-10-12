@@ -4,6 +4,7 @@ import json
 from copy import deepcopy
 from pathlib import Path
 from PIL import Image, ImageDraw
+from construction_tiles import build as construction_tiles
 
 
 def build(g):
@@ -55,6 +56,9 @@ def build(g):
                 d.line(line, fill=color, width=2)
         groups["terrain/ground"].append((key, im, "solid", None))
 
+    metadata, terrains = construction_tiles(groups, prefabs)
+    terrains["yapshire:quay"] = terrain_ids
+
     def write(path, value):
         target = root / path
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -75,6 +79,7 @@ def build(g):
             atlas.paste(im, (i % columns * 16, i // columns * 16))
             gids[key] = firstgid + i
             tile = dict(id=i, properties=[prop("id", key), prop("collision", collision)])
+            tile["properties"].extend(prop(k, v) for k, v in metadata.get(key, {}).items())
             if key in terrain_ids:
                 tile["properties"].append(prop("terrain", "yapshire:quay"))
             if old in animations:
@@ -91,13 +96,18 @@ def build(g):
                 wangtiles=[dict(tileid=start + mask, wangid=[int(bool(mask & bit)) if bit else 0
                     for bit in (1, 0, 2, 0, 4, 0, 8, 0)]) for mask in range(16)])]
         write(group + ".tsj", ts)
-        atlas.save(root / (group + ".png"))
+        target = root / (group + ".png")
+        # Pillow versions encode identical pixels differently. Keep untouched
+        # legacy atlases byte-for-byte, including their content-pack hashes.
+        unchanged = False
+        if target.exists():
+            with Image.open(target) as existing:
+                unchanged = existing.size == atlas.size and existing.convert("RGBA").tobytes() == atlas.tobytes()
+        if not unchanged:
+            atlas.save(target)
         palette[group + ".tsj"] = [key for key, _, _, _ in items]
         references.append(dict(firstgid=firstgid, source="../" + group + ".tsj"))
         firstgid += len(items)
-
-    (root / "backgrounds").mkdir(exist_ok=True)
-    Image.open(g["ASSETS"] / "town.png").crop((0, 0, 928, 192)).save(root / "backgrounds/street.png")
 
     def obj(oid, name, kind, x, y, width=0, height=0, **props):
         return dict(id=oid, name=name, type=kind, x=x, y=y, width=width, height=height,
@@ -117,25 +127,23 @@ def build(g):
         for layer in data["layers"]:
             layer["data"] = [gids[names[gid]] if gid else 0 for gid in layer["data"]]
         data["layers"][2]["properties"] = [prop("collision", True)]
-        if name == "town":
-            data["layers"].append(dict(id=6, name="Street backdrop", type="imagelayer", x=0, y=0,
-                offsetx=0, offsety=32, visible=True, opacity=1, image="../backgrounds/street.png",
-                properties=[dict(name="z", type="float", value=-20)]))
-        data["layers"].append(dict(id=7, name="Interactions", type="objectgroup", x=0, y=0,
+        data["layers"].append(dict(id=len(data["layers"]) + 1, name="Interactions", type="objectgroup", x=0, y=0,
                                    visible=True, opacity=1, objects=objects))
-        data["nextlayerid"], data["nextobjectid"] = 8, len(objects) + 1
+        data["nextlayerid"], data["nextobjectid"] = len(data["layers"]) + 1, len(objects) + 1
         write("maps/" + name + ".tmj", data)
 
-    manifest = dict(format=1, id="yapshire", version="1.1.0", tile_size=16,
+    # Keep the old image registered so existing user-authored maps still load.
+    # Authored scenes are converted into shared models after writing the tile templates.
+    manifest = dict(format=1, id="yapshire", version="1.2.0", tile_size=16,
         tilesets=[group + ".tsj" for group in groups], images=["backgrounds/street.png"],
         maps=[dict(id="yapshire:town", path="maps/town.tmj", title="Harbor town", indoors=False),
               dict(id="yapshire:tackle_shop", path="maps/tackle-shop.tmj", title="Tide & Tackle", indoors=True)],
         entry=dict(map="yapshire:town", spawn="arrival"), prefabs=prefabs,
-        terrains={"yapshire:quay": terrain_ids}, legacy_tiles=[names[i] for i in range(1, 360)])
+        terrains=terrains, legacy_tiles=[names[i] for i in range(1, 360)])
     write("pack.json", manifest)
     # Every old tile has a stable identity, independently of the new atlas order.
-    assert len(gids) == 375 and all(key in gids for key in manifest["legacy_tiles"])
-    print(f"Wrote {root}: 4 tilesets, {len(gids)} stable tile IDs, {len(prefabs)} prefabs.")
+    assert all(key in gids for key in manifest["legacy_tiles"])
+    print(f"Wrote {root}: {len(groups)} tilesets, {len(gids)} stable tile IDs, {len(prefabs)} prefabs.")
 
     from build_objects import build as build_objects
     build_objects(root)

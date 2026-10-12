@@ -197,12 +197,12 @@ fn broken_local_map_falls_back_and_explicit_repair_keeps_corrupt_bytes_as_backup
 fn pointer_mapping_handles_hidpi_letterboxing_zoom_and_map_edges() {
     let viewport = URect::from_corners(UVec2::new(560, 90), UVec2::new(3440, 1710));
     let ui = CANVAS + Vec2::new(32.0 * 3.0 + 1.0, 32.0 * 4.0 + 1.0);
-    let point = ui_point(viewport.min.as_vec2() + ui * 2.0, viewport).unwrap();
+    let point = ui_point(viewport.min.as_vec2() + ui * 2.0, viewport, 1440.0).unwrap();
     assert!(point.abs_diff_eq(ui, 0.001));
-    assert!(ui_point(Vec2::ZERO, viewport).is_none());
+    assert!(ui_point(Vec2::ZERO, viewport, 1440.0).is_none());
     let four_x = URect::from_corners(UVec2::new(20, 13), UVec2::new(2540, 1427));
     assert!(
-        ui_point(four_x.min.as_vec2() + ui * 1.75, four_x)
+        ui_point(four_x.min.as_vec2() + ui * 1.75, four_x, 1440.0)
             .unwrap()
             .abs_diff_eq(ui, 0.001)
     );
@@ -259,6 +259,7 @@ fn closing_a_dirty_editor_keeps_the_window_until_discard_then_uses_two_frame_clo
         .insert_resource(maps)
         .insert_resource(menu)
         .init_resource::<crate::settings::Settings>()
+        .init_resource::<crate::wilds::Wilds>()
         .init_resource::<ButtonInput<KeyCode>>()
         .init_resource::<ButtonInput<MouseButton>>()
         .add_message::<MouseWheel>()
@@ -474,4 +475,35 @@ fn companion_object_layers_inherit_draw_order_through_undo_and_reload() {
     editor.save(MapKind::Town, &mut runtime).unwrap();
     let restored = yapshire_shared::World::load(&workspace.0).unwrap();
     assert_eq!(restored.maps["yapshire:town"], editor.doc().map);
+}
+
+#[test]
+fn ui_zoom_reflows_the_canvas_without_changing_the_painted_cell() {
+    let mut maps = maps();
+    let workspace = Workspace::new();
+    let mut editor = Editor::from_directory(&mut maps, Ok(workspace.0.clone()));
+    let mut settings = crate::settings::Settings::default();
+    let viewport = URect::from_corners(UVec2::new(200, 70), UVec2::new(3080, 1686));
+    for scene in 2..=4 {
+        settings.choose_scale(scene);
+        for percent in [75, 100, 125, 150] {
+            settings.choose_ui_scale(percent);
+            editor.resize_ui(game::ui_size(&settings));
+            assert!(editor.canvas.size().cmpge(Vec2::new(480.0, 220.0)).all());
+            let ui = editor.canvas.min + Vec2::splat(2.5 * editor.cell_size());
+            let physical =
+                viewport.min.as_vec2() + ui * (viewport.width() as f32 / editor.ui_size.x);
+            let point = ui_point(physical, viewport, editor.ui_size.x).unwrap();
+            assert_eq!(editor.cell_at(point), Some(editor.offset + UVec2::splat(2)));
+            assert!(editor.cell_at(editor.canvas.max).is_none());
+            editor.act(Action::Pan(IVec2::splat(10000)), &mut maps);
+            let visible = (editor.canvas.size() / editor.cell_size())
+                .floor()
+                .as_uvec2();
+            assert_eq!(
+                editor.offset,
+                UVec2::new(editor.doc().map.width, editor.doc().map.height).saturating_sub(visible)
+            );
+        }
+    }
 }

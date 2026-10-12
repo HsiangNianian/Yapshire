@@ -2,13 +2,14 @@
 
 [English](CONTENT_PACKS.md)
 
-**尚未发布的源码版本：**内容包格式 **2**、世界格式 **3**、联机协议 **5**。
-客户端和服务端需要匹配。已发布的 v0.7.1–v0.7.2 使用协议 3、内容包格式 1，
-无法加入本开发版本的房间。新版加载器仍能读取格式 1 内容包和旧地图。
+**v0.9.0：**内容包格式 **2**、世界格式 **3**、联机协议 **5**。
+客户端和服务端需要匹配。v0.8.0 及更早版本使用协议 3 或更早协议，无法加入 v0.9.0 房间。
+新版加载器仍能读取格式 1 内容包和旧地图，并保留 v0.8.0 的全部 855 个建造瓦片 ID。
 
 官方资源从 `assets/packs/yapshire/pack.json` 加载，社区内容使用相同的加载器、校验和文件格式。
 一个世界使用一个完整内容包。本版包含有限地图、图集、物件和已有玩法的交互定义；
-依赖解析、脚本 Mod、自动下载美术资源、无限地图和挖掘建造系统留待后续。
+依赖解析、脚本 Mod、自动下载美术资源和无限地图留待后续。单人世界已有独立的瓦片建造系统，
+联机预制地图则支持下文的像素材质模拟。
 
 ## 做出自己的内容包
 
@@ -46,7 +47,11 @@ my_pack/
   terrain/water.tsj  + water.png
   buildings/tackle.tsj + tackle.png
   objects/harbor.tsj + harbor.png
-  backgrounds/street.png
+  terrain/natural.tsj + natural.png
+  buildings/modules.tsj + modules.png
+  nature/garden.tsj + garden.png
+  objects/street.tsj + street.png
+  backgrounds/street.png  # 兼容旧版自定义地图
   maps/town.tmj
   maps/tackle-shop.tmj
 ```
@@ -149,6 +154,8 @@ Tiled 左上角为原点，x 向右、y 向下。角色位置指脚底，换算�
 
 | 定义 | 效果 |
 | --- | --- |
+| 图块字符串属性 `build_layer` | 可选 `wall`、`solid`、`decor`，指定建造目录的默认图层 |
+| 图块字符串属性 `label` | 可选英文名称；内置翻译位于 `tiles` 独立模块 |
 | 图块字符串属性 `collision` | `none` 无碰撞、`solid` 实心、`platform` 单向平台 |
 | 图块字符串属性 `block` | 使用定义里的局部碰撞矩形，优先于旧的碰撞字符串 |
 | `block` 点对象 | 使用模型、实例状态和相对锚点的碰撞区域 |
@@ -271,3 +278,6 @@ Tilemap 与组合模型继续作为可编辑模板，不为每个材质像素创
 格式依据 Tiled 的 [JSON 文件规范](https://doc.mapeditor.org/en/stable/reference/json-map-format/)、
 [GID 规则](https://doc.mapeditor.org/en/stable/reference/global-tile-ids/)
 和[地形规则](https://doc.mapeditor.org/en/stable/manual/terrain/)。
+
+前景原稿、生成提示词与瓦片导出规则见 [素材说明](../tools/art_sources/README.md)。
+建筑窗框与墙面纹理逐格对齐，树冠保留枝条和透空；细节部件与自由建造用的连接叶片都可单格编辑。

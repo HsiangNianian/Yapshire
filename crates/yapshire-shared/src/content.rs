@@ -413,14 +413,21 @@ impl Content {
                 }
                 crate::maps::validate_properties(&tile.properties)?;
                 if tile.properties.iter().any(|p| {
-                    matches!(p.name.as_str(), "id" | "block" | "collision" | "terrain")
-                        && p.kind != "string"
+                    matches!(
+                        p.name.as_str(),
+                        "id" | "block" | "collision" | "terrain" | "build_layer" | "label"
+                    ) && p.kind != "string"
                 }) || tile.extra.contains_key("image")
                     || tile.extra.contains_key("objectgroup")
                 {
                     return Err(invalid(
                         "Tile IDs, collisions and terrains must be strings; per-tile images/polygons are unsupported",
                     ));
+                }
+                if string_property(&tile.properties, "build_layer")
+                    .is_some_and(|layer| !matches!(layer, "wall" | "solid" | "decor"))
+                {
+                    return Err(invalid("Unknown tile construction layer"));
                 }
                 if tile.animation.len() > 64
                     || tile.animation.iter().enumerate().any(|(i, f)| {

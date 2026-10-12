@@ -227,14 +227,18 @@ pub fn render(
     art: Res<Art>,
     mut fishing: ResMut<Fishing>,
     roots: Query<Entity, With<Root>>,
+    settings: Res<crate::settings::Settings>,
+    mut last_size: Local<Vec2>,
 ) {
-    if !fishing.dirty && !menu.is_changed() && !i18n.is_changed() {
+    let size = crate::game::ui_size(&settings);
+    if !fishing.dirty && !menu.is_changed() && !i18n.is_changed() && *last_size == size {
         return;
     }
     for root in &roots {
         commands.entity(root).despawn();
     }
     fishing.dirty = false;
+    *last_size = size;
     if menu.page != Page::Playing {
         return;
     }
@@ -332,6 +336,19 @@ pub fn render(
             ..default()
         },
     );
+    let body = commands
+        .spawn((
+            Node {
+                width: percent(100),
+                max_height: px(size.y - 176.0),
+                min_height: px(0),
+                overflow: Overflow::scroll_y(),
+                ..default()
+            },
+            ChildOf(panel),
+        ))
+        .id();
+    let panel = ui::scroll_content(&mut commands, body, 8.0, false);
     match fishing.panel {
         Panel::Bag => {
             ui::label(&mut commands, panel, &art, tr("fishing.bag"), 30.0, ui::INK);

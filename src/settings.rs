@@ -20,6 +20,7 @@ struct Preferences {
     version: u32,
     language: Language,
     pixel_scale: u32,
+    ui_scale: u32,
     server: String,
     clubs: Option<Vec<crate::clubs::SavedClub>>,
     #[serde(flatten)]
@@ -32,6 +33,7 @@ impl Default for Preferences {
             version: 1,
             language: Language::English,
             pixel_scale: 2,
+            ui_scale: 100,
             server: crate::network::DEFAULT_SERVER.trim().into(),
             clubs: None,
             extra: Default::default(),
@@ -82,6 +84,15 @@ impl Settings {
 
     pub(crate) fn choose_scale(&mut self, scale: u32) {
         self.preferences.pixel_scale = scale.clamp(2, 4);
+        self.persist();
+    }
+
+    pub fn ui_scale(&self) -> u32 {
+        self.preferences.ui_scale
+    }
+
+    pub(crate) fn choose_ui_scale(&mut self, scale: u32) {
+        self.preferences.ui_scale = scale.clamp(75, 150);
         self.persist();
     }
 
@@ -141,6 +152,7 @@ impl Settings {
             }
         };
         preferences.pixel_scale = preferences.pixel_scale.clamp(2, 4);
+        preferences.ui_scale = preferences.ui_scale.clamp(75, 150);
         preferences.server = crate::network::normalize_server(&preferences.server)
             .unwrap_or_else(|_| crate::network::DEFAULT_SERVER.trim().into());
         if crate::network::LEGACY_SERVERS.contains(&preferences.server.as_str()) {
@@ -196,9 +208,12 @@ pub(crate) enum Action {
     Close,
     Language(Language),
     Scale(u32),
+    UiScale(u32),
 }
 #[derive(Component)]
 pub(crate) struct Root;
+#[derive(Component)]
+pub(crate) struct Body;
 
 #[derive(Component)]
 pub(crate) struct CornerCamera;
@@ -253,7 +268,8 @@ pub(crate) fn update(
             }
         }
         let selected = matches!(action, Action::Language(language) if *language == i18n.language)
-            || matches!(action, Action::Scale(scale) if *scale == settings.pixel_scale());
+            || matches!(action, Action::Scale(scale) if *scale == settings.pixel_scale())
+            || matches!(action, Action::UiScale(scale) if *scale == settings.ui_scale());
         *background = BackgroundColor(if selected {
             GREEN
         } else if *interaction != Interaction::None {
@@ -271,6 +287,7 @@ pub(crate) fn update(
             Action::Close => settings.open = false,
             Action::Language(language) => settings.choose(language, &mut i18n),
             Action::Scale(scale) => settings.choose_scale(scale),
+            Action::UiScale(scale) => settings.choose_ui_scale(scale),
         }
         settings.changed_this_frame = true;
         settings.dirty = true;
@@ -336,12 +353,14 @@ pub(crate) fn render(
     scale: Res<UiScale>,
     corner_camera: Single<Entity, With<CornerCamera>>,
     roots: Query<Entity, With<Root>>,
+    scroll: Query<&ScrollPosition, With<Body>>,
     mut last_layout: Local<Option<(Page, u32)>>,
 ) {
     let layout = (menu.page, scale.0.to_bits());
     if !settings.dirty && *last_layout == Some(layout) {
         return;
     }
+    let scroll = scroll.iter().next().cloned().unwrap_or_default();
     for root in &roots {
         commands.entity(root).despawn();
     }
@@ -385,19 +404,26 @@ pub(crate) fn render(
         return;
     }
     commands.entity(root).insert((
+        Node {
+            width: percent(100),
+            height: percent(100),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
+            padding: UiRect::all(px(24)),
+            ..default()
+        },
         BackgroundColor(Color::srgba_u8(24, 42, 40, 210)),
         FocusPolicy::Block,
     ));
     let panel = commands
         .spawn((
             Node {
-                position_type: PositionType::Absolute,
-                left: px(408),
-                top: px(144),
                 width: px(624),
-                padding: UiRect::all(px(28)),
+                max_width: percent(100),
+                max_height: percent(100),
+                padding: UiRect::all(px(24)),
                 flex_direction: FlexDirection::Column,
-                row_gap: px(18),
+                row_gap: px(14),
                 border: UiRect::all(px(3)),
                 ..default()
             },
@@ -411,6 +437,7 @@ pub(crate) fn render(
             Node {
                 align_items: AlignItems::Center,
                 column_gap: px(16),
+                flex_shrink: 0.0,
                 ..default()
             },
             ChildOf(panel),
@@ -427,6 +454,22 @@ pub(crate) fn render(
     ));
     ui::label(&mut commands, title, &art, tr("settings.title"), 32.0, INK);
     ui::label(&mut commands, panel, &art, tr("settings.hint"), 18.0, MUTED);
+    let body = commands
+        .spawn((
+            Body,
+            scroll,
+            Node {
+                max_height: px((crate::game::ui_size(&settings).y - 234.0).max(160.0)),
+                min_height: px(0),
+                overflow: Overflow::scroll_y(),
+                flex_direction: FlexDirection::Column,
+                ..default()
+            },
+            ChildOf(panel),
+        ))
+        .id();
+    let content = ui::scroll_content(&mut commands, body, 14.0, true);
+
     let heading = commands
         .spawn((
             Node {
@@ -434,7 +477,7 @@ pub(crate) fn render(
                 column_gap: px(8),
                 ..default()
             },
-            ChildOf(panel),
+            ChildOf(content),
         ))
         .id();
     commands.spawn((
@@ -460,7 +503,7 @@ pub(crate) fn render(
                 column_gap: px(12),
                 ..default()
             },
-            ChildOf(panel),
+            ChildOf(content),
         ))
         .id();
     for language in Language::ALL {
@@ -472,7 +515,8 @@ pub(crate) fn render(
             Action::Language(language),
             language == i18n.language,
             Node {
-                width: px(272),
+                flex_grow: 1.0,
+                flex_basis: px(0),
                 height: px(58),
                 border: UiRect::all(px(2)),
                 align_items: AlignItems::Center,
@@ -481,14 +525,65 @@ pub(crate) fn render(
             },
         );
     }
-    ui::label(&mut commands, panel, &art, tr("settings.scale"), 18.0, INK);
+    ui::label(
+        &mut commands,
+        content,
+        &art,
+        tr("settings.ui_scale"),
+        18.0,
+        INK,
+    );
+    let ui_scales = commands
+        .spawn((
+            Node {
+                column_gap: px(12),
+                ..default()
+            },
+            ChildOf(content),
+        ))
+        .id();
+    for value in [75, 100, 125, 150] {
+        button(
+            &mut commands,
+            ui_scales,
+            &art,
+            format!("{value}%"),
+            Action::UiScale(value),
+            value == settings.ui_scale(),
+            Node {
+                flex_grow: 1.0,
+                flex_basis: px(0),
+                height: px(52),
+                border: UiRect::all(px(2)),
+                align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
+                ..default()
+            },
+        );
+    }
+    ui::label(
+        &mut commands,
+        content,
+        &art,
+        tr("settings.ui_scale_hint"),
+        16.0,
+        MUTED,
+    );
+    ui::label(
+        &mut commands,
+        content,
+        &art,
+        tr("settings.scale"),
+        18.0,
+        INK,
+    );
     let scales = commands
         .spawn((
             Node {
                 column_gap: px(12),
                 ..default()
             },
-            ChildOf(panel),
+            ChildOf(content),
         ))
         .id();
     for scale in 2..=4 {
@@ -500,7 +595,8 @@ pub(crate) fn render(
             Action::Scale(scale),
             scale == settings.pixel_scale(),
             Node {
-                width: px(178),
+                flex_grow: 1.0,
+                flex_basis: px(0),
                 height: px(52),
                 border: UiRect::all(px(2)),
                 align_items: AlignItems::Center,
@@ -511,7 +607,7 @@ pub(crate) fn render(
     }
     ui::label(
         &mut commands,
-        panel,
+        content,
         &art,
         tr("settings.scale_hint"),
         16.0,
@@ -519,7 +615,7 @@ pub(crate) fn render(
     );
     ui::label(
         &mut commands,
-        panel,
+        content,
         &art,
         settings.notice.clone(),
         16.0,
@@ -535,6 +631,7 @@ pub(crate) fn render(
         Node {
             width: percent(100),
             height: px(42),
+            flex_shrink: 0.0,
             border: UiRect::all(px(2)),
             align_items: AlignItems::Center,
             justify_content: JustifyContent::Center,
@@ -559,17 +656,40 @@ mod tests {
         .unwrap();
         let (mut settings, _) = Settings::from_path(Ok(path.clone()));
         assert_eq!(settings.pixel_scale(), 2);
+        assert_eq!(settings.ui_scale(), 100);
+        settings.choose_ui_scale(150);
         for (input, expected) in [(3, 3), (4, 4), (2, 2), (0, 2), (99, 4)] {
             settings.choose_scale(input);
             let (saved, language) = Settings::from_path(Ok(path.clone()));
             assert_eq!(saved.pixel_scale(), expected);
+            assert_eq!(saved.ui_scale(), 150);
             assert_eq!(language.language, Language::Chinese);
             assert_eq!(saved.server(), "wss://friends.example");
             assert_eq!(read(&path).unwrap().extra["volume"], 0.8);
         }
-        std::fs::write(&path, br#"{"pixel_scale":99,"language":"zh-CN"}"#).unwrap();
+        for (input, expected) in [
+            (75, 75),
+            (100, 100),
+            (125, 125),
+            (150, 150),
+            (0, 75),
+            (999, 150),
+        ] {
+            settings.choose_ui_scale(input);
+            let (saved, language) = Settings::from_path(Ok(path.clone()));
+            assert_eq!(saved.ui_scale(), expected);
+            assert_eq!(saved.pixel_scale(), 4);
+            assert_eq!(language.language, Language::Chinese);
+            assert_eq!(read(&path).unwrap().extra["volume"], 0.8);
+        }
+        std::fs::write(
+            &path,
+            br#"{"pixel_scale":99,"ui_scale":999,"language":"zh-CN"}"#,
+        )
+        .unwrap();
         let (loaded, language) = Settings::from_path(Ok(path));
         assert_eq!(loaded.pixel_scale(), 4);
+        assert_eq!(loaded.ui_scale(), 150);
         assert_eq!(language.language, Language::Chinese);
         std::fs::remove_dir_all(dir).unwrap();
     }

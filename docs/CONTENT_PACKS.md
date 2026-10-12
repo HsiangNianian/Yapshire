@@ -2,15 +2,16 @@
 
 [简体中文](CONTENT_PACKS.zh-CN.md)
 
-**Unreleased source:** network protocol **5**, world format **3**, pack format **2**.
+**v0.9.0:** network protocol **5**, world format **3**, pack format **2**.
 Use matching game/server builds. Published v0.7.1–v0.7.2 builds use protocol 3 and
-pack format 1; they cannot join these development rooms. This loader still reads
-format-1 packs and legacy maps.
+pack format 1; v0.8.0 also uses protocol 3 and cannot join v0.9.0 rooms. This loader still reads
+format-1 packs and legacy maps, including the 855 construction tile IDs from v0.8.0.
 
 A pack owns a finite collection of maps and their assets. The official game loads
 `assets/packs/yapshire/pack.json` through the same loader as a community pack.
 There is one active pack per world; dependency resolution, script mods, automatic
-asset downloads, infinite worlds and a building/mining system are not implemented.
+asset downloads and infinite worlds are not implemented. Local solo worlds have
+separate tile construction; authored multiplayer maps support the pixel materials below.
 
 ## Start with an existing pack
 
@@ -57,7 +58,11 @@ my_pack/
   terrain/water.tsj  + water.png
   buildings/tackle.tsj + tackle.png
   objects/harbor.tsj + harbor.png
-  backgrounds/street.png
+  terrain/natural.tsj + natural.png
+  buildings/modules.tsj + modules.png
+  nature/garden.tsj + garden.png
+  objects/street.tsj + street.png
+  backgrounds/street.png  # compatibility for older authored maps
   maps/town.tmj
   maps/tackle-shop.tmj
 ```
@@ -186,6 +191,8 @@ feet positions. World conversion is `world_x = tiled_x`,
 
 | Definition | Behavior |
 | --- | --- |
+| Tile property `build_layer` | Optional string `wall`, `solid` or `decor`: default construction layer |
+| Tile property `label` | Optional English display name; bundled translations use the `tiles` domain |
 | Tile property `collision` | String: `none` (default), `solid`, or `platform` |
 | Tile property `block` | Uses the definition's partial colliders instead of the legacy collision string |
 | Object type `block` | Uses model parts, selected state and anchor-relative colliders |

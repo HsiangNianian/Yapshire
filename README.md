@@ -51,20 +51,21 @@ make a place to spend a little time together.
 download a game archive, extract it, and launch. Rust, Node.js, and a Cloudflare
 account are not needed to play.
 
-| Platform | Download v0.7.2 | After extracting |
+| Platform | Download v0.9.0 | After extracting |
 | --- | --- | --- |
-| Windows · x64 | [Download ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-windows-x64.zip) | Open `yapshire.exe` |
-| Linux · x64 | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-linux-x64.tar.gz) | Run `./yapshire` |
-| macOS · Apple Silicon | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-macos-arm64.tar.gz) | Open `Yapshire.app` |
-| macOS · Intel | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.7.2/yapshire-0.7.2-macos-x64.tar.gz) | Open `Yapshire.app` |
+| Windows · x64 | [Download ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-windows-x64.zip) | Open `yapshire.exe` |
+| Linux · x64 | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-linux-x64.tar.gz) | Run `./yapshire` |
+| macOS · Apple Silicon | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-macos-arm64.tar.gz) | Open `Yapshire.app` |
+| macOS · Intel | [Download tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-macos-x64.tar.gz) | Open `Yapshire.app` |
 
 Extract the **whole archive**. On Windows and Linux, keep `assets/` beside the
 executable; on macOS, the assets are inside the app. The bundled pixel font supports
 English and Simplified Chinese. Every release also includes `SHA256SUMS` and
 `CHANGELOG.md`, with matching Release Notes.
 
-Use **v0.7.x** clients and servers with matching content packs (protocol 3).
-The official online service uses the same versioned content pack. See [self-hosting](docs/SELF_HOSTING.md) for compatibility and setup.
+Use **v0.9.0** clients and servers together (protocol **5**, pack **2.0.0**).
+The hosted official service still runs v0.8.0/protocol 3; for this release, host a
+LAN room or use a matching self-hosted server. See [self-hosting](docs/SELF_HOSTING.md) for compatibility and setup.
 
 <details>
 <summary><strong>Platform notes</strong></summary>
@@ -104,7 +105,7 @@ The official server is **Yapshire Town (Yapshire 小镇)** at
 players. Its `NIANNIAN` room is always listed, and players can create temporary
 rooms. The previous official addresses remain available for existing clients;
 updated clients migrate saved official addresses to the new default. Use
-**v0.7.x** clients; earlier versions use a different map protocol.
+**v0.8.0** clients; v0.7.x uses an older content pack.
 
 While the online lobby is open, Clubs refresh independently every eight seconds
 and show room names, player counts/capacity and measured latency. Room latency
@@ -141,7 +142,7 @@ window is required. Join `ws://127.0.0.1:4761` and choose **MAIN0001**.
 
 ```sh
 docker run -d --name yapshire --restart unless-stopped \
-  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.7.2
+  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.9.0
 ```
 
 The Linux AMD64/ARM64 image and four native server downloads use the same
@@ -152,7 +153,7 @@ Compose, configuration and public access.
 
 ## An afternoon of fishing
 
-**Included in the v0.7.2 downloads above.**
+**Included in the v0.9.0 downloads above.**
 
 Walk east past the street sign to **Tide & Tackle**. Press **E** at the door to
 enter, walk up to Mara's counter, and press **E** again to shop. A new nickname
@@ -208,7 +209,7 @@ lists and sizes, and map-defined collision/portals/shops/fishing regions. Custom
 packs use the same pipeline as official content. Released v0.7.1–v0.7.2 builds
 use protocol 3 and require matching servers and content.
 
-**Unreleased source:** [Content packs v2](docs/CONTENT_PACKS.md#blocks-models-and-irregular-shapes)
+**New in v0.9.0:** [Content packs v2](docs/CONTENT_PACKS.md#blocks-models-and-irregular-shapes)
 separates block rules, multipart models and individual PNG textures. Terrain,
 buildings, furniture and irregular foliage share stable definitions; the editor
 places complete instances, and room servers synchronize object states. Background
@@ -219,20 +220,33 @@ dig a hole, pour water into it, or build a sand pile. Press **V**, choose
 **1 Dig / 2 Sand / 3 Water**, and hold the left mouse button near your character.
 The room server simulates the result for every player, including late arrivals.
 Live terrain changes last for the room's lifetime; saved editor maps remain templates.
-This source uses **protocol 5** and requires a matching
-development server; the published v0.7.2 service is not compatible.
+v0.9.0 uses **protocol 5** and requires a matching server. It cannot join
+v0.8.0 or earlier rooms.
 
 This release also includes an [autumn lakeside art update](docs/ART_DIRECTION.md):
 misty mountains, conifers, gold birches, cedar buildings and a dark forest/brass UI.
 It keeps the editable tile grid and bundled fonts in both languages.
 
+## Explore and build
+
+Choose **[5] Explore & Build** for local seeded worlds with hills, caves,
+mining, placement and independent saves. Build with 855 pack tiles across wall,
+solid and decoration layers, including building parts, trees, leaves and shrubs.
+The editor retains the same tile catalog alongside the town’s new model stamps. See the
+[open-world guide](docs/OPEN_WORLD.md) for controls and current scope.
+This first solo mode is included in v0.8.0; online Club rooms still use authored maps.
+
 ## Settings and language
 
 Open the icon-only pixel gear in the **top-right corner** from the
 menu, game or map editor. Its tap target stays at least 48 points on small windows. Switch between **English** and **简体中文** immediately;
-your choice is remembered after restarting. **SCALE** offers **2x / 3x / 4x**
-(default **2x**). Larger pixels bring the world closer; changes apply immediately
-and persist after restart, in windowed and fullscreen modes. Missing translations fall back to
+your choice is remembered after restarting. **SCENE SCALE** offers **2x / 3x / 4x**
+(default **2x**) to bring the world closer. **UI SCALE** independently resizes text,
+buttons and panels to **75% / 100% / 125% / 150%** (default **100%**). Both apply
+immediately and persist after restart, in windowed and fullscreen modes. Taller
+panels scroll with the mouse wheel or a touch swipe; the settings Done button
+stays visible. The map editor adapts its canvas and scrolls its sidebar at larger
+UI sizes. Missing translations fall back to
 English. Translation files are split by feature under `assets/locales/`; see the
 [translation guide](docs/TRANSLATING.md) to contribute.
 
@@ -245,7 +259,7 @@ English. Translation files are split by feature under `assets/locales/`; see the
 | Space | Jump / hook a bite / hold to reel |
 | E | Enter or leave the tackle shop, browse the counter, cast at the pier |
 | I | Open / close your satchel |
-| V, then 1 / 2 / 3 + left mouse | Material tools: dig / sand / water (unreleased source) |
+| V, then 1 / 2 / 3 + left mouse | Material tools: dig / sand / water (multiplayer rooms) |
 | Enter | Open chat / send |
 | Escape | Close the current panel or cancel a cast, leave the shop, close chat, or leave the room |
 | Tab | Next input field |

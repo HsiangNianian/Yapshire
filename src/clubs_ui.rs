@@ -10,7 +10,7 @@ use crate::{
 use bevy::{
     input::mouse::{MouseScrollUnit, MouseWheel},
     prelude::*,
-    ui::FocusPolicy,
+    ui::{FocusPolicy, RelativeCursorPosition},
 };
 
 const SAND: Color = ui::SURFACE;
@@ -18,7 +18,23 @@ const PAPER: Color = Color::srgb_u8(20, 32, 31);
 const WARN: Color = Color::srgb_u8(225, 158, 112);
 
 #[derive(Component)]
+#[require(RelativeCursorPosition)]
 pub(crate) struct RoomScroll;
+
+#[derive(Component, PartialEq, Eq)]
+pub(crate) struct Sidebar {
+    editing: Option<Option<u64>>,
+    club: Option<u64>,
+}
+
+impl Sidebar {
+    pub(crate) fn new(menu: &Menu, browser: &Browser) -> Self {
+        Self {
+            editing: menu.club_editor,
+            club: browser.selected().map(|c| c.saved.id),
+        }
+    }
+}
 
 fn node(commands: &mut Commands, parent: Entity, node: Node) -> Entity {
     commands.spawn((node, ChildOf(parent))).id()
@@ -106,6 +122,8 @@ fn row(commands: &mut Commands, parent: Entity) -> Entity {
         parent,
         Node {
             column_gap: px(8),
+            row_gap: px(8),
+            flex_wrap: FlexWrap::Wrap,
             align_items: AlignItems::Center,
             ..default()
         },
@@ -119,6 +137,7 @@ pub fn render(
     menu: &Menu,
     browser: &Browser,
     scale: f32,
+    sidebar_scroll: Vec2,
 ) {
     let panel = commands
         .spawn((
@@ -147,6 +166,8 @@ pub fn render(
         header,
         Node {
             flex_grow: 1.0,
+            min_width: px(220),
+            flex_basis: px(220),
             flex_direction: FlexDirection::Column,
             row_gap: px(4),
             ..default()
@@ -203,13 +224,15 @@ pub fn render(
     );
     let sidebar = commands
         .spawn((
+            Sidebar::new(menu, browser),
+            ScrollPosition(sidebar_scroll),
             Node {
                 width: px(336),
                 flex_shrink: 0.0,
                 padding: UiRect::all(px(14)),
                 flex_direction: FlexDirection::Column,
                 row_gap: px(7),
-                overflow: Overflow::clip(),
+                overflow: Overflow::scroll_y(),
                 ..default()
             },
             BackgroundColor(PAPER),
@@ -217,6 +240,7 @@ pub fn render(
         ))
         .id();
 
+    let sidebar = ui::scroll_content(commands, sidebar, 7.0, false);
     if let Some(editing) = menu.club_editor {
         ui::label(
             commands,
@@ -743,7 +767,10 @@ pub fn scroll(
     settings: Res<Settings>,
     menu: Res<Menu>,
     mut browser: ResMut<Browser>,
-    mut areas: Query<(&ComputedNode, &mut ScrollPosition), With<RoomScroll>>,
+    mut areas: Query<
+        (&ComputedNode, &RelativeCursorPosition, &mut ScrollPosition),
+        With<RoomScroll>,
+    >,
 ) {
     let delta: f32 = wheel
         .read()
@@ -759,7 +786,7 @@ pub fn scroll(
     if menu.page != Page::Cloud || settings.blocks_input() {
         return;
     }
-    for (computed, mut position) in &mut areas {
+    for (computed, cursor, mut position) in &mut areas {
         // Refreshed UI entities have no measured layout until the next frame.
         // Preserve the scroll offset through that frame instead of clamping to 0.
         if computed.size().y <= 0.0 {
@@ -768,6 +795,7 @@ pub fn scroll(
         let max = ((computed.content_size().y - computed.size().y)
             * computed.inverse_scale_factor())
         .max(0.0);
+        let delta = if cursor.cursor_over() { delta } else { 0.0 };
         browser.scroll = (browser.scroll - delta).clamp(0.0, max);
         position.0.y = browser.scroll;
     }

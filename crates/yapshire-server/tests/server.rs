@@ -105,6 +105,16 @@ fn read(socket: &mut WebSocket<TcpStream>) -> ServerMessage {
         }
     }
 }
+fn read_control(socket: &mut WebSocket<TcpStream>) -> Message {
+    loop {
+        let message = socket.read().unwrap();
+        if matches!(&message, Message::Text(raw) if matches!(serde_json::from_str::<ServerMessage>(raw), Ok(ServerMessage::Pixels { .. })))
+        {
+            continue;
+        }
+        return message;
+    }
+}
 fn read_raw(socket: &mut WebSocket<TcpStream>) -> ServerMessage {
     serde_json::from_str(socket.read().unwrap().to_text().unwrap()).unwrap()
 }
@@ -454,7 +464,7 @@ fn malformed_messages_and_shutdown_close_connections() {
     ))
     .unwrap();
     assert!(
-        matches!(a.read().unwrap(), Message::Close(Some(frame)) if u16::from(frame.code) == 1007)
+        matches!(read_control(&mut a), Message::Close(Some(frame)) if u16::from(frame.code) == 1007)
     );
     let mut b = host.open("/room/MAIN0001?protocol=5", "");
     acknowledge(&mut b);
@@ -462,8 +472,8 @@ fn malformed_messages_and_shutdown_close_connections() {
     let mut pending = host.open("/room/MAIN0001?protocol=5", "");
     assert!(matches!(read(&mut pending), ServerMessage::World { .. }));
     host.stop.store(true, Ordering::Relaxed);
-    assert!(matches!(b.read().unwrap(), Message::Close(_)));
-    assert!(matches!(pending.read().unwrap(), Message::Close(_)));
+    assert!(matches!(read_control(&mut b), Message::Close(_)));
+    assert!(matches!(read_control(&mut pending), Message::Close(_)));
 }
 
 #[test]
@@ -482,7 +492,7 @@ fn oversized_binary_and_flooding_clients_do_not_interrupt_the_room() {
         assert!(matches!(read(&mut observer), ServerMessage::Joined { .. }));
         offender.send(message).unwrap();
         assert!(
-            matches!(offender.read().unwrap(), Message::Close(Some(frame)) if u16::from(frame.code) == code)
+            matches!(read_control(&mut offender), Message::Close(Some(frame)) if u16::from(frame.code) == code)
         );
         assert!(matches!(read(&mut observer), ServerMessage::Left { id } if id == offender_id));
     }

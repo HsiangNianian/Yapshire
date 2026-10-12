@@ -1,5 +1,5 @@
 use crate::{
-    editor::{Action, CANVAS, CANVAS_SIZE, Dialog, Editor, Tool},
+    editor::{Action, Dialog, Editor, Tool},
     game::Art,
     i18n::{I18n, Message, tr},
     maps::{MapKind, Maps},
@@ -18,9 +18,9 @@ pub(crate) struct Cell {
     point: UVec2,
 }
 #[derive(Component)]
-pub(crate) struct Face {
-    rect: Rect,
-}
+pub(crate) struct Face;
+#[derive(Component)]
+pub(crate) struct Sidebar;
 #[derive(Component)]
 pub(crate) struct ButtonIcon(Action);
 #[derive(Component)]
@@ -99,9 +99,7 @@ fn button(
     let id = box_at(commands, parent, x, y, w, h, PAPER);
     commands.entity(id).insert((
         Button,
-        Face {
-            rect: Rect::new(x, y, x + w, y + h),
-        },
+        Face,
         action,
         Node {
             position_type: PositionType::Absolute,
@@ -216,6 +214,7 @@ pub(crate) fn render(
     images: Res<Assets<Image>>,
     maps: Res<Maps>,
     roots: Query<Entity, With<Root>>,
+    sidebar_scroll: Query<&ScrollPosition, With<Sidebar>>,
     scale: Res<UiScale>,
     mut last_scale: Local<f32>,
 ) {
@@ -231,6 +230,12 @@ pub(crate) fn render(
     for root in &roots {
         commands.entity(root).despawn();
     }
+    let sidebar_scroll = sidebar_scroll.iter().next().cloned().unwrap_or_default();
+    let ui_size = editor.ui_size;
+    let compact = ui_size.x < 1200.0;
+    let canvas_origin = editor.canvas.min;
+    let canvas_size = editor.canvas.size();
+    let controls_y = editor.canvas.max.y + 16.0;
     editor.ui_dirty = false;
     *last_scale = scale.0;
     editor.canvas_dirty = true;
@@ -247,7 +252,15 @@ pub(crate) fn render(
             BackgroundColor(ui::PANEL.with_alpha(1.0)),
         ))
         .id();
-    box_at(&mut commands, root, 0.0, 0.0, 1440.0, 74.0, SEA);
+    box_at(
+        &mut commands,
+        root,
+        0.0,
+        0.0,
+        ui_size.x,
+        if compact { 102.0 } else { 74.0 },
+        SEA,
+    );
     let title = text_at(&mut commands, root, &art, "", 24.0, 21.0, 30.0, CREAM);
     commands.entity(title).insert(Readout::Title);
     for (label, x, width, action) in [
@@ -262,8 +275,12 @@ pub(crate) fn render(
             &art,
             label,
             [
-                x - (crate::settings::corner_space(scale.0) - 72.0),
-                18.0,
+                if compact {
+                    x - 774.0
+                } else {
+                    x + ui_size.x - 1440.0 - (crate::settings::corner_space(scale.0) - 72.0)
+                },
+                if compact { 58.0 } else { 18.0 },
                 width,
                 38.0,
             ],
@@ -296,65 +313,74 @@ pub(crate) fn render(
             root,
             &art,
             label,
-            [x, 90.0, width, 44.0],
+            [x, if compact { 112.0 } else { 90.0 }, width, 44.0],
             action,
         );
     }
     for x in [266.0, 530.0, 678.0] {
-        box_at(&mut commands, root, x, 94.0, 2.0, 36.0, PAPER);
+        box_at(
+            &mut commands,
+            root,
+            x,
+            if compact { 116.0 } else { 94.0 },
+            2.0,
+            36.0,
+            PAPER,
+        );
     }
-    let (tool_name, tool_help) = match editor.tool {
-        Tool::Brush => (tr("editor.brush"), tr("editor.brush_help")),
-        Tool::Eraser => (tr("editor.eraser"), tr("editor.eraser_help")),
-        Tool::Pick => (tr("editor.pick"), tr("editor.pick_help")),
-        Tool::Fill => (tr("editor.fill"), tr("editor.fill_help")),
-        Tool::Stamp => (tr("editor.stamp"), tr("editor.stamp_help")),
-    };
-    text_at(&mut commands, root, &art, tool_name, 700.0, 94.0, 20.0, INK);
-    text_at(
-        &mut commands,
-        root,
-        &art,
-        tool_help,
-        700.0,
-        119.0,
-        12.0,
-        MUTED,
-    );
-    text_at(
-        &mut commands,
-        root,
-        &art,
-        tr("editor.local_map"),
-        24.0,
-        134.0,
-        14.0,
-        MUTED,
-    );
-
+    if !compact {
+        let (tool_name, tool_help) = match editor.tool {
+            Tool::Brush => (tr("editor.brush"), tr("editor.brush_help")),
+            Tool::Eraser => (tr("editor.eraser"), tr("editor.eraser_help")),
+            Tool::Pick => (tr("editor.pick"), tr("editor.pick_help")),
+            Tool::Fill => (tr("editor.fill"), tr("editor.fill_help")),
+            Tool::Stamp => (tr("editor.stamp"), tr("editor.stamp_help")),
+        };
+        text_at(&mut commands, root, &art, tool_name, 700.0, 94.0, 20.0, INK);
+        text_at(
+            &mut commands,
+            root,
+            &art,
+            tool_help,
+            700.0,
+            119.0,
+            12.0,
+            MUTED,
+        );
+        text_at(
+            &mut commands,
+            root,
+            &art,
+            tr("editor.local_map"),
+            24.0,
+            canvas_origin.y - 20.0,
+            14.0,
+            MUTED,
+        );
+    }
     let canvas = box_at(
         &mut commands,
         root,
-        CANVAS.x,
-        CANVAS.y,
-        CANVAS_SIZE.x,
-        CANVAS_SIZE.y,
+        canvas_origin.x,
+        canvas_origin.y,
+        canvas_size.x,
+        canvas_size.y,
         SEA,
     );
     commands.entity(canvas).insert(Node {
         position_type: PositionType::Absolute,
-        left: px(CANVAS.x),
-        top: px(CANVAS.y),
-        width: px(CANVAS_SIZE.x),
-        height: px(CANVAS_SIZE.y),
+        left: px(canvas_origin.x),
+        top: px(canvas_origin.y),
+        width: px(canvas_size.x),
+        height: px(canvas_size.y),
         overflow: Overflow::clip(),
         ..default()
     });
     let size = editor.cell_size();
     let expanded = editor.doc().map.expanded(&maps.world.content);
     let map = &expanded;
-    let columns = (CANVAS_SIZE.x / size).ceil() as u32;
-    let rows = (CANVAS_SIZE.y / size).ceil() as u32;
+    let columns = (canvas_size.x / size).ceil() as u32;
+    let rows = (canvas_size.y / size).ceil() as u32;
     if !maps.info(editor.kind).indoors {
         let panorama = crate::game::PANORAMA_SIZE;
         let zoom = editor.zoom as f32;
@@ -470,7 +496,7 @@ pub(crate) fn render(
                 col as f32 * size,
                 0.0,
                 1.0,
-                CANVAS_SIZE.y,
+                canvas_size.y,
                 color,
             );
         }
@@ -480,7 +506,7 @@ pub(crate) fn render(
                 canvas,
                 0.0,
                 row as f32 * size,
-                CANVAS_SIZE.x,
+                canvas_size.x,
                 1.0,
                 color,
             );
@@ -516,9 +542,9 @@ pub(crate) fn render(
             let x = ((object.x - origin.x) / 16.0 - editor.offset.x as f32) * size;
             let y = ((object.y - origin.y) / 16.0 - editor.offset.y as f32) * size;
             if x < -width * editor.zoom as f32
-                || x >= CANVAS_SIZE.x
+                || x >= canvas_size.x
                 || y < -height * editor.zoom as f32
-                || y >= CANVAS_SIZE.y
+                || y >= canvas_size.y
             {
                 continue;
             }
@@ -593,7 +619,12 @@ pub(crate) fn render(
             root,
             &art,
             label,
-            [x, 714.0, w, 34.0],
+            [
+                x,
+                controls_y + if compact && x >= 308.0 { 42.0 } else { 0.0 },
+                w,
+                34.0,
+            ],
             action,
         );
     }
@@ -603,75 +634,118 @@ pub(crate) fn render(
         &art,
         &format!("{}x", editor.zoom),
         200.0,
-        722.0,
+        controls_y + 8.0,
         18.0,
         INK,
     );
-    let coords = text_at(&mut commands, root, &art, "", 540.0, 721.0, 18.0, INK);
-    commands.entity(coords).insert(Readout::Cursor);
-    text_at(
+    let coords = text_at(
         &mut commands,
         root,
         &art,
-        tr("editor.controls"),
-        24.0,
-        756.0,
-        14.0,
-        MUTED,
+        "",
+        if compact { 24.0 } else { 540.0 },
+        controls_y + if compact { 48.0 } else { 7.0 },
+        18.0,
+        INK,
     );
-    let status = text_at(&mut commands, root, &art, "", 24.0, 780.0, 16.0, INK);
+    commands.entity(coords).insert(Readout::Cursor);
+    if !compact {
+        text_at(
+            &mut commands,
+            root,
+            &art,
+            tr("editor.controls"),
+            24.0,
+            ui_size.y - 54.0,
+            14.0,
+            MUTED,
+        );
+    }
+    let status = text_at(
+        &mut commands,
+        root,
+        &art,
+        "",
+        24.0,
+        ui_size.y - 30.0,
+        16.0,
+        INK,
+    );
     commands.entity(status).insert((
         Readout::Status,
         Node {
             position_type: PositionType::Absolute,
             left: px(24),
-            top: px(778),
-            width: px(1392),
+            top: px(ui_size.y - 32.0),
+            width: px(ui_size.x - 48.0),
             height: px(30),
             overflow: Overflow::clip(),
             ..default()
         },
     ));
 
-    box_at(&mut commands, root, 1004.0, 90.0, 2.0, 660.0, PAPER);
-    for (icon, y) in [(Icon::Layers, 94.0), (Icon::Tiles, 298.0)] {
+    let sidebar = commands
+        .spawn((
+            Sidebar,
+            sidebar_scroll,
+            Node {
+                position_type: PositionType::Absolute,
+                left: px(ui_size.x - 436.0),
+                top: px(if compact { 176.0 } else { 90.0 }),
+                width: px(412),
+                bottom: px(42),
+                overflow: Overflow::scroll_y(),
+                ..default()
+            },
+            ChildOf(root),
+        ))
+        .id();
+    let sidebar = ui::scroll_content(&mut commands, sidebar, 0.0, false);
+    commands.entity(sidebar).insert(Node {
+        width: percent(100),
+        height: px(690),
+        flex_shrink: 0.0,
+        ..default()
+    });
+    box_at(&mut commands, sidebar, 0.0, 0.0, 2.0, 660.0, PAPER);
+    for (icon, y) in [(Icon::Layers, 4.0), (Icon::Tiles, 208.0)] {
         commands.spawn((
             icon.image(&art),
             Node {
                 position_type: PositionType::Absolute,
-                left: px(1020),
+                left: px(16),
                 top: px(y),
                 width: px(16),
                 height: px(16),
                 ..default()
             },
-            ChildOf(root),
+            ChildOf(sidebar),
         ));
     }
     text_at(
         &mut commands,
-        root,
+        sidebar,
         &art,
         tr("editor.layers"),
-        1044.0,
-        92.0,
+        40.0,
+        2.0,
         20.0,
         INK,
     );
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         "",
-        [1310.0, 88.0, 42.0, 30.0],
+        [306.0, 0.0, 42.0, 30.0],
         Action::LayerPage(-1),
     );
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         "",
-        [1362.0, 88.0, 42.0, 30.0],
+        [358.0, 0.0, 42.0, 30.0],
         Action::LayerPage(1),
     );
     for (row, layer) in (0..map.layers.len())
@@ -680,62 +754,62 @@ pub(crate) fn render(
         .take(5)
         .enumerate()
     {
-        let y = 124.0 + row as f32 * 30.0;
+        let y = 34.0 + row as f32 * 30.0;
         button(
             &mut commands,
-            root,
+            sidebar,
             &art,
             crate::maps::layer_title(&map.layers[layer].name),
-            [1020.0, y, 302.0, 26.0],
+            [16.0, y, 302.0, 26.0],
             Action::Layer(layer),
         );
         button(
             &mut commands,
-            root,
+            sidebar,
             &art,
             "",
-            [1330.0, y, 74.0, 26.0],
+            [326.0, y, 74.0, 26.0],
             Action::Visibility(layer),
         );
     }
     text_at(
         &mut commands,
-        root,
+        sidebar,
         &art,
         tr("editor.tiles"),
-        1044.0,
-        296.0,
+        40.0,
+        206.0,
         20.0,
         INK,
     );
     let pages = maps.tile_count().div_ceil(128);
     text_at(
         &mut commands,
-        root,
+        sidebar,
         &art,
         &format!("{} / {pages}", editor.palette + 1),
-        1240.0,
-        300.0,
+        236.0,
+        210.0,
         16.0,
         MUTED,
     );
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         "",
-        [1326.0, 288.0, 36.0, 30.0],
+        [322.0, 198.0, 36.0, 30.0],
         Action::Palette(-1),
     );
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         "",
-        [1368.0, 288.0, 36.0, 30.0],
+        [364.0, 198.0, 36.0, 30.0],
         Action::Palette(1),
     );
-    box_at(&mut commands, root, 1018.0, 336.0, 388.0, 196.0, SEA);
+    box_at(&mut commands, sidebar, 14.0, 246.0, 388.0, 196.0, SEA);
     for slot in 0..128_u32 {
         let gid = editor.palette as u32 * 128 + slot + 1;
         if gid > maps.tile_count() {
@@ -743,12 +817,12 @@ pub(crate) fn render(
         }
         let id = button(
             &mut commands,
-            root,
+            sidebar,
             &art,
             "",
             [
-                1020.0 + (slot % 16) as f32 * 24.0,
-                338.0 + (slot / 16) as f32 * 24.0,
+                16.0 + (slot % 16) as f32 * 24.0,
+                248.0 + (slot / 16) as f32 * 24.0,
                 24.0,
                 24.0,
             ],
@@ -767,7 +841,7 @@ pub(crate) fn render(
             ChildOf(id),
         ));
     }
-    let preview = box_at(&mut commands, root, 1020.0, 556.0, 64.0, 64.0, SEA);
+    let preview = box_at(&mut commands, sidebar, 16.0, 466.0, 64.0, 64.0, SEA);
     let (image, transform) = tile_image(editor.tile, &maps, &assets);
     commands.spawn((
         image,
@@ -779,13 +853,13 @@ pub(crate) fn render(
         },
         ChildOf(preview),
     ));
-    let brush = text_at(&mut commands, root, &art, "", 1100.0, 544.0, 14.0, INK);
+    let brush = text_at(&mut commands, sidebar, &art, "", 96.0, 454.0, 14.0, INK);
     commands.entity(brush).insert((
         Readout::Brush,
         Node {
             position_type: PositionType::Absolute,
-            left: px(1100),
-            top: px(544),
+            left: px(96),
+            top: px(454),
             width: px(304),
             height: px(40),
             overflow: Overflow::clip(),
@@ -794,62 +868,71 @@ pub(crate) fn render(
     ));
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         "H",
-        [1100.0, 588.0, 94.0, 30.0],
+        [96.0, 498.0, 94.0, 30.0],
         Action::Flip(0x8000_0000),
     );
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         "V",
-        [1202.0, 588.0, 94.0, 30.0],
+        [198.0, 498.0, 94.0, 30.0],
         Action::Flip(0x4000_0000),
     );
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         tr("editor.swap"),
-        [1304.0, 588.0, 100.0, 30.0],
+        [300.0, 498.0, 100.0, 30.0],
         Action::Flip(0x2000_0000),
     );
     if let Some(&id) = maps.stamp_ids().get(editor.stamp) {
         button(
             &mut commands,
-            root,
+            sidebar,
             &art,
             "",
-            [1020.0, 640.0, 40.0, 34.0],
+            [16.0, 550.0, 40.0, 34.0],
             Action::Stamp(-1),
         );
         button(
             &mut commands,
-            root,
+            sidebar,
             &art,
             tr("editor.stamp"),
-            [1068.0, 640.0, 288.0, 34.0],
+            [64.0, 550.0, 288.0, 34.0],
             Action::Tool(Tool::Stamp),
         );
         button(
             &mut commands,
-            root,
+            sidebar,
             &art,
             "",
-            [1364.0, 640.0, 40.0, 34.0],
+            [360.0, 550.0, 40.0, 34.0],
             Action::Stamp(1),
         );
-        text_at(&mut commands, root, &art, id, 1020.0, 684.0, 14.0, ui::GOLD);
+        text_at(
+            &mut commands,
+            sidebar,
+            &art,
+            id,
+            16.0,
+            594.0,
+            14.0,
+            ui::GOLD,
+        );
         if let Some(block) = maps.world.content.blocks.get(id) {
             let model = block.model("default", &maps.world.content);
             let scale = (104.0 / model.size[0] as f32).min(50.0 / model.size[1] as f32);
             model_nodes(
                 &mut commands,
-                root,
+                sidebar,
                 model,
-                Vec2::new(1296.0, 680.0),
+                Vec2::new(292.0, 590.0),
                 scale,
                 1.0,
                 &maps,
@@ -865,8 +948,8 @@ pub(crate) fn render(
                         transform,
                         Node {
                             position_type: PositionType::Absolute,
-                            left: px(1296.0 + i as f32 % prefab.width as f32 * size),
-                            top: px(680.0 + (i as u32 / prefab.width) as f32 * size),
+                            left: px(292.0 + i as f32 % prefab.width as f32 * size),
+                            top: px(590.0 + (i as u32 / prefab.width) as f32 * size),
                             width: px(size),
                             height: px(size),
                             ..default()
@@ -880,10 +963,10 @@ pub(crate) fn render(
 
     button(
         &mut commands,
-        root,
+        sidebar,
         &art,
         tr("editor.files"),
-        [1020.0, 738.0, 180.0, 30.0],
+        [16.0, 648.0, 180.0, 30.0],
         Action::Folder,
     );
     if let Some(dialog) = editor.dialog {
@@ -892,11 +975,19 @@ pub(crate) fn render(
             root,
             0.0,
             0.0,
-            1440.0,
-            810.0,
+            ui_size.x,
+            ui_size.y,
             Color::srgba_u8(24, 42, 40, 210),
         );
-        let panel = box_at(&mut commands, shade, 410.0, 248.0, 620.0, 314.0, ui::PANEL);
+        let panel = box_at(
+            &mut commands,
+            shade,
+            (ui_size.x - 620.0) / 2.0,
+            (ui_size.y - 314.0) / 2.0,
+            620.0,
+            314.0,
+            ui::PANEL,
+        );
         text_at(
             &mut commands,
             panel,
@@ -1004,7 +1095,8 @@ pub(crate) fn refresh(
         (
             &Interaction,
             &Action,
-            &Face,
+            &ComputedNode,
+            &UiGlobalTransform,
             &mut BackgroundColor,
             &mut BorderColor,
             Option<&mut AccessibilityNode>,
@@ -1057,7 +1149,9 @@ pub(crate) fn refresh(
         _ => true,
     };
     let mut hovered = None;
-    for (interaction, action, face, mut color, mut border, accessible) in &mut buttons {
+    for (interaction, action, computed, transform, mut color, mut border, accessible) in
+        &mut buttons
+    {
         let selected = match *action {
             Action::Map(kind) => kind == editor.kind,
             Action::Layer(layer) => layer == editor.layer,
@@ -1085,7 +1179,13 @@ pub(crate) fn refresh(
             }
         }
         if *interaction == Interaction::Hovered && editor.dialog.is_none() {
-            hovered = Some((*action, face.rect));
+            hovered = Some((
+                *action,
+                Rect::from_center_size(
+                    transform.translation * computed.inverse_scale_factor(),
+                    computed.size() * computed.inverse_scale_factor(),
+                ),
+            ));
         }
         *color = BackgroundColor(if !available {
             Color::srgb_u8(29, 42, 40)
@@ -1123,8 +1223,8 @@ pub(crate) fn refresh(
             Display::None
         };
         if let Some((_, rect)) = hovered {
-            node.left = px(rect.min.x.clamp(24.0, 944.0));
-            node.top = px(if rect.max.y < 700.0 {
+            node.left = px(rect.min.x.clamp(24.0, editor.ui_size.x - 496.0));
+            node.top = px(if rect.max.y < editor.ui_size.y - 70.0 {
                 rect.max.y + 8.0
             } else {
                 rect.min.y - 48.0

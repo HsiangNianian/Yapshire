@@ -1,0 +1,4931 @@
+{
+  "type": "tileset",
+  "version": "1.10",
+  "name": "nature/garden",
+  "tilewidth": 16,
+  "tileheight": 16,
+  "tilecount": 187,
+  "columns": 16,
+  "margin": 0,
+  "spacing": 0,
+  "image": "garden.png",
+  "imagewidth": 256,
+  "imageheight": 192,
+  "tiles": [
+    {
+      "id": 0,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:trunk"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar trunk"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch trunk"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/12"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/13"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/14"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:leaves/15"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:leaves"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/12"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/13"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/14"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:gold_leaves/15"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:gold_leaves"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/12"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/13"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/14"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:bush/15"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Shrub leaves"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        },
+        {
+          "name": "terrain",
+          "type": "string",
+          "value": "yapshire:bush"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:tuft"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Wild grass"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:flowers"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Wild flowers"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/5_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/0_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/5_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/0_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/5_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/6_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/0_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/5_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/6_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/0_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/5_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/6_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/0_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/5_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/6_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/1_11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/2_11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/3_11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/4_11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:cedar_tree/v2/5_11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Cedar branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/0_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 130,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 131,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/0_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 132,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 133,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 134,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 135,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 136,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 137,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/6_4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 138,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 139,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 140,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 141,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 142,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/6_5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/0_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 145,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 146,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 147,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 148,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 149,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 150,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/6_6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 151,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/0_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 152,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 153,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 154,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 155,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 156,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 157,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/6_7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/0_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 159,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 160,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 161,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 162,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 163,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 164,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/1_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 165,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 166,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/4_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 167,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/5_9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 168,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 169,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/2_11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 170,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:birch_tree/v2/3_11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Birch branches"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "wall"
+        }
+      ]
+    },
+    {
+      "id": 171,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 173,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 174,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 175,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 176,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 177,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 178,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:shrub/v2/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Green shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 179,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/0_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 180,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/1_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 181,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/2_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/3_0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 183,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/0_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 184,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/1_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 185,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/2_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    },
+    {
+      "id": 186,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:autumn_shrub/v2/3_1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Autumn shrub"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "decor"
+        }
+      ]
+    }
+  ]
+}

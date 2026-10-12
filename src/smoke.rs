@@ -25,6 +25,8 @@ pub struct Smoke {
     frame: u32,
     last_frame: f32,
     local_world: Option<yapshire_shared::World>,
+    shadow_min: [f32; 2],
+    shadow_landed: [bool; 2],
 }
 impl Default for Smoke {
     fn default() -> Self {
@@ -38,6 +40,8 @@ impl Default for Smoke {
             frame: 0,
             last_frame: 0.0,
             local_world: None,
+            shadow_min: [1.0; 2],
+            shadow_landed: [false; 2],
         }
     }
 }
@@ -62,6 +66,7 @@ pub fn drive(
         || smoke.mode.starts_with("editor")
         || smoke.mode.starts_with("i18n")
         || smoke.mode.starts_with("clubs")
+        || smoke.mode.starts_with("wilds")
     {
         return;
     }
@@ -317,6 +322,17 @@ pub fn drive(
                     .iter()
                     .all(|s| session.log.iter().any(|line| line.to_string().contains(s))) =>
             {
+                assert!(
+                    smoke.shadow_min.iter().all(|scale| *scale < 0.8)
+                        && smoke.shadow_landed.iter().all(|landed| *landed),
+                    "Local and remote shadows must shrink and return to full size: {:?}, {:?}",
+                    smoke.shadow_min,
+                    smoke.shadow_landed
+                );
+                info!(
+                    "GPU SMOKE {} shadows PASS: local/remote minimum {:?}, landed at full size",
+                    smoke.mode, smoke.shadow_min
+                );
                 capture(&mut commands, &smoke.mode, "chat");
                 info!(
                     "GPU SMOKE {} PASS: lobby join, walking, chat received by both players",
@@ -373,6 +389,46 @@ pub fn drive(
     if advance {
         smoke.stage += 1;
         smoke.since = now;
+    }
+}
+
+/// Observe the actual rendered transforms after network smoothing and parenting.
+pub fn check_shadows(
+    mut commands: Commands,
+    mut smoke: ResMut<Smoke>,
+    session: Res<Session>,
+    actors: Query<(&Actor, &GlobalTransform, &Children)>,
+    shadows: Query<(&GlobalTransform, &Sprite), With<crate::game::Shadow>>,
+) {
+    if !(smoke.mode.starts_with("host") || smoke.mode.starts_with("guest"))
+        || !(4..=7).contains(&smoke.stage)
+    {
+        return;
+    }
+    for (actor, transform, children) in &actors {
+        let slot = usize::from(Some(actor.player.id) != session.you);
+        for child in children.iter() {
+            let Ok((shadow, sprite)) = shadows.get(child) else {
+                continue;
+            };
+            let scale = shadow.scale();
+            assert!((0.65..=1.0).contains(&scale.x));
+            assert_eq!(scale.x, scale.y);
+            assert_eq!(scale.z, 1.0);
+            assert_eq!(sprite.color, Color::WHITE, "Keep the original opacity");
+            assert_eq!(shadow.translation().x, transform.translation().x);
+            assert_eq!(shadow.translation().y, 1.0, "Town shadow stays grounded");
+            if slot == 0 && scale.x < 0.7 && smoke.shadow_min[slot] >= 0.7 {
+                commands
+                    .spawn(Screenshot::primary_window())
+                    .observe(save_to_disk(format!(
+                        "artifacts/{}-shadow-apex.png",
+                        smoke.mode
+                    )));
+            }
+            smoke.shadow_min[slot] = smoke.shadow_min[slot].min(scale.x);
+            smoke.shadow_landed[slot] |= smoke.shadow_min[slot] < 0.8 && scale.x > 0.999;
+        }
     }
 }
 

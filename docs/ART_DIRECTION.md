@@ -21,7 +21,7 @@ Released v0.7.2 appearance (English):
 | --- | --- | --- |
 | `assets/hills.png` | Built-in `image_gen`, prompt below | Native-size 2172 × 724 panorama; mirrored tiles cover wide maps |
 | `assets/town.png`, `people.png`, `sky.png`, `cloud.png`, `shadow.png` | `tools/draw_assets.py` | Legacy foreground export and 20 × 32 character cells |
-| `assets/packs/yapshire/` | `tools/draw_maps.py` → `tools/build_content.py` → `tools/build_objects.py` / `tools/draw_models.py` | Pack 2.0.0, structural PNG components and models, four 16px compatibility tilesets |
+| `assets/packs/yapshire/` | `tools/draw_maps.py` → `tools/build_content.py` → `tools/build_objects.py` / `tools/draw_models.py` | Pack 2.0.0, structural PNG components and models, eight 16px compatibility/construction tilesets |
 | `assets/fishing/` | `tools/draw_fishing.py` | 32px inventory cells, sliced panel borders and underwater view |
 | UI colors | `src/ui.rs` | Shared forest surfaces, ivory text, muted sage and brass accents |
 
@@ -37,7 +37,7 @@ The art update preserves all tile IDs, atlas cell positions, animation frames,
 walking routes and gameplay interaction positions. The lighthouse now uses a complete modular model. Installed pack assets still need
 to match the host's pack version and image hashes when playing online.
 
-## Pixel dimensions and components (unreleased)
+## Pixel dimensions and components (v0.9.0)
 
 Use native component dimensions in the pure 2D world. One source pixel covers
 one world pixel regardless of draw order. Do not rescale trees or buildings to
@@ -55,3 +55,10 @@ at `assets/hills.png`; the game handles sizing and nearest sampling.
 ```text
 Use case: stylized-concept. Asset type: an actual in-game scrolling background plate for a side-view pixel-art exploration and fishing game, not a screenshot or concept layout. Generate an original exceptionally beautiful quiet northern lakeshore in early autumn morning. Very wide panoramic composition, ideally 3072 by 768 pixels (4:1). Pixel-art painting with crisp square pixel clusters, hand-placed textured edges, no antialiasing and no smooth photographic rendering. At native game viewing scale it should resemble detailed 16-bit landscape painting: hazy powder-blue distant mountain ridges, several layers of muted blue-grey and slate-green fir forests along the opposite shore, some ochre and faded gold birch patches catching sunlight, pale silver-blue morning fog drifting between layers. Calm deep desaturated blue-green lake occupies the lower 35 percent, with long thin horizontal broken reflections and silver-gold scattered highlights. Sky occupies the top 25 percent: soft pale blue and cream cumulus cloud bands. Beautiful atmospheric perspective and restrained natural colors, deep forest shadows balanced with warm light, tranquil and spacious. A coherent continuous horizon across the full very wide image. No near foreground trees, no foreground land strip, no buildings, no boats, no people, no lettering, no logos, no frame, no interface. The foreground walkable bank, fishing pier, characters and shops will be drawn separately by the game. Entire canvas must be fully painted and opaque. The scene must feel like a real contemplative landscape rather than a vector illustration: irregular organic silhouettes, subtle clustered pixel texture, readable value separation. Do not copy an existing game's composition or assets.
 ```
+
+The construction update replaces flat canopy masks and repeated window icons
+with textured branch/leaf cells and coherent multi-cell frames. Wall textures
+keep their phase across window boundaries. Check both town and generated-world
+views against the panorama at native 2× scale, not only enlarged source sheets.
+The foreground sheets are original generated artwork; the game uses only the
+exported atlases, with per-cell editing, collision and save data.

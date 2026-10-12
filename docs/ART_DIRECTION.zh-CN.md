@@ -16,7 +16,7 @@ Yapshire 的场景、角色、地砖和界面采用雾蓝色远山、深色针�
 | --- | --- | --- |
 | `assets/hills.png` | 内置 `image_gen` 生成的原创远景 | 2172 × 724 原尺寸全景，以镜像拼接覆盖宽地图 |
 | 小镇前景、人物、天空、薄云与阴影 | `tools/draw_assets.py` | 旧版前景导出，人物动画单元为 20 × 32 |
-| `assets/packs/yapshire/` | `tools/draw_maps.py`、`tools/build_content.py`、`tools/build_objects.py`、`tools/draw_models.py` | 内容包 2.0.0；按结构绘制的 PNG 部件与模型，以及四张兼容用 16px 图集 |
+| `assets/packs/yapshire/` | `tools/draw_maps.py`、`tools/build_content.py`、`tools/build_objects.py`、`tools/draw_models.py` | 内容包 2.0.0；按结构绘制的 PNG 部件与模型，以及八张兼容及建造用 16px 图集 |
 | `assets/fishing/` | `tools/draw_fishing.py` | 物品图标、可伸缩像素边框和水下视图 |
 | 界面配色 | `src/ui.rs` | 深色森林底、象牙白文字、鼠尾草绿和黄铜色强调 |
 
@@ -32,7 +32,7 @@ Yapshire 的场景、角色、地砖和界面采用雾蓝色远山、深色针�
 灯塔采用完整的组合模型。
 联机仍校验资源包版本与图片哈希，房主和玩家需要使用同一套资源。
 
-## 像素尺寸与结构部件（未发布）
+## 像素尺寸与结构部件（v0.9.0）
 
 纯 2D 世界中的部件保持 PNG 原始尺寸，每个源像素对应一个世界像素，图层叠放顺序不改变尺寸。
 不缩小树木、建筑来制造距离感。枝条分叉、叶簇各有完整的透明轮廓；墙板与屋瓦在对应表面重复使用，

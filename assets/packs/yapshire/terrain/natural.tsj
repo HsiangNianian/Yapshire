@@ -1,0 +1,116 @@
+{
+  "type": "tileset",
+  "version": "1.10",
+  "name": "terrain/natural",
+  "tilewidth": 16,
+  "tileheight": 16,
+  "tilecount": 4,
+  "columns": 16,
+  "margin": 0,
+  "spacing": 0,
+  "image": "natural.png",
+  "imagewidth": 256,
+  "imageheight": 16,
+  "tiles": [
+    {
+      "id": 0,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:earth"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Earth"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:rock"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Rock"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:sand"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Sand"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "properties": [
+        {
+          "name": "id",
+          "type": "string",
+          "value": "yapshire:grass"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "value": "Grassy earth"
+        },
+        {
+          "name": "build_layer",
+          "type": "string",
+          "value": "solid"
+        }
+      ]
+    }
+  ]
+}

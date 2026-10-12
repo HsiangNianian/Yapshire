@@ -9,7 +9,7 @@
   "cloud": "03  ONLINE LOBBY",
   "cloud_hint": "Far apart. Still walking together.",
   "editor": "04  MAP EDITOR",
-  "choose_hint": "CLICK TO CHOOSE / KEYS 1, 2, 3, 4",
+  "choose_hint": "CLICK TO CHOOSE / KEYS 1, 2, 3, 4, 5",
   "host_title": "WHERE SHALL WE MEET?",
   "host_lan": "[1] LOCAL NETWORK",
   "host_lan_hint": "This computer hosts. Leaving closes the room.",

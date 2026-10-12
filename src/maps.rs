@@ -337,6 +337,9 @@ pub(crate) fn layer_title(name: &str) -> Message {
     let key = match name {
         "Street" => "editor.layer.street",
         "Interactions" => "editor.layer.interactions",
+        "Street trees" => "editor.layer.street_trees",
+        "Street houses" => "editor.layer.street_houses",
+        "Street garden" => "editor.layer.street_garden",
         "Water" => "editor.layer.water",
         "Shore and pilings" => "editor.layer.shore",
         "Terrain" => "editor.layer.terrain",
