@@ -7,7 +7,7 @@ and commits it after all platform archives have been uploaded and verified.
 
 ## [Unreleased]
 
-## [v0.9.0] - 2026-10-12
+## [v0.9.1] - 2026-10-12
 
 ### Shared pixel materials
 
@@ -58,10 +58,17 @@ and commits it after all platform archives have been uploaded and verified.
 - Synchronize object state through the Rust room server, including late-join
   snapshots and interaction-area checks. The barrel's lid demonstrates open/close;
   room state remains in memory and does not provide container inventories.
-- Bump network protocol to 5 and world format to 3. Matching v0.9.0 clients,
+- Bump network protocol to 5 and world format to 3. Matching v0.9.1 clients,
   servers and pack 2.0.0 are required. v0.8.0 uses protocol 3/pack 1.2.0;
   upgrade client and server together. The hosted official service is not upgraded
   by publishing these downloads.
+
+### Release validation
+
+- Compare omitted Tiled object fields using their defined defaults during
+  container checks, while still detecting changed coordinates and properties.
+- v0.9.0 was stopped by this validation failure before publishing downloads;
+  v0.9.1 is the downloadable release of these features.
 
 ## [v0.8.0] - 2026-10-11
 

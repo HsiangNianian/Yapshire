@@ -71,6 +71,12 @@ class Client:
         self.socket.close()
 
 
+def objects_with_defaults(objects):
+    # Rust's Tiled Object serializer emits these fields even when a map omits them.
+    return [{"width": 0, "height": 0, "rotation": 0, "visible": True,
+             "point": False, "properties": [], **obj} for obj in objects]
+
+
 def check(address, password="", expected_world=None):
     health = http(address, "/health")
     assert health["ok"] and health["protocol"] == 5
@@ -102,6 +108,8 @@ def check(address, password="", expected_world=None):
                     assert len(actual["layers"]) == len(expected["layers"])
                     for actual_layer, layer in zip(actual["layers"], expected["layers"]):
                         for key, value in layer.items():
+                            if key == "objects":
+                                value = objects_with_defaults(value)
                             assert actual_layer.get(key) == value, (name, key)
             worlds.append(world)
             client.send({"type": "world_ready", "revision": world["revision"]})

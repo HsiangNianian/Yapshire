@@ -269,7 +269,7 @@ creator leaving while others remain, and close when empty. Chat history and
 positions are not saved between sessions. The old `yapshire-multiplayer` address
 is a service-binding gateway to this server, not a separate room backend.
 
-v0.9.0 uses protocol **5** and world format **3** (published v0.7.2
+v0.9.1 uses protocol **5** and world format **3** (published v0.7.2
 uses protocol 3/world 2). Clients require a
 validated world and matching installed content before acknowledging entry. Update
 the game and server together; protocol-3 public servers cannot accept this build.
@@ -496,7 +496,7 @@ version 2.0.0; peers need matching definitions and images. Legacy tile IDs,
 walking routes and interactions are preserved. Multipart models supply the street and storefront facades; the
 855 construction tile IDs remain available for older maps and solo worlds. Foreground source sheets and prompts live in `tools/art_sources/`.
 
-v0.9.0 native GPU acceptance runs on Linux; the v0.8.0 release also had macOS Intel
+v0.9.1 native GPU acceptance runs on Linux; the v0.8.0 release also had macOS Intel
 acceptance. GitHub Actions builds and tests all four native targets. Native GUI
 play on Windows/macOS for this release, and sessions between two separate
 physical LAN machines still need manual verification.
@@ -538,18 +538,18 @@ root, update both README download tables and add the version entry to
 `CHANGELOG.md`, then review and commit the changes before tagging:
 
 ```sh
-RELEASE_TAG=v0.9.0 node .github/scripts/validate-release.mjs --write
+RELEASE_TAG=v0.9.1 node .github/scripts/validate-release.mjs --write
 node .github/scripts/validate-release.mjs
 git add Cargo.toml Cargo.lock crates/*/Cargo.toml server/package.json server/package-lock.json
 git add README.md README.zh-CN.md CHANGELOG.md
-git commit -m "chore: release v0.9.0"
+git commit -m "chore: release v0.9.1"
 # Once the release commit is on main:
-git tag -a v0.9.0 -m "Release v0.9.0"
-git push --atomic origin main v0.9.0
+git tag -a v0.9.1 -m "Release v0.9.1"
+git push --atomic origin main v0.9.1
 ```
 
 For an unchanged first version, skip the empty version commit. PowerShell users
-can set `$env:RELEASE_TAG = "v0.9.0"` before running the same Node command.
+can set `$env:RELEASE_TAG = "v0.9.1"` before running the same Node command.
 Only stable `vX.Y.Z` tags are accepted. CI rejects source/tag version mismatches;
 it never changes source versions during a release.
 

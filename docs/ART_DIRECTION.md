@@ -37,7 +37,7 @@ The art update preserves all tile IDs, atlas cell positions, animation frames,
 walking routes and gameplay interaction positions. The lighthouse now uses a complete modular model. Installed pack assets still need
 to match the host's pack version and image hashes when playing online.
 
-## Pixel dimensions and components (v0.9.0)
+## Pixel dimensions and components (v0.9.1)
 
 Use native component dimensions in the pure 2D world. One source pixel covers
 one world pixel regardless of draw order. Do not rescale trees or buildings to

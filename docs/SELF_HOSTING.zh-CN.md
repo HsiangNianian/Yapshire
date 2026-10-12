@@ -6,14 +6,14 @@
 可以运行在家用电脑、VPS 或 Docker 中。v0.7.x 或更新客户端在**在线大厅 → 添加 Club**中
 填写地址，可设置仅自己可见的别名。保存后自动展示房间、人数和实测延迟；选中 Club
 可在其中创建房间。修改或移除订阅不会更改真实服务器的名称或停止服务器。
-客户端与服务端需要配套使用 v0.9.0（协议 5、官方素材包 2.0.0）。
+客户端与服务端需要配套使用 v0.9.1（协议 5、官方素材包 2.0.0）。
 
-**v0.9.0：**本版使用协议 **5**、世界格式 **3**、内容包格式 **2**，
+**v0.9.1：**本版使用协议 **5**、世界格式 **3**、内容包格式 **2**，
 客户端与服务端需要使用相同版本。v0.8.0 和更早版本无法加入这些房间。
 
 官方的 **Yapshire 小镇**使用 `wss://yap-server.mmstudio.games`，
 `wss://yap.meaninglessmeaning.studio` 也连接同一个小镇。
-这些公共实例仍运行 v0.8.0／协议 3；升级公共服务前，v0.9.0 请使用配套自建服务端或局域网房主。
+这些公共实例仍运行 v0.8.0／协议 3；升级公共服务前，v0.9.1 请使用配套自建服务端或局域网房主。
 
 ## 用独立程序开服
 
@@ -49,7 +49,7 @@ docker run -d --name yapshire --restart unless-stopped \
   -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:latest
 ```
 
-可以用 `:v0.9.0` 等版本标签固定版本。仓库提供了 [`compose.yaml`](../compose.yaml)，
+可以用 `:v0.9.1` 等版本标签固定版本。仓库提供了 [`compose.yaml`](../compose.yaml)，
 运行 `docker compose up -d` 即可启动默认小镇。
 镜像以 UID/GID **10001** 运行，内置 HTTP 健康检查，从 `/data` 读取配置，不会写入地图。
 
@@ -68,7 +68,7 @@ docker run -d --name yapshire-custom --restart unless-stopped \
   -p 4761:4761 --read-only --cap-drop ALL \
   --security-opt no-new-privileges:true \
   --mount "type=bind,src=$PWD/my-town,dst=/data,readonly" \
-  ghcr.io/hsiangnianian/yapshire-server:v0.9.0
+  ghcr.io/hsiangnianian/yapshire-server:v0.9.1
 ```
 
 目录和文件需要允许 UID 10001 读取。使用 Compose 时，取消 `./my-town:/data:ro` 挂载行的注释。
@@ -77,7 +77,7 @@ docker run -d --name yapshire-custom --restart unless-stopped \
 
 ## 使用地图与内容包
 
-以下步骤对应 **v0.9.0（协议 5、内容包 2.0.0）**，请同时升级客户端与服务端。
+以下步骤对应 **v0.9.1（协议 5、内容包 2.0.0）**，请同时升级客户端与服务端。
 v0.8.0 和更早版本无法加入本版房间。
 “探索与建造”的生成世界属于本地存档，当前服务端尚不能承载。
 

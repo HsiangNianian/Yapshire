@@ -8,15 +8,15 @@ players choose **Online lobby → Add Club**, enter its address and optionally g
 it a personal alias. Each saved Club automatically lists its rooms, occupancy and
 measured latency. Select a Club to create a room there; editing or removing the
 subscription does not rename or stop the actual server. Clients and servers must
-use v0.9.0 builds together (protocol 5, official pack 2.0.0).
+use v0.9.1 builds together (protocol 5, official pack 2.0.0).
 
-**v0.9.0:** this release uses protocol **5**, world format
+**v0.9.1:** this release uses protocol **5**, world format
 **3**, and content pack format **2**. Build both client and server from the same
 revision. v0.8.0 and earlier clients cannot join these rooms.
 
 The official **Yapshire Town (Yapshire 小镇)** uses
 `wss://yap-server.mmstudio.games`; `wss://yap.meaninglessmeaning.studio` reaches
-the same town. These hosted instances still run v0.8.0/protocol 3; v0.9.0 requires a matching
+the same town. These hosted instances still run v0.8.0/protocol 3; v0.9.1 requires a matching
 self-hosted server or LAN host until the public service is upgraded.
 
 ## Start with the standalone download
@@ -58,7 +58,7 @@ docker run -d --name yapshire --restart unless-stopped \
   -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:latest
 ```
 
-Use a version tag such as `:v0.9.0` to pin a release. The repository also includes
+Use a version tag such as `:v0.9.1` to pin a release. The repository also includes
 [`compose.yaml`](../compose.yaml): `docker compose up -d` starts the default town.
 The image runs as UID/GID **10001**, includes an HTTP health check, and reads
 configuration from `/data`. It never needs to write to your maps.
@@ -78,7 +78,7 @@ docker run -d --name yapshire-custom --restart unless-stopped \
   -p 4761:4761 --read-only --cap-drop ALL \
   --security-opt no-new-privileges:true \
   --mount "type=bind,src=$PWD/my-town,dst=/data,readonly" \
-  ghcr.io/hsiangnianian/yapshire-server:v0.9.0
+  ghcr.io/hsiangnianian/yapshire-server:v0.9.1
 ```
 
 Ensure the directory and files are readable by UID 10001. In Compose, enable the
@@ -88,7 +88,7 @@ health check; for a custom internal port, override the health check as well.
 
 ## Use maps and content packs
 
-The following describes **v0.9.0** (protocol 5, pack 2.0.0). Upgrade the client
+The following describes **v0.9.1** (protocol 5, pack 2.0.0). Upgrade the client
 and server together; v0.8.0 and earlier rooms are incompatible. The generated
 Explore & Build worlds are local saves and cannot be hosted by this server yet.
 

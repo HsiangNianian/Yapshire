@@ -49,18 +49,18 @@
 **[下载最新版本](https://github.com/HsiangNianian/Yapshire/releases/latest)**，完整解压后启动。
 游玩不需要安装 Rust、Node.js，也不需要 Cloudflare 账号。
 
-| 平台 | 下载 v0.9.0 | 解压后启动 |
+| 平台 | 下载 v0.9.1 | 解压后启动 |
 | --- | --- | --- |
-| Windows · x64 | [下载 ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-windows-x64.zip) | 打开 `yapshire.exe` |
-| Linux · x64 | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-linux-x64.tar.gz) | 运行 `./yapshire` |
-| macOS · Apple Silicon | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-macos-arm64.tar.gz) | 打开 `Yapshire.app` |
-| macOS · Intel | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.0/yapshire-0.9.0-macos-x64.tar.gz) | 打开 `Yapshire.app` |
+| Windows · x64 | [下载 ZIP](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.1/yapshire-0.9.1-windows-x64.zip) | 打开 `yapshire.exe` |
+| Linux · x64 | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.1/yapshire-0.9.1-linux-x64.tar.gz) | 运行 `./yapshire` |
+| macOS · Apple Silicon | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.1/yapshire-0.9.1-macos-arm64.tar.gz) | 打开 `Yapshire.app` |
+| macOS · Intel | [下载 tar.gz](https://github.com/HsiangNianian/Yapshire/releases/download/v0.9.1/yapshire-0.9.1-macos-x64.tar.gz) | 打开 `Yapshire.app` |
 
 请解压**整个压缩包**。Windows 和 Linux 需要将 `assets/` 与程序放在一起；
 macOS 的资源已经放在应用内部。像素字体随包提供，包含中英文字形。
 每次发布同时提供 `SHA256SUMS` 校验文件和 `CHANGELOG.md`，更新日志与 Release Notes 同步。
 
-客户端与服务端请配套使用 **v0.9.0（协议 5、内容包 2.0.0）**。官方公共服务仍运行 v0.8.0／协议 3；本版请先使用局域网房间或配套的自建服务端。详见[开服指南](docs/SELF_HOSTING.zh-CN.md)。
+客户端与服务端请配套使用 **v0.9.1（协议 5、内容包 2.0.0）**。官方公共服务仍运行 v0.8.0／协议 3；本版请先使用局域网房间或配套的自建服务端。详见[开服指南](docs/SELF_HOSTING.zh-CN.md)。
 
 <details>
 <summary><strong>各平台说明</strong></summary>
@@ -120,7 +120,7 @@ macOS 的资源已经放在应用内部。像素字体随包提供，包含中�
 
 ```sh
 docker run -d --name yapshire --restart unless-stopped \
-  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.9.0
+  -p 4761:4761 ghcr.io/hsiangnianian/yapshire-server:v0.9.1
 ```
 
 提供 Linux AMD64/ARM64 镜像，以及四个平台的原生服务端下载。
@@ -129,7 +129,7 @@ docker run -d --name yapshire --restart unless-stopped \
 
 ## 去海边钓一会儿
 
-**上方 v0.9.0 下载包已包含钓鱼、渔具店与像素背包。**
+**上方 v0.9.1 下载包已包含钓鱼、渔具店与像素背包。**
 
 沿街向右走，跟着路牌找到 **Tide & Tackle** 渔具店。在门口按 **E** 进入，
 走到 Mara 的柜台前再按 **E** 购物。新昵称拥有 **100 枚金币**：
@@ -174,14 +174,14 @@ docker run -d --name yapshire --restart unless-stopped \
 提供稳定 ID、自动连接地形、完整物件印章、多地图与可变尺寸，以及地图定义的碰撞、传送门、商店和钓鱼区域。
 社区内容包与官方资源共用加载流程。已发布的 v0.7.1–v0.7.2 使用协议 3，需要匹配的服务端与内容包。
 
-**v0.9.0 新增：**[内容包 v2](docs/CONTENT_PACKS.zh-CN.md#方块模型与不规则轮廓) 将物件规则、组合模型与独立 PNG 贴图分开定义。
+**v0.9.1 新增：**[内容包 v2](docs/CONTENT_PACKS.zh-CN.md#方块模型与不规则轮廓) 将物件规则、组合模型与独立 PNG 贴图分开定义。
 地形、建筑、家具和不规则枝叶共用稳定 ID；编辑器放置完整实例，房间服务端同步物件状态，背景图片保持独立。
 渲染采用纯 2D：原尺寸部件共用一套像素网格，使用正交镜头和清晰的 2x/3x/4x 显示缩放。
 小镇地面和水体已接入[像素材质模拟](docs/CONTENT_PACKS.zh-CN.md#像素材质模拟)：可以挖洞、倒水和堆沙。
 按 **V** 打开工具，**1 挖掘 / 2 沙子 / 3 水**，在角色附近按住鼠标左键使用。
 服务端统一计算，所有玩家及后来加入的人共享地形变化。
 现场变化保留在房间内存中；编辑器保存的地图仍是初始模板。
-v0.9.0 使用**协议 5**，需要配套服务端，无法加入 v0.8.0 或更早版本的房间。
+v0.9.1 使用**协议 5**，需要配套服务端，无法加入 v0.8.0 或更早版本的房间。
 
 本版还加入了[秋日湖岸美术更新](docs/ART_DIRECTION.zh-CN.md)：雾蓝远山、针叶林、金色白桦、
 雪松木屋与深森林色配黄铜色界面，继续支持可编辑 tilemap 和内置中英文字体。

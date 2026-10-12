@@ -72,7 +72,7 @@ JSON files with the game closed. Editor packs and fishing profiles are separate.
 
 ## Current boundary and next stage
 
-v0.9.0 Club/LAN rooms use authored maps, protocol **5** and pack **2.0.0**.
+v0.9.1 Club/LAN rooms use authored maps, protocol **5** and pack **2.0.0**.
 They do not host generated solo worlds or synchronize their tile construction.
 The 855 construction tile IDs and older local saves remain supported. Authored
 rooms now simulate pixel sand, water and excavation; generated solo worlds keep
@@ -84,8 +84,9 @@ The next multiplayer stage should keep **Club → Room → world**: a Club lists
 servers' rooms, each room owns a persistent world, and surface/caves are regions
 within that world. That requires independent per-room state, stable player
 identity, server validation of edits/materials, revisioned chunk snapshots/deltas
-and durable saves before exposing shared building. The current server instead
-shares one immutable pack world across rooms and drops temporary empty rooms.
+and durable saves before exposing shared building. Currently, rooms start from
+one shared map template, keep independent pixel changes in memory, and discard
+that live state when temporary empty rooms are removed.
 
 ## Implementation and native acceptance
 

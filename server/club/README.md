@@ -29,8 +29,8 @@ Use v0.8.0 clients with protocol 3 and content pack 1.2.0. v0.7.x uses an older
 content pack, and earlier clients use protocol 2; update before joining the
 official server. Generated worlds and construction are currently local-only.
 
-v0.9.0 uses protocol **5** and content pack **2.0.0**. Building this
-container requires matching v0.9.0 clients; it cannot serve v0.8.0 or earlier clients.
+v0.9.1 uses protocol **5** and content pack **2.0.0**. Building this
+container requires matching v0.9.1 clients; it cannot serve v0.8.0 or earlier clients.
 Source changes do not deploy or upgrade the running public instance automatically.
 
 The Worker routes every game request to the same Durable Object. The `default`

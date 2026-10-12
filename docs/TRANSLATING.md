@@ -16,7 +16,7 @@ Each language has independent JSON files under `assets/locales/`:
 | `settings.json` | Settings and preference notices |
 | `editor.json` | Map tools, tooltips, layer names and save notices |
 | `fishing.json` | Items, shop, fishing controls and results |
-| `pixels.json` | Material tools and brush controls (v0.9.0) |
+| `pixels.json` | Material tools and brush controls (v0.9.1) |
 | `world.json` | Live text in the scene |
 
 Keys are stable identifiers, prefixed by the filename in code. For example,

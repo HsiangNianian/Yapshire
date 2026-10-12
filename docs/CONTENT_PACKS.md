@@ -2,9 +2,9 @@
 
 [简体中文](CONTENT_PACKS.zh-CN.md)
 
-**v0.9.0:** network protocol **5**, world format **3**, pack format **2**.
+**v0.9.1:** network protocol **5**, world format **3**, pack format **2**.
 Use matching game/server builds. Published v0.7.1–v0.7.2 builds use protocol 3 and
-pack format 1; v0.8.0 also uses protocol 3 and cannot join v0.9.0 rooms. This loader still reads
+pack format 1; v0.8.0 also uses protocol 3 and cannot join v0.9.1 rooms. This loader still reads
 format-1 packs and legacy maps, including the 855 construction tile IDs from v0.8.0.
 
 A pack owns a finite collection of maps and their assets. The official game loads
