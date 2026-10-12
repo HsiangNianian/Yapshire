@@ -1,0 +1,23 @@
+{
+  "size": [
+    40,
+    3
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/bench_plank.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        40,
+        3
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "size": [
+    80,
+    80
+  ],
+  "anchor": [
+    40,
+    80
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/fence_post.png",
+      "size": [
+        4,
+        24
+      ],
+      "offset": [
+        38,
+        8
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/fence_post.png",
+      "size": [
+        4,
+        24
+      ],
+      "offset": [
+        38,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/fence_post.png",
+      "size": [
+        4,
+        24
+      ],
+      "offset": [
+        38,
+        56
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/signs/tackle.png",
+      "size": [
+        80,
+        22
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "flip_x": false
+    }
+  ]
+}

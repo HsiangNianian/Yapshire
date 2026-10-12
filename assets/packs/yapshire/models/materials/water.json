@@ -1,0 +1,23 @@
+{
+  "size": [
+    32,
+    32
+  ],
+  "anchor": [
+    16,
+    32
+  ],
+  "parts": [
+    {
+      "texture": "textures/materials/water.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        32,
+        32
+      ]
+    }
+  ]
+}

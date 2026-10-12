@@ -84,9 +84,14 @@ fn curve(start: Vec2, control: Vec2, end: Vec2, t: f32) -> Vec2 {
     start.lerp(control, t).lerp(control.lerp(end, t), t)
 }
 
-fn endpoints(position: Vec2, map: &crate::maps::Map, tension: f32) -> Option<(Vec2, Vec2)> {
+fn endpoints(
+    position: Vec2,
+    map: &crate::maps::Map,
+    content: &yapshire_shared::content::Content,
+    tension: f32,
+) -> Option<(Vec2, Vec2)> {
     let area = map
-        .interaction(position.x, position.y)
+        .interaction_with(content, position.x, position.y)
         .filter(|o| o.kind == "fishing")?;
     Some((
         Vec2::new(37.0, 44.0 - tension * 10.0),
@@ -135,7 +140,7 @@ pub fn animate_rig(
         };
         let Some((tip, target)) = maps
             .by_id(&actor.player.map)
-            .and_then(|map| endpoints(actor.position, map, tension))
+            .and_then(|map| endpoints(actor.position, map, &maps.world.content, tension))
         else {
             *visibility = Visibility::Hidden;
             continue;
@@ -283,7 +288,8 @@ mod tests {
         let map = &world.maps["yapshire:town"];
         for x in [crate::fishing::PIER_START, crate::fishing::PIER_END - 12.0] {
             for tension in [0.0, 0.5, 1.0] {
-                let (tip, float) = endpoints(Vec2::new(x, 0.0), map, tension).unwrap();
+                let (tip, float) =
+                    endpoints(Vec2::new(x, 0.0), map, &world.content, tension).unwrap();
                 let control = tip.lerp(float, 0.5) - Vec2::Y * (1.0 - tension) * 9.0;
                 assert!(x + float.x > crate::fishing::PIER_END);
                 assert!(x + float.x < 1440.0);
@@ -300,15 +306,15 @@ mod tests {
             .layers
             .iter_mut()
             .flat_map(|l| &mut l.objects)
-            .find(|o| o.kind == "fishing")
+            .find(|o| o.property("block") == Some("yapshire:fishing_spot"))
             .unwrap();
         area.x -= 800.0;
         area.y -= 32.0;
         assert_eq!(
-            endpoints(Vec2::new(526.0, 32.0), &relocated, 0.5),
-            endpoints(Vec2::new(1326.0, 0.0), map, 0.5)
+            endpoints(Vec2::new(526.0, 32.0), &relocated, &world.content, 0.5),
+            endpoints(Vec2::new(1326.0, 0.0), map, &world.content, 0.5)
         );
-        assert!(endpoints(Vec2::new(1326.0, 0.0), &relocated, 0.5).is_none());
+        assert!(endpoints(Vec2::new(1326.0, 0.0), &relocated, &world.content, 0.5).is_none());
     }
 }
 
@@ -337,32 +343,35 @@ fn text(
     ));
 }
 
-pub fn setup(mut commands: Commands, assets: Res<AssetServer>, art: Res<Art>, maps: Res<Maps>) {
-    spawn_maps(&mut commands, &assets, &art, &maps);
+pub fn setup(
+    mut commands: Commands,
+    assets: Res<AssetServer>,
+    art: Res<Art>,
+    maps: Res<Maps>,
+    mut images: ResMut<Assets<Image>>,
+) {
+    spawn_maps(&mut commands, &assets, &art, &maps, &mut images);
 }
 
-fn spawn_maps(commands: &mut Commands, assets: &AssetServer, art: &Art, maps: &Maps) {
+fn spawn_maps(
+    commands: &mut Commands,
+    assets: &AssetServer,
+    art: &Art,
+    maps: &Maps,
+    images: &mut Assets<Image>,
+) {
     for kind in maps.kinds() {
         let root = commands
             .spawn((kind, Transform::default(), Visibility::Hidden))
             .id();
-        maps.spawn(commands, assets, root, kind);
+        maps.spawn(commands, assets, root, kind, images);
         let map = maps.get(kind);
-        for counter in map.objects().filter(|o| o.kind == "shop") {
+        for counter in map
+            .interactions(&maps.world.content)
+            .filter(|o| o.kind == "shop")
+        {
             let x = counter.x + counter.width / 2.0 + 22.0;
             let y = map.origin_y() - counter.y - counter.height;
-            commands.spawn((
-                Sprite::from_atlas_image(
-                    art.people.clone(),
-                    TextureAtlas {
-                        layout: art.atlas.clone(),
-                        index: 6,
-                    },
-                ),
-                bevy::sprite::Anchor::BOTTOM_CENTER,
-                Transform::from_xyz(x, y, -7.0),
-                ChildOf(root),
-            ));
             text(
                 commands,
                 root,
@@ -404,6 +413,7 @@ pub(crate) fn reload_maps(
     art: Res<Art>,
     roots: Query<Entity, With<crate::maps::MapKind>>,
     mut revision: Local<u64>,
+    mut images: ResMut<Assets<Image>>,
 ) {
     if *revision == maps.revision {
         return;
@@ -412,7 +422,7 @@ pub(crate) fn reload_maps(
     for root in &roots {
         commands.entity(root).despawn();
     }
-    spawn_maps(&mut commands, &assets, &art, &maps);
+    spawn_maps(&mut commands, &assets, &art, &maps, &mut images);
 }
 
 pub fn animate(

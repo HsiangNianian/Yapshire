@@ -28,6 +28,10 @@ to reach the same server. It has no separate lobby or game implementation.
 Use v0.7.x clients with protocol 3 and content pack 1.1.0. Older clients use
 protocol 2 and must upgrade before joining the updated official server.
 
+Unreleased source uses protocol **5** and content pack **2.0.0**. Building this
+container requires matching development clients; it cannot serve v0.7.2 clients.
+Source changes do not deploy or upgrade the running public instance automatically.
+
 The Worker routes every game request to the same Durable Object. The `default`
 container scheduling policy enforces `max_instances: 1`, using the `lite` size
 (256 MiB RAM, 1/16 vCPU). The container can stop two minutes after its Durable

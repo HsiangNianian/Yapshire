@@ -6,6 +6,7 @@
     "dev": "wrangler dev --config wrangler.jsonc --config club/wrangler.jsonc --port 8787",
     "deploy": "wrangler deploy",
     "test": "node test/rooms.mjs",
+    "test:pixels": "node test/pixels.mjs",
     "dev:club": "wrangler dev --config club/wrangler.jsonc --port 8788",
     "deploy:club": "wrangler deploy --config club/wrangler.jsonc",
     "test:club": "node test/club.mjs"

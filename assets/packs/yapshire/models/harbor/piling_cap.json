@@ -1,0 +1,23 @@
+{
+  "size": [
+    12,
+    5
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/harbor/piling_cap.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        12,
+        5
+      ]
+    }
+  ]
+}

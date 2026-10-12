@@ -52,6 +52,11 @@ def package(root, target, server=False):
     for source in pack["tilesets"]:
         tileset = json.loads((executable_dir / pack_root / source).read_text())
         required_assets.append(str(Path(pack_root) / Path(source).parent / tileset["image"]))
+    for registry in ["blocks", "models"]:
+        required_assets += [pack_root + "/" + p for p in pack.get(registry, {}).values()]
+    for source in pack.get("models", {}).values():
+        model = json.loads((executable_dir / pack_root / source).read_text())
+        required_assets += [pack_root + "/" + part["texture"] for part in model["parts"]]
     if not server:
         required_assets += ["assets/people.png", "assets/fonts/fusion-pixel.ttf", "assets/fishing/items.png",
                             "assets/hills.png", "assets/sky.png", "assets/cloud.png", "assets/shadow.png",

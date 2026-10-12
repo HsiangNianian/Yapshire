@@ -392,6 +392,7 @@ fn client(
         .try_send(Event::Room { label, invite })
         .map_err(|e| e.to_string())?;
     let mut received_world = false;
+    let mut pixels = std::collections::BTreeMap::new();
     let mut welcomed = false;
     let mut heartbeat = Instant::now();
     let mut last_received = Instant::now();
@@ -427,6 +428,8 @@ fn client(
                                 .content
                                 .require(&installed_content)
                                 .map_err(|e| e.to_string())?;
+                            pixels =
+                                yapshire_shared::pixels::build(world).map_err(|e| e.to_string())?;
                             socket
                                 .send(Message::text(
                                     serde_json::to_string(&ClientMessage::WorldReady {
@@ -437,7 +440,11 @@ fn client(
                                 .map_err(|e| e.to_string())?;
                             received_world = true;
                         }
-                        ServerMessage::Welcome { players, .. } => {
+                        ServerMessage::Welcome {
+                            players,
+                            pixels: updates,
+                            ..
+                        } => {
                             if welcomed
                                 || !received_world
                                 || players.len() > 16
@@ -451,9 +458,28 @@ fn client(
                             {
                                 return Err("Invalid room welcome".into());
                             }
+                            let ids: std::collections::BTreeSet<_> =
+                                updates.iter().map(|u| &u.map).collect();
+                            if ids.len() != updates.len() || ids != pixels.keys().collect() {
+                                return Err("Pixel snapshot map list differs".into());
+                            }
+                            for update in updates {
+                                pixels
+                                    .get_mut(&update.map)
+                                    .unwrap()
+                                    .apply(update)
+                                    .map_err(|e| e.to_string())?;
+                            }
                             welcomed = true;
                         }
                         _ if !welcomed => return Err("Room activity arrived before joining".into()),
+                        ServerMessage::Pixels { update } => {
+                            pixels
+                                .get_mut(&update.map)
+                                .ok_or("Unknown pixel map")?
+                                .apply(update)
+                                .map_err(|e| e.to_string())?;
+                        }
                         _ => {}
                     }
                     events
@@ -997,7 +1023,12 @@ mod tests {
             ws
         };
         let read = |ws: &mut WebSocket<MaybeTlsStream<TcpStream>>| -> ServerMessage {
-            serde_json::from_str(ws.read().unwrap().to_text().unwrap()).unwrap()
+            loop {
+                let message = serde_json::from_str(ws.read().unwrap().to_text().unwrap()).unwrap();
+                if !matches!(message, ServerMessage::Pixels { .. }) {
+                    break message;
+                }
+            }
         };
         let mut a = connect("小风");
         let ServerMessage::Welcome { you, .. } = read(&mut a) else {

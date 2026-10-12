@@ -1,0 +1,23 @@
+{
+  "size": [
+    4,
+    24
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/fence_post.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        4,
+        24
+      ]
+    }
+  ]
+}

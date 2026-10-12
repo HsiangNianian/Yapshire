@@ -1,0 +1,23 @@
+{
+  "size": [
+    64,
+    20
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/signs/exit.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        64,
+        20
+      ]
+    }
+  ]
+}

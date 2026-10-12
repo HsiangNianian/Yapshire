@@ -1,0 +1,24 @@
+{
+  "size": [
+    64,
+    64
+  ],
+  "anchor": [
+    32,
+    64
+  ],
+  "parts": [
+    {
+      "texture": "textures/shop/fish_poster.png",
+      "size": [
+        64,
+        64
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "flip_x": false
+    }
+  ]
+}

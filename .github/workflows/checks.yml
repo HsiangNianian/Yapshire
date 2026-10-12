@@ -34,6 +34,7 @@ jobs:
           cargo metadata --no-deps --locked --format-version 1 > /dev/null
       - name: Test packaging and release recovery
         run: |
+          python -m pip install Pillow
           node --test .github/scripts/*.test.mjs
           python -m unittest discover -s tools -p 'test_*.py'
       - name: Lint GitHub Actions
@@ -63,6 +64,7 @@ jobs:
           done
           if [ "$ready" != true ]; then exit 1; fi
           npm test
+          npm run test:pixels
           CLUB_URL=http://127.0.0.1:8787 CLUB_CAPACITY_CHECK=1 npm run test:club
           npx wrangler deploy --dry-run
           npm run deploy:club -- --dry-run

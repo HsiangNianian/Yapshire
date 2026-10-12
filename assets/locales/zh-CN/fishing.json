@@ -65,5 +65,6 @@
   "notice.tension": "鱼线绷得太紧，鱼逃走了。",
   "notice.slack": "鱼线太松，鱼逃走了。",
   "notice.landed": "钓到了{fish}！可以在商店卖出 {coins} 金币。",
-  "hook_owned": "已装备 / 已装在钓竿上"
+  "hook_owned": "已装备 / 已装在钓竿上",
+  "prompt.toggle": "E  打开 / 关闭"
 }

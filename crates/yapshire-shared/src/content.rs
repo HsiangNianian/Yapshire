@@ -1,4 +1,4 @@
-//! Content pack v1. Tiled GIDs are layout-local; namespaced IDs identify assets.
+//! Content packs. Tiled GIDs are layout-local; namespaced IDs identify assets.
 use crate::maps::{Map, Property, string_property};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -79,6 +79,10 @@ pub fn valid_id(id: &str) -> bool {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Manifest {
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub blocks: BTreeMap<String, String>,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub models: BTreeMap<String, String>,
     pub format: u32,
     pub id: String,
     pub version: String,
@@ -169,6 +173,12 @@ pub struct Frame {
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Content {
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub pixels: BTreeMap<String, crate::pixels::Source>,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub blocks: BTreeMap<String, crate::blocks::Block>,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub models: BTreeMap<String, crate::blocks::Model>,
     pub manifest: Manifest,
     pub sets: BTreeMap<String, Tileset>,
     /// SHA-256 of image bytes. JSON definitions are hashed structurally instead.
@@ -203,6 +213,38 @@ impl Content {
             image_paths.insert(relative(path, &set.image)?);
             sets.insert(path.clone(), set);
         }
+        let mut blocks: BTreeMap<String, crate::blocks::Block> = BTreeMap::new();
+        let mut models = BTreeMap::new();
+        if manifest.blocks.len() > 8192 || manifest.models.len() > 8192 {
+            return Err(invalid("Too many definitions"));
+        }
+        for (id, path) in &manifest.blocks {
+            let bytes = read(path)?;
+            total += bytes.len();
+            if total > MAX_PACK_BYTES {
+                return Err(invalid("Content pack exceeds 32 MiB"));
+            }
+            blocks.insert(id.clone(), serde_json::from_slice(&bytes)?);
+        }
+        for (id, path) in &manifest.models {
+            let bytes = read(path)?;
+            total += bytes.len();
+            if total > MAX_PACK_BYTES {
+                return Err(invalid("Content pack exceeds 32 MiB"));
+            }
+            let model: crate::blocks::Model = serde_json::from_slice(&bytes)?;
+            image_paths.extend(model.parts.iter().map(|p| p.texture.clone()));
+            models.insert(id.clone(), model);
+        }
+        let mut pixel_paths = BTreeSet::new();
+        for block in blocks.values().filter(|b| b.material.is_some()) {
+            let model = models
+                .get(&block.model)
+                .ok_or_else(|| invalid("Unknown material model"))?;
+            pixel_paths.extend(model.parts.iter().map(|p| p.texture.clone()));
+        }
+        let mut pixels = BTreeMap::new();
+        let mut pixel_count = 0;
         let mut images = BTreeMap::new();
         for path in image_paths {
             let bytes = read(&path)?;
@@ -231,9 +273,19 @@ impl Content {
                     )));
                 }
             }
+            if pixel_paths.contains(&path) {
+                pixel_count += width as u64 * height as u64;
+                if pixel_count > crate::pixels::MAX_PIXELS as u64 {
+                    return Err(invalid("Material textures exceed pixel budget"));
+                }
+                pixels.insert(path.clone(), crate::pixels::Source::read(&bytes)?);
+            }
             images.insert(path, format!("{:x}", Sha256::digest(bytes)));
         }
         let content = Self {
+            pixels,
+            blocks,
+            models,
             manifest,
             sets,
             images,
@@ -272,7 +324,7 @@ impl Content {
 
     pub fn validate(&self) -> io::Result<()> {
         let p = &self.manifest;
-        if p.format != 1
+        if !matches!(p.format, 1 | 2)
             || p.tile_size != 16
             || !valid_id(&format!("{}:pack", p.id))
             || p.version.is_empty()
@@ -283,9 +335,31 @@ impl Content {
             || p.prefabs.len() > 256
             || p.terrains.len() > 64
             || self.sets.len() != p.tilesets.len()
-            || self.images.len() > 96
+            || self.images.len() > 8192
         {
-            return Err(invalid("Unsupported or oversized content pack v1"));
+            return Err(invalid("Unsupported or oversized content pack"));
+        }
+        crate::blocks::validate(self)?;
+        for source in self.pixels.values() {
+            source.validate()?;
+        }
+        let expected: BTreeSet<_> = self
+            .blocks
+            .values()
+            .filter(|b| b.material.is_some())
+            .flat_map(|b| self.models[&b.model].parts.iter().map(|p| &p.texture))
+            .collect();
+        if expected != self.pixels.keys().collect()
+            || self
+                .pixels
+                .values()
+                .map(|s| s.width as u64 * s.height as u64)
+                .sum::<u64>()
+                > crate::pixels::MAX_PIXELS as u64
+        {
+            return Err(invalid(
+                "Material texture registry differs or exceeds pixel budget",
+            ));
         }
         let mut keys = BTreeSet::new();
         let mut paths = BTreeSet::new();
@@ -332,9 +406,15 @@ impl Content {
                         tile.key()
                     )));
                 }
+                if let Some(id) = string_property(&tile.properties, "block") {
+                    if self.blocks.get(id).is_none_or(|block| !block.tile) {
+                        return Err(invalid(format!("Invalid tile block {id}")));
+                    }
+                }
                 crate::maps::validate_properties(&tile.properties)?;
                 if tile.properties.iter().any(|p| {
-                    matches!(p.name.as_str(), "id" | "collision" | "terrain") && p.kind != "string"
+                    matches!(p.name.as_str(), "id" | "block" | "collision" | "terrain")
+                        && p.kind != "string"
                 }) || tile.extra.contains_key("image")
                     || tile.extra.contains_key("objectgroup")
                 {

@@ -1,0 +1,72 @@
+{
+  "size": [
+    40,
+    26
+  ],
+  "anchor": [
+    0,
+    26
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/bench_leg.png",
+      "size": [
+        4,
+        26
+      ],
+      "offset": [
+        4,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/bench_leg.png",
+      "size": [
+        4,
+        26
+      ],
+      "offset": [
+        32,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/bench_plank.png",
+      "size": [
+        40,
+        3
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/bench_plank.png",
+      "size": [
+        40,
+        3
+      ],
+      "offset": [
+        0,
+        6
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/bench_plank.png",
+      "size": [
+        40,
+        3
+      ],
+      "offset": [
+        0,
+        15
+      ],
+      "flip_x": false
+    }
+  ]
+}

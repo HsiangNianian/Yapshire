@@ -1,0 +1,23 @@
+{
+  "size": [
+    32,
+    12
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/lighthouse/band.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        32,
+        12
+      ]
+    }
+  ]
+}

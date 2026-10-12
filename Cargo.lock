@@ -5638,6 +5638,7 @@ dependencies = [
 name = "yapshire-shared"
 version = "0.7.2"
 dependencies = [
+ "png",
  "serde",
  "serde_json",
  "sha2",

@@ -1,0 +1,23 @@
+{
+  "size": [
+    160,
+    22
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/signs/shop.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        160,
+        22
+      ]
+    }
+  ]
+}

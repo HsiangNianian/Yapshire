@@ -242,7 +242,8 @@ d.rectangle((38, 17, 41, 79), fill="#7e735a")
 d.rectangle((1, 2, 78, 22), fill="#365c53")
 d.line((4, 4, 75, 4), fill="#8b9a74")
 d.text((40, 13), "TACKLE >", font=font, fill="#efdcac", anchor="mm")
-put(props, 47, 8, stamp(sign))
+tackle_sign_stamp = stamp(sign)
+put(props, 47, 8, tackle_sign_stamp)
 
 # Indoor walls and floor are reusable tiles too; furniture is multi-tile artwork.
 wall = []

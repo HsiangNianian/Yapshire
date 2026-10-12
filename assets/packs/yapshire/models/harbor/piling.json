@@ -1,0 +1,23 @@
+{
+  "size": [
+    8,
+    16
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/harbor/piling.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        8,
+        16
+      ]
+    }
+  ]
+}

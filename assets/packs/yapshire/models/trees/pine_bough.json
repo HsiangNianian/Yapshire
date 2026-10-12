@@ -1,0 +1,23 @@
+{
+  "size": [
+    32,
+    24
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        32,
+        24
+      ]
+    }
+  ]
+}

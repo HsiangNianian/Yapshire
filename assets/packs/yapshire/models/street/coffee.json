@@ -1,0 +1,1188 @@
+{
+  "size": [
+    160,
+    160
+  ],
+  "anchor": [
+    80,
+    160
+  ],
+  "parts": [
+    {
+      "texture": "textures/building/chimney.png",
+      "size": [
+        16,
+        24
+      ],
+      "offset": [
+        124,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        8,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        24,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        40,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        56,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        72,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        88,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        104,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        120,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        136,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        8,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        24,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        40,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        56,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        72,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        88,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        104,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        120,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        136,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        8,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        24,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        40,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        56,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        72,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        88,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        104,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        120,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        136,
+        96
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        8,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        24,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        40,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        56,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        72,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        88,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        104,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        120,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        136,
+        112
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        8,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        24,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        40,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        56,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        72,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        88,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        104,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        120,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        136,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        8,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        24,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        40,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        56,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        72,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        88,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        104,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        120,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/timber.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        136,
+        144
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        64,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        80,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        96,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        112,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        64,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        80,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        96,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        112,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        64,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        80,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        96,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/shingles.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        112,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/roof_slope.png",
+      "size": [
+        32,
+        48
+      ],
+      "offset": [
+        0,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/roof_slope.png",
+      "size": [
+        32,
+        48
+      ],
+      "offset": [
+        128,
+        16
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        0,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        16,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        32,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        48,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        64,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        80,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        96,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        112,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        128,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/eave.png",
+      "size": [
+        16,
+        5
+      ],
+      "offset": [
+        144,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/window.png",
+      "size": [
+        40,
+        37
+      ],
+      "offset": [
+        18,
+        111
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/window.png",
+      "size": [
+        40,
+        37
+      ],
+      "offset": [
+        102,
+        111
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/door.png",
+      "size": [
+        38,
+        52
+      ],
+      "offset": [
+        61,
+        108
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/signs/coffee.png",
+      "size": [
+        144,
+        22
+      ],
+      "offset": [
+        8,
+        71
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_green.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        8,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_cream.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        24,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_green.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        40,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_cream.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        56,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_green.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        72,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_cream.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        88,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_green.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        104,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_cream.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        120,
+        95
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/building/awning_green.png",
+      "size": [
+        16,
+        14
+      ],
+      "offset": [
+        136,
+        95
+      ],
+      "flip_x": false
+    }
+  ]
+}

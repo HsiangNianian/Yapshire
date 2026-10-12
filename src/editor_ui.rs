@@ -148,6 +148,37 @@ fn button(
     id
 }
 
+fn model_nodes(
+    commands: &mut Commands,
+    parent: Entity,
+    model: &yapshire_shared::blocks::Model,
+    position: Vec2,
+    scale: f32,
+    opacity: f32,
+    maps: &Maps,
+    assets: &AssetServer,
+) {
+    for part in &model.parts {
+        commands.spawn((
+            ImageNode {
+                image: assets.load(maps.image_path(&part.texture)),
+                color: Color::WHITE.with_alpha(opacity),
+                flip_x: part.flip_x,
+                ..default()
+            },
+            Node {
+                position_type: PositionType::Absolute,
+                left: px(position.x + part.offset[0] as f32 * scale),
+                top: px(position.y + part.offset[1] as f32 * scale),
+                width: px(part.size[0] as f32 * scale),
+                height: px(part.size[1] as f32 * scale),
+                ..default()
+            },
+            ChildOf(parent),
+        ));
+    }
+}
+
 fn tile_image(gid: u32, maps: &Maps, assets: &AssetServer) -> (ImageNode, UiTransform) {
     let (texture, rect) = maps.tile_image(gid, assets);
     let h = if gid & 0x8000_0000 != 0 { -1.0 } else { 1.0 };
@@ -325,18 +356,31 @@ pub(crate) fn render(
     let columns = (CANVAS_SIZE.x / size).ceil() as u32;
     let rows = (CANVAS_SIZE.y / size).ceil() as u32;
     if !maps.info(editor.kind).indoors {
-        commands.spawn((
-            ImageNode::new(assets.load("hills.png")),
-            Node {
-                position_type: PositionType::Absolute,
-                width: px(map.width as f32 * size),
-                height: px(540.0 * editor.zoom as f32),
-                left: px(-(editor.offset.x as f32) * size),
-                top: px(-186.0 * editor.zoom as f32 - editor.offset.y as f32 * size),
-                ..default()
-            },
-            ChildOf(canvas),
-        ));
+        let panorama = crate::game::PANORAMA_SIZE;
+        let zoom = editor.zoom as f32;
+        for tile in 0..=(map.width as f32 * 16.0 / panorama.x).round() as i32 + 1 {
+            commands.spawn((
+                ImageNode {
+                    image: assets.load("hills.png"),
+                    flip_x: tile % 2 != 0,
+                    ..default()
+                },
+                Node {
+                    position_type: PositionType::Absolute,
+                    width: px(panorama.x * zoom),
+                    height: px(panorama.y * zoom),
+                    left: px(
+                        (tile as f32 - 0.5) * panorama.x * zoom - editor.offset.x as f32 * size
+                    ),
+                    top: px(
+                        (map.origin_y() - crate::game::PANORAMA_Y - panorama.y / 2.0) * zoom
+                            - editor.offset.y as f32 * size,
+                    ),
+                    ..default()
+                },
+                ChildOf(canvas),
+            ));
+        }
     }
     let mut layers: Vec<_> = (0..map.layers.len()).collect();
     layers.sort_by(|a, b| map.layers[*a].z(*a).total_cmp(&map.layers[*b].z(*b)));
@@ -356,6 +400,32 @@ pub(crate) fn render(
                 }, ChildOf(canvas)));
             }
             continue;
+        }
+        if map.layers[layer].visible {
+            for object in &map.layers[layer].objects {
+                let Some(block) = object.block(&maps.world.content) else {
+                    continue;
+                };
+                if !object.visible {
+                    continue;
+                }
+                let model = block.model(object.state(), &maps.world.content);
+                let position = Vec2::new(
+                    object.x - model.anchor[0] as f32,
+                    object.y - model.anchor[1] as f32,
+                ) * editor.zoom as f32
+                    - editor.offset.as_vec2() * size;
+                model_nodes(
+                    &mut commands,
+                    canvas,
+                    model,
+                    position,
+                    editor.zoom as f32,
+                    map.layers[layer].opacity,
+                    &maps,
+                    &assets,
+                );
+            }
         }
         if map.layers[layer].data.is_empty() {
             continue;
@@ -417,12 +487,37 @@ pub(crate) fn render(
         }
     }
     if editor.guides {
-        for object in editor.doc().map.objects() {
-            let x = (object.x / 16.0 - editor.offset.x as f32) * size;
-            let y = (object.y / 16.0 - editor.offset.y as f32) * size;
-            if x < -object.width * editor.zoom as f32
+        for (layer, object) in map
+            .layers
+            .iter()
+            .enumerate()
+            .filter(|(_, l)| l.visible)
+            .flat_map(|(i, l)| l.objects.iter().map(move |o| (i, o)))
+        {
+            let region;
+            let object = if layer != editor.layer && object.block(&maps.world.content).is_some() {
+                let Some(resolved) = object.resolved(&maps.world.content) else {
+                    continue;
+                };
+                region = resolved;
+                &region
+            } else {
+                object
+            };
+            let model = object
+                .block(&maps.world.content)
+                .filter(|_| layer == editor.layer)
+                .map(|b| b.model(object.state(), &maps.world.content));
+            let origin = model.map_or(Vec2::ZERO, |m| {
+                Vec2::new(m.anchor[0] as f32, m.anchor[1] as f32)
+            });
+            let width = model.map_or(object.width, |m| m.size[0] as f32);
+            let height = model.map_or(object.height, |m| m.size[1] as f32);
+            let x = ((object.x - origin.x) / 16.0 - editor.offset.x as f32) * size;
+            let y = ((object.y - origin.y) / 16.0 - editor.offset.y as f32) * size;
+            if x < -width * editor.zoom as f32
                 || x >= CANVAS_SIZE.x
-                || y < 0.0
+                || y < -height * editor.zoom as f32
                 || y >= CANVAS_SIZE.y
             {
                 continue;
@@ -432,8 +527,8 @@ pub(crate) fn render(
                 canvas,
                 x,
                 y,
-                (object.width * editor.zoom as f32).max(8.0),
-                (object.height * editor.zoom as f32).max(8.0),
+                (width * editor.zoom as f32).max(8.0),
+                (height * editor.zoom as f32).max(8.0),
                 Color::NONE,
             );
             commands.entity(guide).insert((
@@ -442,8 +537,8 @@ pub(crate) fn render(
                     position_type: PositionType::Absolute,
                     left: px(x),
                     top: px(y),
-                    width: px((object.width * editor.zoom as f32).max(8.0)),
-                    height: px((object.height * editor.zoom as f32).max(8.0)),
+                    width: px((width * editor.zoom as f32).max(8.0)),
+                    height: px((height * editor.zoom as f32).max(8.0)),
                     border: UiRect::all(px(2)),
                     ..default()
                 },
@@ -721,7 +816,7 @@ pub(crate) fn render(
         [1304.0, 588.0, 100.0, 30.0],
         Action::Flip(0x2000_0000),
     );
-    if let Some((id, prefab)) = maps.world.content.manifest.prefabs.iter().nth(editor.stamp) {
+    if let Some(&id) = maps.stamp_ids().get(editor.stamp) {
         button(
             &mut commands,
             root,
@@ -746,33 +841,39 @@ pub(crate) fn render(
             [1364.0, 640.0, 40.0, 34.0],
             Action::Stamp(1),
         );
-        text_at(
-            &mut commands,
-            root,
-            &art,
-            id.as_str(),
-            1020.0,
-            684.0,
-            14.0,
-            ui::GOLD,
-        );
-        let size = (104.0 / prefab.width as f32).min(50.0 / prefab.height as f32);
-        for (i, id) in prefab.tiles.iter().enumerate() {
-            if let Some(gid) = maps.world.content.gid(id) {
-                let (image, transform) = tile_image(gid, &maps, &assets);
-                commands.spawn((
-                    image,
-                    transform,
-                    Node {
-                        position_type: PositionType::Absolute,
-                        left: px(1296.0 + i as f32 % prefab.width as f32 * size),
-                        top: px(680.0 + (i as u32 / prefab.width) as f32 * size),
-                        width: px(size),
-                        height: px(size),
-                        ..default()
-                    },
-                    ChildOf(root),
-                ));
+        text_at(&mut commands, root, &art, id, 1020.0, 684.0, 14.0, ui::GOLD);
+        if let Some(block) = maps.world.content.blocks.get(id) {
+            let model = block.model("default", &maps.world.content);
+            let scale = (104.0 / model.size[0] as f32).min(50.0 / model.size[1] as f32);
+            model_nodes(
+                &mut commands,
+                root,
+                model,
+                Vec2::new(1296.0, 680.0),
+                scale,
+                1.0,
+                &maps,
+                &assets,
+            );
+        } else if let Some(prefab) = maps.world.content.manifest.prefabs.get(id) {
+            let size = (104.0 / prefab.width as f32).min(50.0 / prefab.height as f32);
+            for (i, id) in prefab.tiles.iter().enumerate() {
+                if let Some(gid) = maps.world.content.gid(id) {
+                    let (image, transform) = tile_image(gid, &maps, &assets);
+                    commands.spawn((
+                        image,
+                        transform,
+                        Node {
+                            position_type: PositionType::Absolute,
+                            left: px(1296.0 + i as f32 % prefab.width as f32 * size),
+                            top: px(680.0 + (i as u32 / prefab.width) as f32 * size),
+                            width: px(size),
+                            height: px(size),
+                            ..default()
+                        },
+                        ChildOf(root),
+                    ));
+                }
             }
         }
     }

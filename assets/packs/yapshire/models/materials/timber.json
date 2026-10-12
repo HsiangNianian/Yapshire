@@ -1,0 +1,23 @@
+{
+  "size": [
+    16,
+    16
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/materials/timber.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        16,
+        16
+      ]
+    }
+  ]
+}

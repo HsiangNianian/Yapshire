@@ -1,0 +1,15 @@
+{
+  "model": "yapshire:barrel",
+  "behavior": "toggle",
+  "interaction": [
+    -32,
+    -40,
+    64,
+    56
+  ],
+  "states": {
+    "open": {
+      "model": "yapshire:barrel_open"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "size": [
+    16,
+    34
+  ],
+  "anchor": [
+    8,
+    34
+  ],
+  "parts": [
+    {
+      "texture": "textures/plants/frond.png",
+      "size": [
+        16,
+        24
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/terracotta.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        0,
+        18
+      ],
+      "flip_x": false
+    }
+  ]
+}

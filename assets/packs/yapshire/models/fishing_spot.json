@@ -1,0 +1,23 @@
+{
+  "size": [
+    1,
+    1
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/fishing_spot.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        1,
+        1
+      ]
+    }
+  ]
+}

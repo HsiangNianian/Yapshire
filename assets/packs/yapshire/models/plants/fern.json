@@ -1,0 +1,72 @@
+{
+  "size": [
+    48,
+    32
+  ],
+  "anchor": [
+    24,
+    32
+  ],
+  "parts": [
+    {
+      "texture": "textures/plants/frond.png",
+      "size": [
+        16,
+        24
+      ],
+      "offset": [
+        0,
+        8
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/plants/frond.png",
+      "size": [
+        16,
+        24
+      ],
+      "offset": [
+        8,
+        3
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/plants/frond.png",
+      "size": [
+        16,
+        24
+      ],
+      "offset": [
+        16,
+        0
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/plants/frond.png",
+      "size": [
+        16,
+        24
+      ],
+      "offset": [
+        24,
+        5
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/plants/frond.png",
+      "size": [
+        16,
+        24
+      ],
+      "offset": [
+        32,
+        8
+      ],
+      "flip_x": true
+    }
+  ]
+}

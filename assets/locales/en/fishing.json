@@ -65,5 +65,6 @@
   "notice.tension": "Too much tension! The fish escaped.",
   "notice.slack": "The line went slack. The fish escaped.",
   "notice.landed": "{fish} landed! Worth {coins} coins at the shop.",
-  "hook_owned": "EQUIPPED / Fitted to your rod"
+  "hook_owned": "EQUIPPED / Fitted to your rod",
+  "prompt.toggle": "E  OPEN / CLOSE"
 }

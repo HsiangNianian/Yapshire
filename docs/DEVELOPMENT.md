@@ -120,7 +120,7 @@ write failures. Keep using the same nickname to resume progress.
 Progress is local to each computer. Coins and catches are not traded or synchronized
 between players. Movement packets carry the stable map ID and fishing pose;
 the server derives indoor/outdoor state from the map definition. Current source
-uses protocol 3, so update the client and server together.
+uses protocol 5, so update the client and server together.
 
 ## Settings and language
 
@@ -167,7 +167,7 @@ unavailable undo/redo and zoom controls are dimmed. Eye icons toggle layer visib
 | Mouse wheel over the canvas | Pan horizontally |
 | G / Grid | Toggle the grid |
 | Guides | Preview map-defined objects |
-| P / Object stamp | Place a complete prefab on the selected tile layer |
+| P / Object stamp | Place a model anchor in an object layer; tile layers create a companion object layer |
 | Next map / layer arrows | Browse the manifest and all layers |
 | Layer eye icon | Show or hide a layer (saved in the map) |
 | Reload | Read the current map from disk; confirm before discarding a draft |
@@ -175,10 +175,11 @@ unavailable undo/redo and zoom controls are dimmed. Eye icons toggle layer visib
 | Done / Escape / window close | Leave; unsaved drafts offer save, discard or cancel |
 
 Gold guides preview map-defined spawn points, doors, shops and fishing regions.
-The manifest lists editable maps and tilesets. Collision comes from tile-layer
-properties and solid objects; gameplay regions can be moved in Tiled. The editor
+The manifest lists editable maps, tilesets, blocks and models. Collision comes
+from block definitions, tile-layer properties and solid objects. The editor
 paints tiles, connects terrain, places whole object stamps, and preserves object
-and image layers. See [Content packs v1](CONTENT_PACKS.md) / [中文规范](CONTENT_PACKS.zh-CN.md).
+and image layers. Select an object layer to pick or erase whole models.
+See [Content packs v2](CONTENT_PACKS.md) / [中文规范](CONTENT_PACKS.zh-CN.md).
 
 Local saves preserve Tiled metadata and flips, use atomic replacement and keep
 previous bytes as `.tmj.bak`. External edits must be reloaded before saving.
@@ -199,7 +200,7 @@ YAPSHIRE_MAP_DIR="$PWD/artifacts/editor-check/maps" YAPSHIRE_SMOKE=editor-reload
 The opt-in driver exercises real editor systems and UI actions: painting and a
 continuous stroke, undo/redo, saving into runtime tilemaps, repeated-save cleanup,
 shop editing, unsaved changes, fullscreen pointer mapping, icon hover/click,
-layer visibility and startup reload.
+layer visibility, model placement/undo/save and startup reload.
 Screenshots go to `artifacts/editor-*.png`; input is injected only into this app.
 
 ## Tilemaps
@@ -207,9 +208,28 @@ Screenshots go to `artifacts/editor-*.png`; input is injected only into this app
 The official content pack is `assets/packs/yapshire/pack.json`. Its terrain,
 water, buildings, objects and background assets are separate resources with
 stable IDs. It uses the same loader as community packs. Open its `maps/*.tmj`
-files in Tiled or use the in-game workshop. Read [Content packs v1](CONTENT_PACKS.md)
+files in Tiled or use the in-game workshop. Read [Content packs v2](CONTENT_PACKS.md)
 for the schema, authoring workflow, interactions, collision, migration and limits.
 The old `assets/maps/harbor.*` and two maps remain read-only migration fixtures.
+
+Author individual PNGs in `textures/`, model JSONs in `models/` and behavior
+definitions in `blocks/`; register their namespaced IDs in `pack.json`. Models can
+span cells and use multiple transparent parts with independent colliders.
+Rebuild terrain atlases without touching map layouts with
+`uv run --with Pillow tools/compile_pack.py assets/packs/yapshire`.
+The runtime reads object model parts directly; restart after source changes.
+`tools/draw_models.py` authors structural components (bark, boughs, siding, roof
+slopes, doors, lids), then `tools/build_objects.py` registers models and places
+instances. It does not crop finished scenery into arbitrary cells. Legacy atlas
+cells remain for older layouts. `src/game.rs` uses an orthographic camera with
+pixel-aligned viewport edges. Layer `z` sets draw order, and model parts retain
+their native dimensions. See the content guide for the pure 2D rendering contract.
+
+`crates/yapshire-shared/src/pixels.rs` rasterizes opted-in material templates,
+steps active chunks and derives player collision from solid cells. Each room
+advances its own grid at 20 Hz; clients upload only changed 32x32 textures through
+`src/pixels.rs`. See [pixel materials](CONTENT_PACKS.md#pixel-materials) for
+authoring, budgets and persistence limits. V opens the in-game dig/sand/water tools.
 
 Regenerate the official art, pack and both default layouts with:
 
@@ -245,9 +265,13 @@ creator leaving while others remain, and close when empty. Chat history and
 positions are not saved between sessions. The old `yapshire-multiplayer` address
 is a service-binding gateway to this server, not a separate room backend.
 
-v0.7.2 uses protocol **3** and world format **2**. Clients require a
+Unreleased source uses protocol **5** and world format **3** (published v0.7.2
+uses protocol 3/world 2). Clients require a
 validated world and matching installed content before acknowledging entry. Update
-the game and server together; older releases use incompatible protocol 2. There is no legacy no-world handshake fallback in this build.
+the game and server together; protocol-3 public servers cannot accept this build.
+There is no legacy no-world handshake fallback. Object changes are validated by
+the server and broadcast to the room; Welcome includes late-join state snapshots.
+These states are held in memory and reset on server restart.
 Positions are transmitted
 at up to 20 Hz only when changed; remote players interpolate between updates.
 Connections have timeouts and heartbeats. Each room allows 16 players, names are
@@ -382,6 +406,15 @@ tension, return to the counter, sell it, and verify the saved balance. It saves
 actual screenshots, including the street-to-shop and quay-to-pier transitions, under `artifacts/fishing-*.png` or
 `artifacts/fishing-cloud-*.png`. Use a fresh save directory for every run.
 The LAN run uses local port 4777.
+
+`YAPSHIRE_SMOKE=pixels cargo run --locked` hosts a real LAN room on an ephemeral
+port and drives the native material toolbar. It checks sand, water, excavation,
+player collision, chat isolation and pointer mapping at 2x/3x/4x, saving
+`artifacts/pixels-*.png`. Use isolated settings, map and save directories.
+`npm run test:pixels --prefix server` checks digging, both flowing materials and
+late-join snapshots through a running Worker; `SERVER_URL` and `GUEST_SERVER_URL`
+can address different gateways to the same Rust server. Rust integration tests
+also compare four clients and a separate room.
 
 `YAPSHIRE_SMOKE=display cargo run --locked` checks a fixed window, F11 fullscreen,
 and the restored window size, saving screenshots of all three stages under

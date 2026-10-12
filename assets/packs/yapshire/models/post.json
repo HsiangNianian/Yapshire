@@ -1,0 +1,96 @@
+{
+  "size": [
+    16,
+    80
+  ],
+  "anchor": [
+    8,
+    80
+  ],
+  "parts": [
+    {
+      "texture": "textures/harbor/piling.png",
+      "size": [
+        8,
+        16
+      ],
+      "offset": [
+        4,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/harbor/piling.png",
+      "size": [
+        8,
+        16
+      ],
+      "offset": [
+        4,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/harbor/piling.png",
+      "size": [
+        8,
+        16
+      ],
+      "offset": [
+        4,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/harbor/piling.png",
+      "size": [
+        8,
+        16
+      ],
+      "offset": [
+        4,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/harbor/piling.png",
+      "size": [
+        8,
+        16
+      ],
+      "offset": [
+        4,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/harbor/piling_cap.png",
+      "size": [
+        12,
+        5
+      ],
+      "offset": [
+        2,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/harbor/rope_wrap.png",
+      "size": [
+        12,
+        8
+      ],
+      "offset": [
+        2,
+        18
+      ],
+      "flip_x": false
+    }
+  ]
+}

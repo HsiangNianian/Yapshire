@@ -6,8 +6,8 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, io, path::Path};
 
-pub const PROTOCOL_VERSION: u32 = 3;
-pub const WORLD_FORMAT: u32 = 2;
+pub const PROTOCOL_VERSION: u32 = 5;
+pub const WORLD_FORMAT: u32 = 3;
 pub const MAX_MAP_BYTES: u64 = 1024 * 1024;
 pub const MAX_WORLD_BYTES: usize = 8 * 1024 * 1024;
 // Read-only compatibility fixtures: old editor saves migrate only when explicitly saved.
@@ -16,23 +16,7 @@ pub const SHOP: &str = include_str!("../../../assets/maps/tackle-shop.tmj");
 pub const TILESET: &[u8] = include_bytes!("../../../assets/maps/harbor.tsj");
 pub const TEXTURE: &[u8] = include_bytes!("../../../assets/maps/harbor.png");
 
-macro_rules! bundled_files {
-    ($($path:literal),+ $(,)?) => { pub const BUNDLED_FILES: &[(&str, &[u8])] = &[$(($path, include_bytes!(concat!("../../../assets/packs/yapshire/", $path)))),+]; };
-}
-bundled_files!(
-    "pack.json",
-    "terrain/ground.tsj",
-    "terrain/ground.png",
-    "terrain/water.tsj",
-    "terrain/water.png",
-    "buildings/tackle.tsj",
-    "buildings/tackle.png",
-    "objects/harbor.tsj",
-    "objects/harbor.png",
-    "backgrounds/street.png",
-    "maps/town.tmj",
-    "maps/tackle-shop.tmj"
-);
+include!(concat!(env!("OUT_DIR"), "/bundled.rs"));
 pub fn bundled_file(name: &str) -> io::Result<&'static [u8]> {
     BUNDLED_FILES
         .iter()
@@ -148,11 +132,37 @@ impl World {
             }
         }
         let bundled: Map = serde_json::from_slice(bundled_file(&info.path)?)?;
-        map.tilesets = bundled.tilesets;
+        map.tilesets = bundled.tilesets.clone();
         map.layers[2].properties = bundled.layers[2].properties.clone();
-        map.layers.extend(bundled.layers.into_iter().skip(5));
-        map.extra.insert("nextlayerid".into(), 8.into());
-        map.extra.insert("nextobjectid".into(), 5.into());
+        // Legacy art stays in its authored cells; copying new prefab instances would duplicate it.
+        let mut interactions: Vec<_> = bundled
+            .interactions(content)
+            .filter(|o| matches!(o.kind.as_str(), "portal" | "shop"))
+            .collect();
+        for object in &mut interactions {
+            object.point = false;
+            object
+                .properties
+                .retain(|p| p.name != "block" && p.name != "state");
+        }
+        map.layers.extend(
+            bundled
+                .layers
+                .into_iter()
+                .skip(5)
+                .filter(|l| l.name == "Street objects" || l.name == "Interactions"),
+        );
+        map.layers.last_mut().unwrap().objects.extend(interactions);
+        let next_layer = map
+            .layers
+            .iter()
+            .filter_map(|l| l.extra.get("id").and_then(|id| id.as_u64()))
+            .max()
+            .unwrap_or(0)
+            + 1;
+        let next_object = map.objects().map(|o| o.id).max().unwrap_or(0) + 1;
+        map.extra.insert("nextlayerid".into(), next_layer.into());
+        map.extra.insert("nextobjectid".into(), next_object.into());
         Ok(true)
     }
 
@@ -205,6 +215,32 @@ impl World {
         )
     }
 
+    pub fn set_object_state(&mut self, map: &str, id: u32, state: &str) -> io::Result<()> {
+        let layout = self
+            .maps
+            .get_mut(map)
+            .ok_or_else(|| invalid("Unknown state map"))?;
+        let object = layout
+            .layers
+            .iter_mut()
+            .flat_map(|l| &mut l.objects)
+            .find(|o| o.id == id)
+            .ok_or_else(|| invalid("Unknown state object"))?;
+        let block = object
+            .block(&self.content)
+            .ok_or_else(|| invalid("Object has no block definition"))?;
+        if !block.valid_state(state) {
+            return Err(invalid("Unknown block state"));
+        }
+        object.properties.retain(|p| p.name != "state");
+        object.properties.push(crate::maps::Property {
+            name: "state".into(),
+            kind: "string".into(),
+            value: state.into(),
+        });
+        self.revision = self.content_hash()?;
+        Ok(())
+    }
     pub fn validate(&self) -> io::Result<()> {
         if self.format != WORLD_FORMAT {
             return Err(invalid(
@@ -221,7 +257,10 @@ impl World {
                 .get(&info.id)
                 .ok_or_else(|| invalid(format!("Missing map {}", info.id)))?;
             map.validate(&self.content, &info.path)?;
-            for object in map.objects().filter(|o| o.kind == "portal") {
+            for object in map
+                .interactions(&self.content)
+                .filter(|o| o.kind == "portal")
+            {
                 let target = object
                     .property("target_map")
                     .and_then(|id| self.maps.get(id));
@@ -236,6 +275,7 @@ impl World {
                 }
             }
         }
+        crate::pixels::validate_world(self)?;
         let entry = &self.content.manifest.entry;
         if self
             .maps

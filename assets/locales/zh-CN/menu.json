@@ -44,7 +44,7 @@
   "type": "点击输入……",
   "chat_help": "Enter 聊天 / 发送  /  Esc 关闭聊天 / 离开  /  最多 80 字",
   "chat_input": "打个招呼  >  {text}{preedit}{cursor}",
-  "controls": "A D 移动 / Shift 跑步 / 空格 跳跃 / E 互动 / I 背包 / Enter 聊天",
+  "controls": "A D 移动 / Shift 跑步 / 空格 跳跃 / E 互动 / I 背包 / Enter 聊天  /  V 材质工具",
   "room_status": "{room}\n{state} / 镇上有 {count} 人",
   "name_required": "请先在主菜单输入昵称。",
   "room_required": "请输入房间名称。",

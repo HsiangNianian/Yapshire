@@ -1,0 +1,36 @@
+{
+  "size": [
+    32,
+    32
+  ],
+  "anchor": [
+    16,
+    32
+  ],
+  "parts": [
+    {
+      "texture": "textures/barrel/staves.png",
+      "size": [
+        24,
+        24
+      ],
+      "offset": [
+        4,
+        8
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/barrel/lid.png",
+      "size": [
+        24,
+        8
+      ],
+      "offset": [
+        4,
+        4
+      ],
+      "flip_x": false
+    }
+  ]
+}

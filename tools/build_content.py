@@ -38,6 +38,8 @@ def build(g):
     register("objects/harbor", "rope", [g["rope_tile"]])
     # The second sign is the only unnamed stamp in the original source.
     register("objects/harbor", "tackle_sign", [i for i in range(1, len(g["tiles"]) + 1) if i not in names])
+    prefabs["yapshire:tackle_sign"] = dict(width=5, height=5, anchor=[40, 80],
+        tiles=[names[gid] if gid else "" for row in g["tackle_sign_stamp"] for gid in row])
     assert len(names) == len(g["tiles"]) == 359
 
     # A complete 16-pattern edge terrain, shared by Tiled's Terrain brush and ours.
@@ -134,3 +136,8 @@ def build(g):
     # Every old tile has a stable identity, independently of the new atlas order.
     assert len(gids) == 375 and all(key in gids for key in manifest["legacy_tiles"])
     print(f"Wrote {root}: 4 tilesets, {len(gids)} stable tile IDs, {len(prefabs)} prefabs.")
+
+    from build_objects import build as build_objects
+    build_objects(root)
+    from compile_pack import compile_pack
+    compile_pack(root)

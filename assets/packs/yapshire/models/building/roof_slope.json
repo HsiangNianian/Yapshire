@@ -1,0 +1,23 @@
+{
+  "size": [
+    32,
+    48
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/building/roof_slope.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        32,
+        48
+      ]
+    }
+  ]
+}

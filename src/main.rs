@@ -21,6 +21,9 @@ mod icons;
 mod maps;
 mod network;
 mod paths;
+#[cfg(debug_assertions)]
+mod pixel_smoke;
+mod pixels;
 mod settings;
 #[cfg(debug_assertions)]
 mod smoke;
@@ -80,6 +83,7 @@ fn main() {
         .insert_resource(menu)
         .init_resource::<ui::Chat>()
         .init_resource::<fishing::Fishing>()
+        .init_resource::<pixels::Brush>()
         .add_plugins(
             DefaultPlugins
                 .set(ImagePlugin::default_nearest())
@@ -96,6 +100,14 @@ fn main() {
                         name: Some("yapshire".into()),
                         resolution: game::WINDOW_SIZE.into(),
                         resizable: false,
+                        // Background smoke windows must not wait for throttled compositor vsync.
+                        present_mode: if cfg!(debug_assertions)
+                            && std::env::var_os("YAPSHIRE_SMOKE").is_some()
+                        {
+                            bevy::window::PresentMode::AutoNoVsync
+                        } else {
+                            default()
+                        },
                         enabled_buttons: bevy::window::EnabledButtons {
                             maximize: false,
                             ..default()
@@ -125,7 +137,7 @@ fn main() {
                 game::walk,
                 game::animate,
                 game::follow_camera,
-                coast::reload_maps,
+                (coast::reload_maps, pixels::upload, pixels::controls).chain(),
                 coast::animate,
                 coast::animate_rig,
                 game::bubbles,
@@ -147,11 +159,13 @@ fn main() {
         );
     #[cfg(debug_assertions)]
     app.init_resource::<smoke::Smoke>()
+        .init_resource::<pixel_smoke::Check>()
         .init_resource::<editor_smoke::Check>()
         .init_resource::<i18n_smoke::Check>()
         .init_resource::<fishing_smoke::Check>()
         .init_resource::<clubs_smoke::Check>()
         .add_systems(Update, clubs_smoke::drive.before(ui::buttons))
+        .add_systems(Update, pixel_smoke::drive.before(ui::buttons))
         .add_systems(Update, fishing_smoke::drive.before(ui::buttons))
         .add_systems(Update, smoke::drive.before(ui::buttons))
         .add_systems(Update, editor_smoke::drive.before(ui::buttons))
@@ -267,7 +281,34 @@ fn network_events(
                     maps.apply_world(&world);
                     menu.status = tr("menu.maps_ready");
                 }
-                ServerMessage::Welcome { you, players } => {
+                ServerMessage::ObjectChanged { value } => {
+                    if let Err(error) = maps.set_state(&value) {
+                        warn!("Invalid object state: {error}");
+                    }
+                }
+                ServerMessage::Pixels { update } => {
+                    if let Some(grid) = maps.pixels.get_mut(&update.map) {
+                        grid.apply(&update).expect("Network validated pixel update");
+                    }
+                }
+                ServerMessage::Welcome {
+                    you,
+                    players,
+                    states,
+                    pixels,
+                } => {
+                    for value in states {
+                        if let Err(error) = maps.set_state(&value) {
+                            warn!("Invalid initial object state: {error}");
+                        }
+                    }
+                    for update in pixels {
+                        maps.pixels
+                            .get_mut(&update.map)
+                            .expect("Validated pixel map")
+                            .apply(&update)
+                            .expect("Network validated pixel snapshot");
+                    }
                     session.you = Some(you);
                     session.connected = true;
                     menu.page = ui::Page::Playing;

@@ -1,0 +1,36 @@
+{
+  "size": [
+    64,
+    80
+  ],
+  "anchor": [
+    32,
+    80
+  ],
+  "parts": [
+    {
+      "texture": "textures/building/door.png",
+      "size": [
+        38,
+        52
+      ],
+      "offset": [
+        13,
+        28
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/signs/exit.png",
+      "size": [
+        64,
+        20
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "flip_x": false
+    }
+  ]
+}

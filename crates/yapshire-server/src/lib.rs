@@ -13,7 +13,7 @@ use axum::{
 pub use config::Config;
 use serde::Deserialize;
 use std::{
-    collections::HashMap,
+    collections::{BTreeMap, HashMap},
     future::Future,
     io,
     net::{IpAddr, SocketAddr},
@@ -27,12 +27,15 @@ use subtle::ConstantTimeEq;
 use tokio::sync::{OwnedSemaphorePermit, Semaphore, mpsc, watch};
 use yapshire_shared::{
     PROTOCOL_VERSION, World,
-    protocol::{ClientMessage, Player, RoomEntry, ServerMessage, authorization, clean},
+    protocol::{
+        ClientMessage, ObjectState, Player, RoomEntry, ServerMessage, authorization, clean,
+    },
 };
 
 #[derive(Clone)]
 pub struct Server(Arc<Inner>);
 struct Inner {
+    pixels: BTreeMap<String, yapshire_shared::pixels::Grid>,
     config: Config,
     world: World,
     world_message: String,
@@ -44,6 +47,9 @@ struct Inner {
     shutdown: watch::Sender<bool>,
 }
 struct Room {
+    // shortcut: cells reset with the room; add persistence before offering saved live worlds.
+    pixels: BTreeMap<String, yapshire_shared::pixels::Grid>,
+    states: BTreeMap<(String, u32), String>,
     name: String,
     persistent: bool,
     peers: HashMap<u32, Peer>,
@@ -64,6 +70,10 @@ impl Server {
     pub fn new(config: Config, world: World, password: &str) -> io::Result<Self> {
         config.validate()?;
         world.validate()?;
+        let mut pixels = yapshire_shared::pixels::build(&world)?;
+        for grid in pixels.values_mut() {
+            grid.clear_dirty();
+        }
         if !password.is_empty() && !(8..=128).contains(&password.len()) {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -73,9 +83,11 @@ impl Server {
         let rooms = HashMap::from([(
             config.room_code.clone(),
             Room {
+                pixels: pixels.clone(),
                 name: clean(&config.name, 24),
                 persistent: true,
                 peers: HashMap::new(),
+                states: BTreeMap::new(),
             },
         )]);
         let world_message = serde_json::to_string(&ServerMessage::World {
@@ -84,6 +96,7 @@ impl Server {
         let capacity = config.max_rooms * config.max_players + 8;
         let (shutdown, _) = watch::channel(false);
         Ok(Self(Arc::new(Inner {
+            pixels,
             config,
             world,
             world_message,
@@ -123,6 +136,29 @@ impl Server {
             .route("/room/{code}", get(room))
             .with_state(self.clone());
         let stopping = self.clone();
+        let simulator = self.clone();
+        let mut stop_simulation = self.0.shutdown.subscribe();
+        let simulation = tokio::spawn(async move {
+            let mut clock =
+                tokio::time::interval(Duration::from_millis(yapshire_shared::pixels::TICK_MS));
+            clock.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+            loop {
+                tokio::select! {
+                    _ = stop_simulation.changed() => break,
+                    _ = clock.tick() => {
+                        let mut rooms = simulator.0.rooms.lock().unwrap();
+                        for room in rooms.values_mut().filter(|r| !r.peers.is_empty()) {
+                            let mut changes = Vec::new();
+                            for (map, grid) in &mut room.pixels {
+                                grid.step();
+                                if let Some(update) = grid.take_update(map) { changes.push(update); }
+                            }
+                            for update in changes { broadcast(room, ServerMessage::Pixels { update }, None); }
+                        }
+                    }
+                }
+            }
+        });
         let result = axum::serve(
             listener,
             router.into_make_service_with_connect_info::<SocketAddr>(),
@@ -135,6 +171,7 @@ impl Server {
         // Upgraded sockets outlive Axum's HTTP connections. Let their close
         // frames and participant cleanup finish before dropping the runtime.
         self.0.shutdown.send_replace(true);
+        let _ = simulation.await;
         let _ = tokio::time::timeout(Duration::from_secs(7), async {
             while !self.0.connections.lock().unwrap().is_empty() {
                 tokio::time::sleep(Duration::from_millis(10)).await;
@@ -505,9 +542,11 @@ async fn session(
                 rooms.insert(
                     code.clone(),
                     Room {
+                        pixels: server.0.pixels.clone(),
                         name: clean(&join.room_name, 24),
                         persistent: false,
                         peers: HashMap::new(),
+                        states: BTreeMap::new(),
                     },
                 );
             }
@@ -563,7 +602,17 @@ async fn session(
                         },
                     );
                     let _ = tx.try_send(Outgoing::Message(ServerMessage::Welcome {
+                        pixels: room.pixels.iter().map(|(id, g)| g.snapshot(id)).collect(),
                         you: id,
+                        states: room
+                            .states
+                            .iter()
+                            .map(|((map, object), state)| ObjectState {
+                                map: map.clone(),
+                                object: *object,
+                                state: state.clone(),
+                            })
+                            .collect(),
                         players: room.peers.values().map(|p| p.player.clone()).collect(),
                     }));
                     Participant {
@@ -585,6 +634,8 @@ async fn session(
     };
     let mut timer = tokio::time::interval(Duration::from_secs(1));
     let mut last_seen = Instant::now();
+    let mut last_interaction = Instant::now() - Duration::from_secs(1);
+    let mut last_paint = Instant::now() - Duration::from_secs(1);
     let mut last_chat = Instant::now() - Duration::from_secs(1);
     let mut rate = (Instant::now(), 0);
     let (mut close_code, mut reason) = (1000, "Left room");
@@ -626,14 +677,48 @@ async fn session(
                 let mut rooms = server.0.rooms.lock().unwrap();
                 let Some(room) = rooms.get_mut(&code) else { break; };
                 match message {
+                    ClientMessage::Paint { map, x, y, tool } => {
+                        let Some(peer) = room.peers.get(&participant.id) else { break; };
+                        let Some(layout) = server.0.world.maps.get(&map) else { continue; };
+                        let dx = x as f32 - peer.player.x;
+                        let dy = y as f32 - (layout.origin_y() - peer.player.y - 12.0);
+                        if peer.player.map != map || last_paint.elapsed() < Duration::from_millis(100)
+                            || dx*dx + dy*dy > yapshire_shared::pixels::REACH.powi(2) { continue; }
+                        last_paint = Instant::now();
+                        if let Some(grid) = room.pixels.get_mut(&map) { grid.paint(x,y,tool); }
+                    }
                     ClientMessage::Move { map, x, y, moving, facing, indoors: _, fishing } if x.is_finite() && y.is_finite() => {
                         let Some(layout) = server.0.world.maps.get(&map) else { close_code = 1007; reason = "Unknown map"; break; };
                         let indoors = server.0.world.content.manifest.maps.iter().find(|m| m.id == map).unwrap().indoors;
                         let Some(peer) = room.peers.get_mut(&participant.id) else { break; };
                         let p = &mut peer.player;
-                        p.map = map; p.x = x.clamp(12.0, layout.width as f32 * 16.0 - 12.0); p.y = y.clamp(-64.0, layout.origin_y() + 96.0); p.moving = moving; p.facing = facing; p.indoors = indoors; p.fishing = fishing && layout.interaction(p.x, p.y).is_some_and(|o| o.kind == "fishing");
+                        p.map = map; p.x = x.clamp(12.0, layout.width as f32 * 16.0 - 12.0); p.y = y.clamp(-64.0, layout.origin_y() + 96.0); p.moving = moving; p.facing = facing; p.indoors = indoors; p.fishing = fishing && layout.interaction_with(&server.0.world.content, p.x, p.y).is_some_and(|o| o.kind == "fishing");
                         let message = ServerMessage::Moved { player: p.clone() };
                         broadcast(room, message, Some(participant.id));
+                    }
+                    ClientMessage::Interact { map, object } => {
+                        let Some(layout) = server.0.world.maps.get(&map) else { close_code = 1007; reason = "Unknown map"; break; };
+                        let Some(instance) = layout.objects().find(|o| o.id == object) else { close_code = 1007; reason = "Unknown object"; break; };
+                        let Some(definition) = instance.block(&server.0.world.content) else { continue; };
+                        let Some(peer) = room.peers.get(&participant.id) else { break; };
+                        if definition.behavior != yapshire_shared::blocks::Behavior::Toggle
+                            || peer.player.map != map || last_interaction.elapsed() < Duration::from_millis(250)
+                            || !instance.resolved(&server.0.world.content).is_some_and(|o| o.contains(layout, peer.player.x, peer.player.y)) { continue; }
+                        last_interaction = Instant::now();
+                        let key = (map.clone(), object);
+                        let before = room.states.get(&key).map(String::as_str).unwrap_or(instance.state());
+                        let state = if before == "open" { "default" } else { "open" }.to_owned();
+                        room.states.insert(key, state.clone());
+                        if let Some(grid) = room.pixels.get_mut(&map) {
+                            let mut collision = grid.collision.clone();
+                            if let Some(o) = collision.layers.iter_mut().flat_map(|l| &mut l.objects).find(|o| o.id == object) {
+                                o.properties.retain(|p| p.name != "state");
+                                o.properties.push(yapshire_shared::maps::Property { name: "state".into(), kind: "string".into(), value: state.clone().into() });
+                            }
+                            let path = &server.0.world.content.manifest.maps.iter().find(|m| m.id == map).unwrap().path;
+                            grid.rebuild_obstacles(&collision, &server.0.world.content, path);
+                        }
+                        broadcast(room, ServerMessage::ObjectChanged { value: ObjectState { map, object, state } }, None);
                     }
                     ClientMessage::Chat { text } => {
                         let text = clean(&text, 80);
@@ -671,6 +756,8 @@ mod tests {
         let (stop, stopped) = watch::channel(false);
         let movements = Arc::new(Mutex::new(HashMap::new()));
         let room = Room {
+            pixels: BTreeMap::new(),
+            states: BTreeMap::new(),
             name: "Test".into(),
             persistent: false,
             peers: HashMap::from([(

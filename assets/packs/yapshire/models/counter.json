@@ -1,0 +1,335 @@
+{
+  "size": [
+    192,
+    48
+  ],
+  "anchor": [
+    96,
+    48
+  ],
+  "parts": [
+    {
+      "texture": "textures/people/shopkeeper.png",
+      "offset": [
+        42,
+        0
+      ],
+      "size": [
+        20,
+        32
+      ]
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        0,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        16,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        64,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        80,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        96,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        112,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        128,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        144,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        160,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        176,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        0,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        16,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        32,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        48,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        64,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        80,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        96,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        112,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        128,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        144,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        160,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        176,
+        27
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/register.png",
+      "size": [
+        24,
+        12
+      ],
+      "offset": [
+        116,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/signs/counter.png",
+      "size": [
+        112,
+        14
+      ],
+      "offset": [
+        25,
+        34
+      ],
+      "flip_x": false
+    }
+  ]
+}

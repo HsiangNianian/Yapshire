@@ -1,0 +1,23 @@
+{
+  "size": [
+    12,
+    76
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/shop/rod.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        12,
+        76
+      ]
+    }
+  ]
+}

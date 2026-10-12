@@ -1,0 +1,132 @@
+{
+  "size": [
+    128,
+    34
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/pennant_rope.png",
+      "size": [
+        128,
+        32
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        5,
+        1
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        18,
+        5
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        31,
+        9
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        44,
+        12
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        57,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        70,
+        20
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        83,
+        20
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        96,
+        14
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/pennant.png",
+      "size": [
+        8,
+        12
+      ],
+      "offset": [
+        109,
+        8
+      ],
+      "flip_x": false
+    }
+  ]
+}

@@ -63,7 +63,7 @@ try {
 
   const health = await (await request("/health")).json();
   assert.equal(health.ok, true);
-  assert.equal(health.protocol, 3);
+  assert.equal(health.protocol, 5);
   const listing = await (await request("/rooms")).json();
   const town = listing.rooms.find(({ code }) => code === "NIANNIAN");
   assert.equal(town.name, "Yapshire 小镇");
@@ -96,11 +96,11 @@ try {
 
   const joined = [];
   for (const name of ["Club QA A", "Club QA B"]) {
-    const peer = client(`/room/NIANNIAN?protocol=3&name=${encodeURIComponent(name)}`);
+    const peer = client(`/room/NIANNIAN?protocol=5&name=${encodeURIComponent(name)}`);
     await peer.ready;
     const { world } = await peer.next("world");
     assert.equal(world.revision, health.world);
-    assert.equal(world.format, 2);
+    assert.equal(world.format, 3);
     peer.send({ type: "world_ready", revision: world.revision });
     const welcome = await peer.next("welcome");
     joined.push({ peer, id: welcome.you, world });
@@ -139,7 +139,7 @@ try {
       const peers = [];
       for (let player = 0; player < 16; player++) {
         const create = code !== "NIANNIAN" && player === 0;
-        const peer = client(`/room/${code}?protocol=3&name=Capacity${player}&create=${Number(create)}&room_name=Capacity%20QA`);
+        const peer = client(`/room/${code}?protocol=5&name=Capacity${player}&create=${Number(create)}&room_name=Capacity%20QA`);
         await peer.ready;
         const { world } = await peer.next("world");
         peer.send({ type: "world_ready", revision: world.revision });
@@ -151,9 +151,9 @@ try {
     const full = await (await request("/rooms")).json();
     assert.equal(full.rooms.length, limits.max_rooms);
     assert(full.rooms.every(({ players }) => players === 16));
-    await assert.rejects(client("/room/NIANNIAN?protocol=3&name=Overflow").ready);
+    await assert.rejects(client("/room/NIANNIAN?protocol=5&name=Overflow").ready);
     const extra = crypto.randomUUID().replaceAll("-", "").slice(0, 8).toUpperCase();
-    await assert.rejects(client(`/room/${extra}?protocol=3&create=1&name=Overflow&room_name=Overflow`).ready);
+    await assert.rejects(client(`/room/${extra}?protocol=5&create=1&name=Overflow&room_name=Overflow`).ready);
 
     // Exercise the configured capacity for five seconds at the game's 20 Hz.
     for (let frame = 0; frame < 100; frame++) {

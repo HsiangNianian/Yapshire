@@ -1,0 +1,396 @@
+{
+  "size": [
+    64,
+    96
+  ],
+  "anchor": [
+    32,
+    96
+  ],
+  "parts": [
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        0,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        16,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        0,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        16,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        0,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        16,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        48
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        0,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        16,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        0,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        16,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        32,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/materials/painted_wood.png",
+      "size": [
+        16,
+        16
+      ],
+      "offset": [
+        48,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/rod.png",
+      "size": [
+        12,
+        76
+      ],
+      "offset": [
+        6,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/rod.png",
+      "size": [
+        12,
+        76
+      ],
+      "offset": [
+        19,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/rod.png",
+      "size": [
+        12,
+        76
+      ],
+      "offset": [
+        32,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/rod.png",
+      "size": [
+        12,
+        76
+      ],
+      "offset": [
+        45,
+        16
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        0,
+        35
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        16,
+        35
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        32,
+        35
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        48,
+        35
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        0,
+        85
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        16,
+        85
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        32,
+        85
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        48,
+        85
+      ],
+      "flip_x": false
+    }
+  ]
+}

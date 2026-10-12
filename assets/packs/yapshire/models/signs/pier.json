@@ -1,0 +1,23 @@
+{
+  "size": [
+    80,
+    22
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/signs/pier.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        80,
+        22
+      ]
+    }
+  ]
+}

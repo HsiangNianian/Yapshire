@@ -134,6 +134,35 @@ impl Object {
     pub fn property(&self, name: &str) -> Option<&str> {
         string_property(&self.properties, name)
     }
+    pub fn state(&self) -> &str {
+        self.property("state").unwrap_or("default")
+    }
+    pub fn block<'a>(&self, content: &'a Content) -> Option<&'a crate::blocks::Block> {
+        content.blocks.get(self.property("block")?)
+    }
+    pub fn resolved(&self, content: &Content) -> Option<Self> {
+        if self.kind != "block" {
+            return Some(self.clone());
+        }
+        let block = self.block(content)?;
+        let [x, y, width, height] = block.interaction?;
+        let mut object = self.clone();
+        object.kind = block.behavior.kind().into();
+        for (key, value) in &block.properties {
+            if object.property(key).is_none() {
+                object.properties.push(Property {
+                    name: key.clone(),
+                    kind: "string".into(),
+                    value: value.clone().into(),
+                });
+            }
+        }
+        object.x += x as f32;
+        object.y += y as f32;
+        object.width = width as f32;
+        object.height = height as f32;
+        Some(object)
+    }
     pub fn contains(&self, map: &Map, x: f32, y: f32) -> bool {
         let y = map.origin_y() - y;
         x >= self.x && x <= self.x + self.width && y >= self.y && y <= self.y + self.height
@@ -159,6 +188,34 @@ impl Map {
         self.objects().find(|o| {
             matches!(o.kind.as_str(), "portal" | "shop" | "fishing") && o.contains(self, x, y)
         })
+    }
+    pub fn interactions<'a>(&'a self, content: &'a Content) -> impl Iterator<Item = Object> + 'a {
+        self.objects()
+            .filter_map(|o| o.resolved(content))
+            .filter(|o| matches!(o.kind.as_str(), "portal" | "shop" | "fishing" | "toggle"))
+    }
+    pub fn interaction_with(&self, content: &Content, x: f32, y: f32) -> Option<Object> {
+        self.interactions(content).find(|o| o.contains(self, x, y))
+    }
+    pub fn block_surfaces(&self, content: &Content) -> Vec<([f32; 4], bool)> {
+        let mut surfaces = Vec::new();
+        for object in self.objects() {
+            if let Some(block) = object.block(content) {
+                for shape in block.colliders(object.state()) {
+                    let [x, y, w, h] = shape.rect;
+                    surfaces.push((
+                        [
+                            object.x + x as f32,
+                            self.origin_y() - object.y - y as f32 - h as f32,
+                            object.x + x as f32 + w as f32,
+                            self.origin_y() - object.y - y as f32,
+                        ],
+                        !shape.platform,
+                    ));
+                }
+            }
+        }
+        surfaces
     }
     pub fn validate(&self, content: &Content, path: &str) -> io::Result<()> {
         if !(2..=256).contains(&self.width)
@@ -198,11 +255,19 @@ impl Map {
             if !layer.z(0).is_finite()
                 || !(-100.0..=100.0).contains(&layer.z(0))
                 || layer.properties.iter().any(|p| {
-                    (p.name == "collision" && p.kind != "bool")
+                    (matches!(p.name.as_str(), "collision" | "simulation") && p.kind != "bool")
                         || (p.name == "z" && !matches!(p.kind.as_str(), "int" | "float"))
                 })
             {
-                return Err(invalid("Invalid layer depth or collision property"));
+                return Err(invalid("Invalid layer draw order or collision property"));
+            }
+            if bool_property(&layer.properties, "simulation")
+                && (!matches!(layer.kind.as_str(), "tilelayer" | "objectgroup")
+                    || layer.opacity != 1.0)
+            {
+                return Err(invalid(
+                    "Simulation requires an opaque tile or object layer",
+                ));
             }
             if layer.name.len() > 80
                 || layer.x != 0.0
@@ -301,6 +366,26 @@ impl Map {
                             )));
                         }
                         match o.kind.as_str() {
+                            "block" => {
+                                let block = o
+                                    .block(content)
+                                    .ok_or_else(|| invalid(format!("Unknown block: {}", o.name)))?;
+                                if !o.point
+                                    || o.width != 0.0
+                                    || o.height != 0.0
+                                    || !block.valid_state(o.state())
+                                    || (block.behavior == crate::blocks::Behavior::Portal
+                                        && o.resolved(content).is_none_or(|r| {
+                                            r.property("target_map").is_none()
+                                                || r.property("target_spawn").is_none()
+                                        }))
+                                {
+                                    return Err(invalid(format!(
+                                        "Invalid block instance: {}",
+                                        o.name
+                                    )));
+                                }
+                            }
                             "spawn"
                                 if o.point
                                     && o.width == 0.0
@@ -353,6 +438,60 @@ impl Map {
             return Err(invalid("Map exceeds the size limit"));
         }
         Ok(())
+    }
+
+    pub fn tile_surfaces(
+        &self,
+        content: &Content,
+        path: &str,
+        col: i32,
+        row: i32,
+    ) -> Vec<([f32; 4], bool)> {
+        let mut result = Vec::new();
+        if col < 0 || row < 0 || col >= self.width as i32 || row >= self.height as i32 {
+            return result;
+        }
+        for layer in &self.layers {
+            if layer.kind != "tilelayer" || !bool_property(&layer.properties, "collision") {
+                continue;
+            }
+            let gid = layer.data[(row as u32 * self.width + col as u32) as usize];
+            let Some((_, _, tile)) = content.resolve(self, path, gid) else {
+                continue;
+            };
+            let shapes = if let Some(block) =
+                string_property(&tile.properties, "block").and_then(|id| content.blocks.get(id))
+            {
+                block.colliders.clone()
+            } else if tile.collision() != "none" {
+                vec![crate::blocks::Collider {
+                    rect: [0, 0, 16, 16],
+                    platform: tile.collision() == "platform",
+                }]
+            } else {
+                Vec::new()
+            };
+            for shape in shapes {
+                let [mut x, mut y, mut w, mut h] = shape.rect;
+                if gid & 0x2000_0000 != 0 {
+                    std::mem::swap(&mut x, &mut y);
+                    std::mem::swap(&mut w, &mut h);
+                }
+                if gid & 0x8000_0000 != 0 {
+                    x = 16 - x - w;
+                }
+                if gid & 0x4000_0000 != 0 {
+                    y = 16 - y - h;
+                }
+                let left = (col * 16 + x) as f32;
+                let top = self.origin_y() - (row * 16 + y) as f32;
+                result.push((
+                    [left, top - h as f32, left + w as f32, top],
+                    !shape.platform,
+                ));
+            }
+        }
+        result
     }
 
     pub fn collision(&self, content: &Content, path: &str, col: i32, row: i32) -> &str {

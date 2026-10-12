@@ -1,0 +1,23 @@
+{
+  "size": [
+    24,
+    12
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/shop/register.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        24,
+        12
+      ]
+    }
+  ]
+}

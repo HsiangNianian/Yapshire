@@ -1,0 +1,6 @@
+{
+  "model": "yapshire:water/12_0",
+  "colliders": [],
+  "tile": true,
+  "material": "water"
+}

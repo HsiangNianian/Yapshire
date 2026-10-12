@@ -1,0 +1,360 @@
+{
+  "size": [
+    96,
+    192
+  ],
+  "anchor": [
+    48,
+    192
+  ],
+  "parts": [
+    {
+      "texture": "textures/trees/aspen_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        12
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        36
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        84
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        108
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        132
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        156
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        30
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        39
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        54
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        63
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        78
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        87
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        102
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        111
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        126
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        135
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_0.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        32,
+        0
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_1.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        49,
+        15
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_2.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        17,
+        25
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_0.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        33,
+        36
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_1.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        60,
+        42
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_2.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        4,
+        57
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_0.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        29,
+        64
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_1.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        58,
+        77
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_2.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        14,
+        87
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_0.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        39,
+        102
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/aspen_leaves_1.png",
+      "size": [
+        32,
+        32
+      ],
+      "offset": [
+        24,
+        122
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/roots.png",
+      "size": [
+        24,
+        12
+      ],
+      "offset": [
+        36,
+        180
+      ],
+      "flip_x": false
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "size": [
+    112,
+    14
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/signs/counter.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        112,
+        14
+      ]
+    }
+  ]
+}

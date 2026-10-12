@@ -1,0 +1,10 @@
+{
+  "model": "yapshire:fishing_spot",
+  "behavior": "fishing",
+  "interaction": [
+    0,
+    0,
+    44,
+    32
+  ]
+}

@@ -7,6 +7,54 @@ and commits it after all platform archives have been uploaded and verified.
 
 ## [Unreleased]
 
+### Shared pixel materials
+
+- Simulate sand piles, flowing water and diggable ground on the room server at
+  20 Hz. Solid and sand pixels drive player collision; water fills excavations.
+- Press V for the material tools, 1/2/3 for dig/sand/water, then hold the left
+  mouse button within 48 pixels of your character. Tools support both languages
+  and 2x/3x/4x display scales and pause while typing or using other panels.
+- Convert material-marked blocks and models on simulation layers into actual
+  PNG-colored cells. Keep tilemaps and model stamps as editable source data.
+  Add sand and water stamps to the editor; retain existing shop and object logic.
+- Send changed 32x32 chunks and late-join snapshots over the same LAN and
+  Cloudflare WebSocket paths. Simulated areas total at most 524288 pixels per
+  room. Live changes stay in room memory; templates remain saved separately.
+- Use protocol 5 with matching clients, servers and content. Combustion, rigid
+  bodies, swimming and saving a live material world are not included.
+
+### Pure 2D pixels and structural artwork
+
+- Use an orthographic world camera with one world unit per canvas pixel at all
+  draw orders. Align camera movement to the pixel grid, including odd canvas
+  sizes, and retain 2x/3x/4x display settings. Remove perspective scenery depth
+  and horizontal ground planes.
+- Render the panorama at its native size and mirror whole tiles to cover wide
+  maps. The editor uses the same background dimensions and positions.
+- Replace arbitrary scenery cuts with reusable bark, forks, foliage, siding,
+  roof, window and furniture components. Reuse full-size tree models; the
+  lighthouse is a complete model and barrel states move a separate lid.
+- Remove superseded grid-cut sources and redundant legacy-fragment definitions;
+  retain their atlas IDs for old maps.
+
+### Authored blocks and multipart models
+
+- Separate stable block IDs, behavior/collision rules, model parts and PNG sources
+  in content pack format 2. Convert both stock scenes, including street buildings,
+  furniture, trees and plants, to shared definitions while preserving backgrounds.
+- Support transparent, irregular shapes across cells, reusable model parts,
+  independent selection/collision rectangles and state-specific models/colliders.
+- Place, pick, erase, undo and save model instances in the map editor. Export
+  their definitions and textures with saved packs. Preserve format-1 packs and
+  legacy map layouts without overwriting their painted furniture.
+- Compile authored terrain textures into Tiled atlases with stable IDs; add a
+  community pack compiler and English/Chinese format documentation.
+- Synchronize object state through the Rust room server, including late-join
+  snapshots and interaction-area checks. The barrel's lid demonstrates open/close;
+  room state remains in memory and does not provide container inventories.
+- Bump network protocol to 5 and world format to 3. Matching development clients,
+  servers and packs are required; published v0.7.2 servers use protocol 3.
+
 ## [v0.7.2] - 2026-10-10
 
 ### Pixel scale settings

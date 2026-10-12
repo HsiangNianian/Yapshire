@@ -1,0 +1,23 @@
+{
+  "size": [
+    4,
+    26
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/bench_leg.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        4,
+        26
+      ]
+    }
+  ]
+}

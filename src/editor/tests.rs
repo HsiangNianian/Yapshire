@@ -363,3 +363,115 @@ fn importing_legacy_maps_never_rewrites_the_original_and_save_keeps_a_backup() {
     assert!(workspace.0.join("maps/town.tmj").exists());
     assert!(workspace.0.join("pack.json").exists());
 }
+
+#[test]
+fn object_placement_keeps_behavior_sources_and_atomic_undo_save_roundtrip() {
+    let mut runtime = maps();
+    let cell = runtime
+        .world
+        .content
+        .blocks
+        .get_mut("yapshire:ground/0_0")
+        .unwrap();
+    cell.tile = false;
+    assert!(
+        runtime.stamp_ids().contains(&"yapshire:ground/0_0"),
+        "A 16px object must remain placeable without a terrain atlas entry"
+    );
+    runtime
+        .world
+        .content
+        .blocks
+        .get_mut("yapshire:ground/0_0")
+        .unwrap()
+        .tile = true;
+    let workspace = Workspace::new();
+    let mut editor = Editor::from_directory(&mut runtime, Ok(workspace.0.clone()));
+    let before = editor.doc().map.clone();
+    editor
+        .doc_mut()
+        .place_block(4, UVec2::new(25, 13), "yapshire:barrel", &runtime);
+    editor.doc_mut().finish();
+    let instance = editor
+        .doc()
+        .map
+        .objects()
+        .find(|o| o.kind == "block" && o.x == 400.0)
+        .unwrap();
+    assert_eq!(instance.property("block"), Some("yapshire:barrel"));
+    assert_eq!(
+        instance.resolved(&runtime.world.content).unwrap().kind,
+        "toggle"
+    );
+    editor.doc_mut().undo();
+    assert_eq!(editor.doc().map, before);
+    editor.doc_mut().redo();
+    editor.save(MapKind::Town, &mut runtime).unwrap();
+    let restored = yapshire_shared::World::load(&workspace.0).unwrap();
+    assert_eq!(restored.maps["yapshire:town"], editor.doc().map);
+    assert_eq!(restored.content.blocks, runtime.world.content.blocks);
+    assert_eq!(restored.content.models, runtime.world.content.models);
+}
+
+#[test]
+fn material_stamps_save_as_simulation_templates_and_undo_restores_the_layer() {
+    let mut runtime = maps();
+    let workspace = Workspace::new();
+    let mut editor = Editor::from_directory(&mut runtime, Ok(workspace.0.clone()));
+    let before = editor.doc().map.clone();
+    editor
+        .doc_mut()
+        .place_block(4, UVec2::new(25, 10), "yapshire:materials/sand", &runtime);
+    editor.doc_mut().finish();
+    let layer = editor
+        .doc()
+        .map
+        .layers
+        .iter()
+        .find(|l| {
+            l.objects
+                .iter()
+                .any(|o| o.property("block") == Some("yapshire:materials/sand"))
+        })
+        .unwrap();
+    assert!(yapshire_shared::maps::bool_property(
+        &layer.properties,
+        "simulation"
+    ));
+    editor.doc_mut().undo();
+    assert_eq!(editor.doc().map, before);
+    editor.doc_mut().redo();
+    editor.save(MapKind::Town, &mut runtime).unwrap();
+    let restored = yapshire_shared::World::load(&workspace.0).unwrap();
+    assert_eq!(restored.maps["yapshire:town"], editor.doc().map);
+    let mut grids = yapshire_shared::pixels::build(&restored).unwrap();
+    let grid = grids.get_mut("yapshire:town").unwrap();
+    assert_eq!(grid.get(400, 144) & 3, 2);
+    grid.paint(400, 144, yapshire_shared::pixels::Tool::Dig);
+    assert_eq!(grid.get(400, 144), 0);
+    assert_eq!(runtime.pixels["yapshire:town"].get(400, 144) & 3, 2);
+}
+
+#[test]
+fn companion_object_layers_inherit_draw_order_through_undo_and_reload() {
+    let mut runtime = maps();
+    let workspace = Workspace::new();
+    let mut editor = Editor::from_directory(&mut runtime, Ok(workspace.0.clone()));
+    editor.doc_mut().map.layers[0].properties.push(
+        serde_json::from_value(serde_json::json!({"name":"z","type":"float","value":-42})).unwrap(),
+    );
+    let before = editor.doc().map.clone();
+    editor
+        .doc_mut()
+        .place_block(0, UVec2::new(25, 13), "yapshire:trees/pine", &runtime);
+    editor.doc_mut().finish();
+    let layer = editor.doc().map.layers.last().unwrap();
+    assert_eq!(layer.name, "Water objects");
+    assert_eq!(layer.z(0), -42.0);
+    editor.doc_mut().undo();
+    assert_eq!(editor.doc().map, before);
+    editor.doc_mut().redo();
+    editor.save(MapKind::Town, &mut runtime).unwrap();
+    let restored = yapshire_shared::World::load(&workspace.0).unwrap();
+    assert_eq!(restored.maps["yapshire:town"], editor.doc().map);
+}

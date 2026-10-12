@@ -11,7 +11,7 @@ than the distant landscape. The default 2x view uses a 720 × 405 nearest-sample
 world canvas. Settings also offers 3x and 4x for larger pixels and a closer view;
 UI uses the bundled pixel font in both languages.
 
-Actual development build (English):
+Released v0.7.2 appearance (English):
 
 ![Autumn lakeside main menu captured from the running game](screenshots/autumn-en.png)
 
@@ -19,9 +19,9 @@ Actual development build (English):
 
 | Asset | Source | Contract |
 | --- | --- | --- |
-| `assets/hills.png` | Built-in `image_gen`, prompt below | Opaque 3:1 panorama; 1620 × 540 world pixels, parallax constrained to cover wide maps |
-| `assets/town.png`, `people.png`, `sky.png`, `cloud.png`, `shadow.png` | `tools/draw_assets.py` | Transparent foreground and 20 × 32 character cells |
-| `assets/packs/yapshire/` | `tools/draw_maps.py` → `tools/build_content.py` | Pack 1.1.0, four 16px tilesets, 375 stable tile IDs, ten prefabs |
+| `assets/hills.png` | Built-in `image_gen`, prompt below | Native-size 2172 × 724 panorama; mirrored tiles cover wide maps |
+| `assets/town.png`, `people.png`, `sky.png`, `cloud.png`, `shadow.png` | `tools/draw_assets.py` | Legacy foreground export and 20 × 32 character cells |
+| `assets/packs/yapshire/` | `tools/draw_maps.py` → `tools/build_content.py` → `tools/build_objects.py` / `tools/draw_models.py` | Pack 2.0.0, structural PNG components and models, four 16px compatibility tilesets |
 | `assets/fishing/` | `tools/draw_fishing.py` | 32px inventory cells, sliced panel borders and underwater view |
 | UI colors | `src/ui.rs` | Shared forest surfaces, ivory text, muted sage and brass accents |
 
@@ -34,9 +34,18 @@ Run the generators in the order documented in [DEVELOPMENT.md](DEVELOPMENT.md).
 They preserve `hills.png` and the frozen `assets/maps/` legacy fixtures. Generating
 the official pack replaces its supplied layouts; keep authored copies elsewhere.
 The art update preserves all tile IDs, atlas cell positions, animation frames,
-walking routes and gameplay interaction positions. The decorative lighthouse
-moves down to the new lake horizon. Installed pack assets still need
+walking routes and gameplay interaction positions. The lighthouse now uses a complete modular model. Installed pack assets still need
 to match the host's pack version and image hashes when playing online.
+
+## Pixel dimensions and components (unreleased)
+
+Use native component dimensions in the pure 2D world. One source pixel covers
+one world pixel regardless of draw order. Do not rescale trees or buildings to
+suggest distance. A branch fork or leaf cluster has its own transparent outline;
+siding and roof materials repeat on their intended surfaces. A barrel's body
+and lid are separate components. The camera aligns its viewport to the pixel
+grid; the panorama uses its native PNG dimensions in both game and editor.
+See [the rendering contract](CONTENT_PACKS.md#pure-2d-pixel-rendering).
 
 ## Panorama prompt
 

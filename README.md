@@ -201,12 +201,26 @@ LAN hosting shares your saved maps; dedicated servers distribute their configure
 maps. Joining never overwrites your local editor files. Gold guides preview the map's interaction objects.
 See the [in-game editor guide](docs/DEVELOPMENT.md#in-game-map-editor).
 
-**Since v0.7.1:** [Content packs v1](docs/CONTENT_PACKS.md)
+**Since v0.7.1:** [Content packs](docs/CONTENT_PACKS.md)
 splits terrain, water, buildings, objects and backgrounds into reusable resources.
 It adds stable asset IDs, terrain connections, complete object stamps, variable map
 lists and sizes, and map-defined collision/portals/shops/fishing regions. Custom
-packs use the same pipeline as official content. This build uses protocol 3;
-run a matching protocol 3 server. Earlier releases use protocol 2 and cannot join these rooms.
+packs use the same pipeline as official content. Released v0.7.1–v0.7.2 builds
+use protocol 3 and require matching servers and content.
+
+**Unreleased source:** [Content packs v2](docs/CONTENT_PACKS.md#blocks-models-and-irregular-shapes)
+separates block rules, multipart models and individual PNG textures. Terrain,
+buildings, furniture and irregular foliage share stable definitions; the editor
+places complete instances, and room servers synchronize object states. Background
+images remain separate. Rendering is pure 2D: native-size components share one pixel grid, with an
+orthographic camera and crisp 2x/3x/4x display scaling.
+The town's ground and water now use [pixel materials](docs/CONTENT_PACKS.md#pixel-materials):
+dig a hole, pour water into it, or build a sand pile. Press **V**, choose
+**1 Dig / 2 Sand / 3 Water**, and hold the left mouse button near your character.
+The room server simulates the result for every player, including late arrivals.
+Live terrain changes last for the room's lifetime; saved editor maps remain templates.
+This source uses **protocol 5** and requires a matching
+development server; the published v0.7.2 service is not compatible.
 
 This release also includes an [autumn lakeside art update](docs/ART_DIRECTION.md):
 misty mountains, conifers, gold birches, cedar buildings and a dark forest/brass UI.
@@ -231,6 +245,7 @@ English. Translation files are split by feature under `assets/locales/`; see the
 | Space | Jump / hook a bite / hold to reel |
 | E | Enter or leave the tackle shop, browse the counter, cast at the pier |
 | I | Open / close your satchel |
+| V, then 1 / 2 / 3 + left mouse | Material tools: dig / sand / water (unreleased source) |
 | Enter | Open chat / send |
 | Escape | Close the current panel or cancel a cast, leave the shop, close chat, or leave the room |
 | Tab | Next input field |

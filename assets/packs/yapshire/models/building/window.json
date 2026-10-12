@@ -1,0 +1,23 @@
+{
+  "size": [
+    40,
+    37
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/building/window.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        40,
+        37
+      ]
+    }
+  ]
+}

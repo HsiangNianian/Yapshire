@@ -1,0 +1,14 @@
+{
+  "model": "yapshire:shop",
+  "behavior": "portal",
+  "interaction": [
+    -31,
+    -32,
+    56,
+    32
+  ],
+  "properties": {
+    "target_map": "yapshire:tackle_shop",
+    "target_spawn": "arrival"
+  }
+}

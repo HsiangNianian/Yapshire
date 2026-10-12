@@ -1,0 +1,168 @@
+{
+  "size": [
+    112,
+    32
+  ],
+  "anchor": [
+    56,
+    32
+  ],
+  "parts": [
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        0,
+        24
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        16,
+        24
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        32,
+        24
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        48,
+        24
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        64,
+        24
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        80,
+        24
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/shelf_board.png",
+      "size": [
+        16,
+        8
+      ],
+      "offset": [
+        96,
+        24
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/bait_jar_0.png",
+      "size": [
+        14,
+        24
+      ],
+      "offset": [
+        3,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/bait_jar_1.png",
+      "size": [
+        14,
+        24
+      ],
+      "offset": [
+        20,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/bait_jar_0.png",
+      "size": [
+        14,
+        24
+      ],
+      "offset": [
+        37,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/bait_jar_1.png",
+      "size": [
+        14,
+        24
+      ],
+      "offset": [
+        54,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/bait_jar_0.png",
+      "size": [
+        14,
+        24
+      ],
+      "offset": [
+        71,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/shop/bait_jar_1.png",
+      "size": [
+        14,
+        24
+      ],
+      "offset": [
+        88,
+        0
+      ],
+      "flip_x": false
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "size": [
+    16,
+    24
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/plants/frond.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        16,
+        24
+      ]
+    }
+  ]
+}

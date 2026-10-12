@@ -48,8 +48,8 @@
   "layer.furniture": "Furniture",
   "layer.counter": "Counter",
   "hint.brush": "Brush [B] / Paint the selected tile",
-  "hint.eraser": "Eraser [E] / Clear tiles on this layer",
-  "hint.pick": "Eyedropper [I or Alt+click] / Pick a tile",
+  "hint.eraser": "Eraser [E] / remove tiles or whole models",
+  "hint.pick": "Eyedropper [I or Alt+click] / pick tiles or models",
   "hint.fill": "Fill [F] / Replace connected matching tiles",
   "hint.undo": "Undo [Ctrl/Cmd+Z] / Last stroke",
   "hint.undo_empty": "Undo [Ctrl/Cmd+Z] / Nothing to undo",
@@ -62,7 +62,7 @@
   "hint.zoom_in": "Zoom in [+] / Up to 3x",
   "hint.zoom_out": "Zoom out [-] / Down to 1x",
   "hint.grid": "Grid [G] / Show tile boundaries",
-  "hint.guides": "Guides / Show fixed gameplay positions",
+  "hint.guides": "Guides / selected objects and interaction areas",
   "hint.flip_h": "Flip horizontally [H] / Mirror the brush",
   "hint.flip_v": "Flip vertically [V] / Mirror the brush",
   "hint.swap": "Swap axes / Flip the brush diagonally",
@@ -95,7 +95,11 @@
   "status.hidden": "Show the selected layer before painting.",
   "next_map": "NEXT MAP",
   "stamp": "OBJECT STAMP",
-  "stamp_help": "PLACE A WHOLE OBJECT / P",
+  "stamp_help": "PLACE AT ANCHOR / P; ERASE OR PICK ON OBJECT LAYERS",
   "map_index": "MAP {index}",
-  "tiled_layer": "Edit object and background layers in Tiled. Map files opens their folder."
+  "tiled_layer": "Edit background images in Tiled; MAP FILES opens this pack.",
+  "layer.objects": "{layer} objects",
+  "layer.street": "Street",
+  "layer.interactions": "Interactions",
+  "object_layer": "Use P to place models; pick or erase whole objects on this layer."
 }

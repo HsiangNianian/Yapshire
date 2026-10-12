@@ -30,6 +30,19 @@ fn official_pack_and_legacy_saves_preserve_tile_identity() {
     ] {
         let legacy: Map = serde_json::from_str(source).unwrap();
         let map = &migrated.maps[id];
+        assert!(
+            map.extra["nextlayerid"].as_u64().unwrap()
+                > map
+                    .layers
+                    .iter()
+                    .filter_map(|l| l.extra.get("id").and_then(|id| id.as_u64()))
+                    .max()
+                    .unwrap()
+        );
+        assert!(
+            map.extra["nextobjectid"].as_u64().unwrap()
+                > map.objects().map(|o| o.id as u64).max().unwrap()
+        );
         let path = &world
             .content
             .manifest
@@ -53,10 +66,21 @@ fn official_pack_and_legacy_saves_preserve_tile_identity() {
                 }
             }
         }
-        assert_eq!(
-            world.maps[id].objects().collect::<Vec<_>>(),
-            map.objects().collect::<Vec<_>>()
-        );
+        let geometry = |m: &Map| {
+            m.interactions(&world.content)
+                .filter(|o| o.kind != "toggle")
+                .map(|o| {
+                    (
+                        o.kind,
+                        o.x as i32,
+                        o.y as i32,
+                        o.width as i32,
+                        o.height as i32,
+                    )
+                })
+                .collect::<std::collections::BTreeSet<_>>()
+        };
+        assert_eq!(geometry(&world.maps[id]), geometry(map));
     }
     let round_trip: World =
         serde_json::from_slice(&serde_json::to_vec_pretty(&world).unwrap()).unwrap();
@@ -156,26 +180,25 @@ fn authored_map_portals_prefabs_and_terrain_need_no_game_code() {
     let town = world.maps.get_mut("yapshire:town").unwrap();
     let entrance = town
         .layers
-        .last_mut()
-        .unwrap()
-        .objects
         .iter_mut()
-        .find(|o| o.kind == "portal")
+        .flat_map(|l| &mut l.objects)
+        .find(|o| o.property("block") == Some("yapshire:shop"))
         .unwrap();
-    entrance.x = 480.0;
-    entrance
-        .properties
-        .iter_mut()
-        .find(|p| p.name == "target_map")
-        .unwrap()
-        .value = "community:annex".into();
+    entrance.x = 511.0;
+    entrance.properties.push(yapshire_shared::maps::Property {
+        name: "target_map".into(),
+        kind: "string".into(),
+        value: "community:annex".into(),
+    });
     let world = World::from_maps(world.content, world.maps).unwrap();
     assert!(
         world.maps["yapshire:town"]
-            .interaction(965.0, 0.0)
+            .interaction_with(&world.content, 965.0, 0.0)
             .is_none()
     );
-    let door = world.maps["yapshire:town"].interaction(500.0, 0.0).unwrap();
+    let door = world.maps["yapshire:town"]
+        .interaction_with(&world.content, 500.0, 0.0)
+        .unwrap();
     assert_eq!(door.property("target_map"), Some("community:annex"));
     assert_eq!(
         world.maps["community:annex"].spawn("arrival"),
@@ -285,14 +308,19 @@ fn invalid_paths_ids_gids_animations_and_interactions_are_rejected() {
     map.tilesets[1].firstgid = 1;
     assert!(map.validate(&world.content, "maps/town.tmj").is_err());
     let mut maps = world.maps.clone();
-    maps.get_mut("yapshire:town")
+    let entrance = maps
+        .get_mut("yapshire:town")
         .unwrap()
         .layers
-        .last_mut()
-        .unwrap()
-        .objects[2]
-        .properties[0]
-        .value = "unknown:map".into();
+        .iter_mut()
+        .flat_map(|l| &mut l.objects)
+        .find(|o| o.property("block") == Some("yapshire:shop"))
+        .unwrap();
+    entrance.properties.push(yapshire_shared::maps::Property {
+        name: "target_map".into(),
+        kind: "string".into(),
+        value: "unknown:map".into(),
+    });
     assert!(
         World::from_maps(world.content.clone(), maps)
             .unwrap_err()

@@ -27,6 +27,7 @@ pub(crate) struct MapLayer;
 
 #[derive(Resource)]
 pub(crate) struct Maps {
+    pub pixels: std::collections::BTreeMap<String, yapshire_shared::pixels::Grid>,
     pub world: World,
     pub pack_path: PathBuf,
     pub revision: u64,
@@ -56,10 +57,9 @@ impl Maps {
         World::from_maps(self.world.content.clone(), self.world.maps.clone())
     }
     pub fn apply_world(&mut self, world: &World) {
-        if self.world != *world {
-            self.world = world.clone();
-            self.revision += 1;
-        }
+        self.pixels = yapshire_shared::pixels::build(world).expect("Validated pixel world");
+        self.world = world.clone();
+        self.revision += 1;
     }
     pub fn get(&self, kind: MapKind) -> &Map {
         &self.world.maps[&self.info(kind).id]
@@ -79,14 +79,55 @@ impl Maps {
     pub fn replace(&mut self, kind: MapKind, map: Map) {
         if self.get(kind) != &map {
             self.world.maps.insert(self.info(kind).id.clone(), map);
+            self.pixels =
+                yapshire_shared::pixels::build(&self.world).expect("Validated editor maps");
             self.revision += 1;
         }
+    }
+    pub fn set_state(&mut self, state: &yapshire_shared::protocol::ObjectState) -> io::Result<()> {
+        self.world
+            .set_object_state(&state.map, state.object, &state.state)?;
+        if let Some(grid) = self.pixels.get_mut(&state.map) {
+            let path = &self
+                .world
+                .content
+                .manifest
+                .maps
+                .iter()
+                .find(|m| m.id == state.map)
+                .unwrap()
+                .path;
+            grid.rebuild_obstacles(&self.world.maps[&state.map], &self.world.content, path);
+        }
+        self.revision += 1;
+        Ok(())
+    }
+    pub fn stamp_ids(&self) -> Vec<&str> {
+        self.world
+            .content
+            .blocks
+            .iter()
+            .filter(|(_, block)| !block.tile)
+            .map(|(id, _)| id.as_str())
+            .chain(
+                self.world
+                    .content
+                    .manifest
+                    .prefabs
+                    .keys()
+                    .filter(|id| !self.world.content.blocks.contains_key(*id))
+                    .map(String::as_str),
+            )
+            .collect()
     }
     pub fn tile_count(&self) -> u32 {
         self.world.content.sets.values().map(|s| s.tilecount).sum()
     }
     pub fn validate_map(&self, kind: MapKind, map: &Map) -> io::Result<()> {
         map.validate(&self.world.content, self.filename(kind))?;
+        let mut world = self.world.clone();
+        world.maps.insert(self.info(kind).id.clone(), map.clone());
+        yapshire_shared::pixels::validate_world(&world)?;
         let entry = &self.world.content.manifest.entry;
         if self.info(kind).id == entry.map && map.spawn(&entry.spawn).is_none() {
             return Err(io::Error::other("Entry spawn is missing"));
@@ -106,7 +147,9 @@ impl Maps {
         let prefix = format!("packs/{pack}");
         let pack_path = assets.join(&prefix);
         let world = World::load(&pack_path)?;
+        let pixels = yapshire_shared::pixels::build(&world)?;
         Ok(Self {
+            pixels,
             world,
             pack_path,
             prefix,
@@ -145,6 +188,7 @@ impl Maps {
         assets: &AssetServer,
         parent: Entity,
         kind: MapKind,
+        images: &mut Assets<Image>,
     ) {
         let map = self.get(kind).expanded(&self.world.content);
         let size = TilemapSize {
@@ -175,6 +219,39 @@ impl Maps {
                 ));
                 continue;
             }
+            for object in &layer.objects {
+                if yapshire_shared::pixels::object(layer, object, &self.world.content).is_some() {
+                    continue;
+                }
+                let Some(block) = object.block(&self.world.content) else {
+                    continue;
+                };
+                if !object.visible {
+                    continue;
+                }
+                let model = block.model(object.state(), &self.world.content);
+                for (index, part) in model.parts.iter().enumerate() {
+                    commands.spawn((
+                        MapLayer,
+                        Sprite {
+                            image: assets.load(self.image_path(&part.texture)),
+                            custom_size: Some(Vec2::new(part.size[0] as f32, part.size[1] as f32)),
+                            color: Color::WHITE.with_alpha(layer.opacity),
+                            flip_x: part.flip_x,
+                            ..default()
+                        },
+                        bevy::sprite::Anchor::TOP_LEFT,
+                        Transform::from_xyz(
+                            object.x - model.anchor[0] as f32 + part.offset[0] as f32,
+                            map.origin_y() - object.y + model.anchor[1] as f32
+                                - part.offset[1] as f32,
+                            z + index as f32 * 0.001,
+                        ),
+                        visibility,
+                        ChildOf(parent),
+                    ));
+                }
+            }
             if layer.data.is_empty() {
                 continue;
             }
@@ -184,6 +261,17 @@ impl Maps {
                     .id();
                 let mut storage = TileStorage::empty(size);
                 for (i, &gid) in layer.data.iter().enumerate().filter(|(_, g)| **g != 0) {
+                    if yapshire_shared::pixels::tile(
+                        layer,
+                        &map,
+                        &self.world.content,
+                        self.filename(kind),
+                        gid,
+                    )
+                    .is_some()
+                    {
+                        continue;
+                    }
                     let Some((resolved, _, definition)) =
                         self.world.content.resolve(&map, self.filename(kind), gid)
                     else {
@@ -236,11 +324,19 @@ impl Maps {
                 });
             }
         }
+        if let Some(grid) = self.pixels.get(&self.info(kind).id) {
+            crate::pixels::spawn(commands, images, parent, kind, grid);
+        }
     }
 }
 
 pub(crate) fn layer_title(name: &str) -> Message {
+    if let Some(base) = name.strip_suffix(" objects") {
+        return tr("editor.layer.objects").arg("layer", layer_title(base));
+    }
     let key = match name {
+        "Street" => "editor.layer.street",
+        "Interactions" => "editor.layer.interactions",
         "Water" => "editor.layer.water",
         "Shore and pilings" => "editor.layer.shore",
         "Terrain" => "editor.layer.terrain",

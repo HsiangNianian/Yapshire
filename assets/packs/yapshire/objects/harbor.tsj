@@ -1611,6 +1611,11 @@
           "value": "yapshire:rope/0_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:rope/0_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"

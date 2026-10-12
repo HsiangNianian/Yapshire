@@ -1,0 +1,132 @@
+{
+  "size": [
+    64,
+    160
+  ],
+  "anchor": [
+    32,
+    160
+  ],
+  "parts": [
+    {
+      "texture": "textures/lighthouse/masonry.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        16,
+        32
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/masonry.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        16,
+        56
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/masonry.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        16,
+        80
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/masonry.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        16,
+        104
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/masonry.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        16,
+        128
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/band.png",
+      "size": [
+        32,
+        12
+      ],
+      "offset": [
+        16,
+        67
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/band.png",
+      "size": [
+        32,
+        12
+      ],
+      "offset": [
+        16,
+        115
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/lantern.png",
+      "size": [
+        40,
+        24
+      ],
+      "offset": [
+        12,
+        14
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/roof.png",
+      "size": [
+        48,
+        16
+      ],
+      "offset": [
+        8,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/lighthouse/rocks.png",
+      "size": [
+        64,
+        24
+      ],
+      "offset": [
+        0,
+        136
+      ],
+      "flip_x": false
+    }
+  ]
+}

@@ -48,8 +48,8 @@
   "layer.furniture": "家具",
   "layer.counter": "柜台",
   "hint.brush": "画笔 [B] / 绘制选中的图块",
-  "hint.eraser": "橡皮 [E] / 擦除当前图层的图块",
-  "hint.pick": "取色 [I 或 Alt+点击] / 选取图块",
+  "hint.eraser": "橡皮 [E] / 擦除图块或整个模型",
+  "hint.pick": "取色 [I 或 Alt+点击] / 选取图块或模型",
   "hint.fill": "填充 [F] / 替换相连的同类图块",
   "hint.undo": "撤销 [Ctrl/Cmd+Z] / 上一步操作",
   "hint.undo_empty": "撤销 [Ctrl/Cmd+Z] / 暂无可撤销操作",
@@ -62,7 +62,7 @@
   "hint.zoom_in": "放大 [+] / 最大 3 倍",
   "hint.zoom_out": "缩小 [-] / 最小 1 倍",
   "hint.grid": "网格 [G] / 显示图块边界",
-  "hint.guides": "辅助线 / 显示固定互动位置",
+  "hint.guides": "辅助线 / 当前层物件与交互区域",
   "hint.flip_h": "水平翻转 [H] / 镜像图块",
   "hint.flip_v": "垂直翻转 [V] / 镜像图块",
   "hint.swap": "交换坐标轴 / 沿对角线翻转图块",
@@ -95,7 +95,11 @@
   "status.hidden": "请先显示选中的图层，再进行绘制。",
   "next_map": "下一张地图",
   "stamp": "物件印章",
-  "stamp_help": "一次放置完整物件 / P",
+  "stamp_help": "P 在锚点放置；物件层支持擦除和吸取",
   "map_index": "地图 {index}",
-  "tiled_layer": "对象层和背景层请在 Tiled 中编辑；“地图文件”可打开所在目录。"
+  "tiled_layer": "背景图片请在 Tiled 中编辑；“地图文件”可打开内容包。",
+  "layer.objects": "{layer}物件",
+  "layer.street": "街景",
+  "layer.interactions": "交互区域",
+  "object_layer": "按 P 放置模型；此图层可吸取或擦除整个物件。"
 }

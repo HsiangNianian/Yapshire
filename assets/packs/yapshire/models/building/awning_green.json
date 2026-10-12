@@ -1,0 +1,23 @@
+{
+  "size": [
+    16,
+    14
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/building/awning_green.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        16,
+        14
+      ]
+    }
+  ]
+}

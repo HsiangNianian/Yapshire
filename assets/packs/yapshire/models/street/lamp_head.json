@@ -1,0 +1,23 @@
+{
+  "size": [
+    18,
+    18
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/lamp_head.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        18,
+        18
+      ]
+    }
+  ]
+}

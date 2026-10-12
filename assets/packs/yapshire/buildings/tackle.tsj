@@ -1746,6 +1746,11 @@
           "value": "yapshire:wall/0_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:wall/0_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1757,6 +1762,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:wall/1_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:wall/1_0"
         },
@@ -1776,6 +1786,11 @@
           "value": "yapshire:wall/2_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:wall/2_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1787,6 +1802,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:indoor_backdrop/0_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:indoor_backdrop/0_0"
         },

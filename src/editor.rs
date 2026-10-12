@@ -197,6 +197,99 @@ impl Document {
         }
     }
 
+    fn place_block(&mut self, layer: usize, point: UVec2, id: &str, maps: &Maps) {
+        let anchor = point.as_vec2() * 16.0;
+        if point.x >= self.map.width || point.y >= self.map.height {
+            return;
+        }
+        let target = if self.map.layers[layer].kind == "objectgroup" {
+            Some(layer)
+        } else {
+            let name = format!("{} objects", self.map.layers[layer].name);
+            self.map
+                .layers
+                .iter()
+                .position(|l| l.kind == "objectgroup" && l.name == name)
+        };
+        if target.is_some_and(|i| self.map.layers[i].objects.len() >= 256)
+            || (target.is_none() && self.map.layers.len() >= 32)
+        {
+            return;
+        }
+        if !maps.world.content.blocks.contains_key(id) {
+            return;
+        }
+        self.begin();
+        let target = target.unwrap_or_else(|| {
+            let name = format!("{} objects", self.map.layers[layer].name);
+            let z = self.map.layers[layer].z(layer);
+            let next = self
+                .map
+                .layers
+                .iter()
+                .filter_map(|l| l.extra.get("id").and_then(|v| v.as_u64()))
+                .max()
+                .unwrap_or(0)
+                + 1;
+            self.map.layers.push(
+                serde_json::from_value(
+                    serde_json::json!({"id":next,"name":name,"type":"objectgroup", "objects":[],
+                "properties":[{"name":"z","type":"float","value":z}]}),
+                )
+                .unwrap(),
+            );
+            self.map.layers.len() - 1
+        });
+        if maps.world.content.blocks[id].material.is_some()
+            && !yapshire_shared::maps::bool_property(
+                &self.map.layers[target].properties,
+                "simulation",
+            )
+        {
+            self.map.layers[target]
+                .properties
+                .retain(|p| p.name != "simulation");
+            self.map.layers[target]
+                .properties
+                .push(yapshire_shared::maps::Property {
+                    name: "simulation".into(),
+                    kind: "bool".into(),
+                    value: true.into(),
+                });
+        }
+        let next = self.map.objects().map(|o| o.id).max().unwrap_or(0) + 1;
+        self.map.layers[target].objects.push(
+            serde_json::from_value(serde_json::json!({
+            "id":next, "name":id, "type":"block", "x":anchor.x, "y":anchor.y, "point":true,
+            "properties":[{"name":"block","type":"string","value":id}]}))
+            .unwrap(),
+        );
+        self.map
+            .extra
+            .insert("nextobjectid".into(), (next + 1).into());
+        self.map.extra.insert(
+            "nextlayerid".into(),
+            (self
+                .map
+                .layers
+                .iter()
+                .filter_map(|l| l.extra.get("id").and_then(|v| v.as_u64()))
+                .max()
+                .unwrap_or(0)
+                + 1)
+            .into(),
+        );
+    }
+
+    fn object_at(&self, layer: usize, point: Vec2, maps: &Maps) -> Option<usize> {
+        self.map.layers[layer].objects.iter().rposition(|o| {
+            o.visible
+                && o.block(&maps.world.content).is_some_and(|b| {
+                    b.hit(o.state(), &maps.world.content, point.x - o.x, point.y - o.y)
+                })
+        })
+    }
+
     fn discard(&mut self) {
         self.map = self.saved.clone();
         self.undo.clear();
@@ -384,17 +477,19 @@ impl Editor {
                 }
             }
         }
+        let layer = docs[0]
+            .map
+            .layers
+            .iter()
+            .rposition(|l| l.kind == "tilelayer")
+            .unwrap_or(0);
+        let layer_page = (docs[0].map.layers.len() - 1 - layer) / 5;
         Self {
             docs,
             directory,
             kind: MapKind::Town,
-            layer: maps
-                .get(MapKind(0))
-                .layers
-                .iter()
-                .rposition(|l| l.kind == "tilelayer")
-                .unwrap_or(0),
-            layer_page: 0,
+            layer,
+            layer_page,
             tile: 1,
             tool: Tool::Brush,
             palette: 0,
@@ -471,7 +566,23 @@ impl Editor {
                     .iter()
                     .map(String::as_str),
             )
-            .chain(maps.world.content.images.keys().map(String::as_str));
+            .chain(maps.world.content.images.keys().map(String::as_str))
+            .chain(
+                maps.world
+                    .content
+                    .manifest
+                    .blocks
+                    .values()
+                    .map(String::as_str),
+            )
+            .chain(
+                maps.world
+                    .content
+                    .manifest
+                    .models
+                    .values()
+                    .map(String::as_str),
+            );
         for name in files {
             let target = dir.join(name);
             let bytes = std::fs::read(maps.pack_path.join(name)).map_err(|e| e.to_string())?;
@@ -525,8 +636,8 @@ impl Editor {
         match action {
             Action::Map(kind) => {
                 self.kind = kind;
-                self.layer_page = 0;
                 self.layer = self.layer.min(self.doc().map.layers.len() - 1);
+                self.layer_page = (self.doc().map.layers.len() - 1 - self.layer) / 5;
                 self.status = tr("editor.status.editing").arg("map", maps.title(kind));
                 self.offset = if kind == MapKind::Town {
                     UVec2::new(48, 0)
@@ -545,8 +656,10 @@ impl Editor {
                     "layer",
                     crate::maps::layer_title(&self.doc().map.layers[layer].name),
                 );
-                if self.doc().map.layers[layer].kind != "tilelayer" {
-                    self.status = tr("editor.tiled_layer");
+                match self.doc().map.layers[layer].kind.as_str() {
+                    "objectgroup" => self.status = tr("editor.object_layer"),
+                    "imagelayer" => self.status = tr("editor.tiled_layer"),
+                    _ => {}
                 }
             }
             Action::Visibility(layer) => {
@@ -564,7 +677,7 @@ impl Editor {
                 self.palette = (self.palette as i32 + delta).rem_euclid(pages) as usize;
             }
             Action::Stamp(delta) => {
-                let count = maps.world.content.manifest.prefabs.len();
+                let count = maps.stamp_ids().len();
                 if count != 0 {
                     self.stamp = (self.stamp as i32 + delta).rem_euclid(count as i32) as usize;
                     self.tool = Tool::Stamp;
@@ -859,17 +972,55 @@ pub(crate) fn update(
     if let Some(cell) = editor.hover {
         let left = mouse.just_pressed(MouseButton::Left);
         let right = mouse.just_pressed(MouseButton::Right);
+        let pick =
+            editor.tool == Tool::Pick || keys.any_pressed([KeyCode::AltLeft, KeyCode::AltRight]);
         let layer = editor.layer;
         let mut painted = false;
+        if left && !pick && editor.tool == Tool::Stamp {
+            if editor.doc().map.layers[layer].visible {
+                if let Some(&id) = maps.stamp_ids().get(editor.stamp) {
+                    if maps.world.content.blocks.contains_key(id) {
+                        editor.doc_mut().place_block(layer, cell, id, &maps);
+                        editor.doc_mut().finish();
+                        editor.ui_dirty = true;
+                        editor.canvas_dirty = true;
+                        return;
+                    }
+                }
+            }
+        }
+        if editor.doc().map.layers[layer].kind == "objectgroup" {
+            if (left || right) && editor.doc().map.layers[layer].visible {
+                let pixel =
+                    (point.unwrap() - CANVAS) / editor.zoom as f32 + editor.offset.as_vec2() * 16.0;
+                if let Some(index) = editor.doc().object_at(layer, pixel, &maps) {
+                    if left && pick {
+                        let id = editor.doc().map.layers[layer].objects[index]
+                            .property("block")
+                            .unwrap();
+                        if let Some(index) = maps.stamp_ids().iter().position(|key| *key == id) {
+                            editor.stamp = index;
+                            editor.tool = Tool::Stamp;
+                        }
+                    } else if right || editor.tool == Tool::Eraser {
+                        let doc = editor.doc_mut();
+                        doc.begin();
+                        doc.map.layers[layer].objects.remove(index);
+                        doc.finish();
+                    }
+                    editor.ui_dirty = true;
+                    editor.canvas_dirty = true;
+                }
+            }
+            editor.finish();
+            return;
+        }
         if editor.doc().map.layers[layer].kind != "tilelayer" {
             editor.finish();
             return;
         }
         if left || right {
-            if left
-                && (editor.tool == Tool::Pick
-                    || keys.any_pressed([KeyCode::AltLeft, KeyCode::AltRight]))
-            {
+            if left && pick {
                 let gid = editor.doc().map.layers[layer].data
                     [(cell.y * editor.doc().map.width + cell.x) as usize];
                 if gid != 0 {
@@ -884,8 +1035,10 @@ pub(crate) fn update(
                 let erase = right || editor.tool == Tool::Eraser;
                 let gid = if erase { 0 } else { editor.tile };
                 if left && editor.tool == Tool::Stamp {
-                    if let Some((_, prefab)) =
-                        maps.world.content.manifest.prefabs.iter().nth(editor.stamp)
+                    if let Some(prefab) = maps
+                        .stamp_ids()
+                        .get(editor.stamp)
+                        .and_then(|id| maps.world.content.manifest.prefabs.get(*id))
                     {
                         editor.doc_mut().stamp(layer, cell, prefab, &maps);
                     }

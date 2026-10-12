@@ -1,0 +1,23 @@
+{
+  "size": [
+    16,
+    28
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/trees/pine_tip.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        16,
+        28
+      ]
+    }
+  ]
+}

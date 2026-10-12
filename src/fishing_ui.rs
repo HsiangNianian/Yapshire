@@ -623,18 +623,19 @@ pub fn refresh(
         .find(|a| Some(a.player.id) == session.you)
         .and_then(|a| {
             maps.by_id(&a.player.map)
-                .and_then(|m| m.interaction(a.position.x, a.position.y))
+                .and_then(|m| m.interaction_with(&maps.world.content, a.position.x, a.position.y))
         });
     let prompt = if fishing.modal() {
         Message::default()
     } else {
-        match interaction.map(|o| o.kind.as_str()) {
+        match interaction.as_ref().map(|o| o.kind.as_str()) {
             Some("portal") => tr(if fishing.indoors {
                 "fishing.prompt.leave"
             } else {
                 "fishing.prompt.enter"
             }),
             Some("shop") => tr("fishing.prompt.shop"),
+            Some("toggle") => tr("fishing.prompt.toggle"),
             Some("fishing") => tr("fishing.prompt.cast"),
             _ => Message::default(),
         }

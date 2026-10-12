@@ -1,0 +1,48 @@
+{
+  "size": [
+    18,
+    68
+  ],
+  "anchor": [
+    9,
+    68
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/lamp_pole.png",
+      "size": [
+        4,
+        48
+      ],
+      "offset": [
+        7,
+        17
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/lamp_foot.png",
+      "size": [
+        12,
+        4
+      ],
+      "offset": [
+        3,
+        64
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/street/lamp_head.png",
+      "size": [
+        18,
+        18
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "flip_x": false
+    }
+  ]
+}

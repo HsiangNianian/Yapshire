@@ -1,0 +1,14 @@
+{
+  "model": "yapshire:door",
+  "behavior": "portal",
+  "interaction": [
+    -32,
+    -32,
+    64,
+    32
+  ],
+  "properties": {
+    "target_map": "yapshire:town",
+    "target_spawn": "from_shop"
+  }
+}

@@ -21,6 +21,11 @@
           "value": "yapshire:ground/0_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:ground/0_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "solid"
@@ -32,6 +37,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:ground/1_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:ground/1_0"
         },
@@ -51,6 +61,11 @@
           "value": "yapshire:ground/2_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:ground/2_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "solid"
@@ -62,6 +77,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:ground/3_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:ground/3_0"
         },
@@ -81,6 +101,11 @@
           "value": "yapshire:stone/0_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:stone/0_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "solid"
@@ -92,6 +117,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:stone/1_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:stone/1_0"
         },
@@ -111,6 +141,11 @@
           "value": "yapshire:stone/2_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:stone/2_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "solid"
@@ -122,6 +157,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:stone/3_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:stone/3_0"
         },
@@ -141,6 +181,11 @@
           "value": "yapshire:deck/0_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:deck/0_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "platform"
@@ -152,6 +197,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:deck/1_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:deck/1_0"
         },
@@ -171,6 +221,11 @@
           "value": "yapshire:floor/0_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:floor/0_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "solid"
@@ -182,6 +237,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:floor/1_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:floor/1_0"
         },
@@ -201,14 +261,19 @@
           "value": "yapshire:quay/0"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/0"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -221,14 +286,19 @@
           "value": "yapshire:quay/1"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/1"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -241,14 +311,19 @@
           "value": "yapshire:quay/2"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/2"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -261,14 +336,19 @@
           "value": "yapshire:quay/3"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/3"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -281,14 +361,19 @@
           "value": "yapshire:quay/4"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/4"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -301,14 +386,19 @@
           "value": "yapshire:quay/5"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/5"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -321,14 +411,19 @@
           "value": "yapshire:quay/6"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/6"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -341,14 +436,19 @@
           "value": "yapshire:quay/7"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/7"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -361,14 +461,19 @@
           "value": "yapshire:quay/8"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/8"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -381,14 +486,19 @@
           "value": "yapshire:quay/9"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/9"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -401,14 +511,19 @@
           "value": "yapshire:quay/10"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/10"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -421,14 +536,19 @@
           "value": "yapshire:quay/11"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/11"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -441,14 +561,19 @@
           "value": "yapshire:quay/12"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/12"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -461,14 +586,19 @@
           "value": "yapshire:quay/13"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/13"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -481,14 +611,19 @@
           "value": "yapshire:quay/14"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/14"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     },
@@ -501,14 +636,19 @@
           "value": "yapshire:quay/15"
         },
         {
-          "name": "collision",
-          "type": "string",
-          "value": "solid"
-        },
-        {
           "name": "terrain",
           "type": "string",
           "value": "yapshire:quay"
+        },
+        {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:quay/15"
+        },
+        {
+          "name": "collision",
+          "type": "string",
+          "value": "solid"
         }
       ]
     }

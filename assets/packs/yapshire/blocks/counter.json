@@ -1,0 +1,10 @@
+{
+  "model": "yapshire:counter",
+  "behavior": "shop",
+  "interaction": [
+    -124,
+    -32,
+    116,
+    32
+  ]
+}

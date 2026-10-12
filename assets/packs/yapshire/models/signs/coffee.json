@@ -1,0 +1,23 @@
+{
+  "size": [
+    144,
+    22
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/signs/coffee.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        144,
+        22
+      ]
+    }
+  ]
+}

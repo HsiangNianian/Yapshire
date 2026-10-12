@@ -1,0 +1,23 @@
+{
+  "size": [
+    32,
+    32
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/trees/aspen_leaves_0.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        32,
+        32
+      ]
+    }
+  ]
+}

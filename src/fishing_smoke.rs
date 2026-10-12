@@ -25,6 +25,7 @@ pub(crate) struct Check {
     transition_shots: u8,
     cast_shot: bool,
     float_shot: bool,
+    barrel: u8,
 }
 
 fn key(writer: &mut MessageWriter<KeyboardInput>, window: Entity, code: KeyCode, pressed: bool) {
@@ -65,8 +66,9 @@ pub(crate) fn drive(
     mut buttons: Query<(&crate::ui::Action, &mut Interaction)>,
     mut mouse: ResMut<ButtonInput<MouseButton>>,
     icons: Query<&ImageNode, With<crate::fishing_ui::ItemIcon>>,
-    images: Res<Assets<Image>>,
+    resources: (Res<Assets<Image>>, Res<crate::maps::Maps>),
 ) {
+    let (images, maps) = resources;
     let mode = std::env::var("YAPSHIRE_SMOKE").unwrap_or_default();
     if !mode.starts_with("fishing") {
         return;
@@ -138,6 +140,29 @@ pub(crate) fn drive(
         };
         key(&mut keyboard, *window, direction, true);
         key(&mut keyboard, *window, KeyCode::ShiftLeft, true);
+    }
+    if check.stage == 2 && check.barrel < 2 {
+        let barrel = maps
+            .by_id("yapshire:town")
+            .unwrap()
+            .objects()
+            .find(|o| o.property("block") == Some("yapshire:barrel"))
+            .unwrap();
+        if x >= barrel.x - 12.0 {
+            if barrel.state() == "open" {
+                capture(&mut commands, "barrel-open");
+                check.barrel = 2;
+            } else {
+                key(&mut keyboard, *window, KeyCode::KeyD, false);
+                key(&mut keyboard, *window, KeyCode::ShiftLeft, false);
+                if check.barrel == 0 {
+                    key(&mut keyboard, *window, KeyCode::KeyE, true);
+                    check.release.push(KeyCode::KeyE);
+                    check.barrel = 1;
+                }
+                return;
+            }
+        }
     }
     let advance = match check.stage {
         0 if now > 2.0 => {

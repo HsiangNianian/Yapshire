@@ -58,7 +58,7 @@ pub fn drive(
     mut close: MessageWriter<WindowCloseRequested>,
 ) {
     if smoke.mode.is_empty()
-        || smoke.mode.starts_with("fishing")
+        || (smoke.mode.starts_with("fishing") || smoke.mode == "pixels")
         || smoke.mode.starts_with("editor")
         || smoke.mode.starts_with("i18n")
         || smoke.mode.starts_with("clubs")

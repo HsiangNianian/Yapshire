@@ -41,6 +41,16 @@ pub struct Player {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum ClientMessage {
+    Paint {
+        map: String,
+        x: u32,
+        y: u32,
+        tool: crate::pixels::Tool,
+    },
+    Interact {
+        map: String,
+        object: u32,
+    },
     WorldReady {
         revision: String,
     },
@@ -63,14 +73,44 @@ pub enum ClientMessage {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum ServerMessage {
-    World { world: Box<crate::World> },
-    Welcome { you: u32, players: Vec<Player> },
-    Joined { player: Player },
-    Moved { player: Player },
-    Chat { id: u32, text: String },
-    Left { id: u32 },
+    World {
+        world: Box<crate::World>,
+    },
+    Welcome {
+        you: u32,
+        players: Vec<Player>,
+        #[serde(default)]
+        states: Vec<ObjectState>,
+        pixels: Vec<crate::pixels::Update>,
+    },
+    Pixels {
+        update: crate::pixels::Update,
+    },
+    ObjectChanged {
+        value: ObjectState,
+    },
+    Joined {
+        player: Player,
+    },
+    Moved {
+        player: Player,
+    },
+    Chat {
+        id: u32,
+        text: String,
+    },
+    Left {
+        id: u32,
+    },
 }
 
 pub fn clean(text: &str, limit: usize) -> String {
     text.chars().filter(|c| !c.is_control() && !matches!(*c, '\u{200b}'..='\u{200f}' | '\u{202a}'..='\u{202e}' | '\u{2060}'..='\u{206f}')).take(limit).collect::<String>().trim().to_owned()
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ObjectState {
+    pub map: String,
+    pub object: u32,
+    pub state: String,
 }

@@ -19,8 +19,9 @@ use bevy::{
 pub const WIDTH: f32 = 720.0;
 pub const HEIGHT: f32 = 405.0;
 pub const WINDOW_SIZE: UVec2 = UVec2::new(1440, 810);
-const CAMERA_Y: f32 = HEIGHT / 2.0 - 64.0;
 const CHARACTER_SIZE: UVec2 = UVec2::new(20, 32);
+pub(crate) const PANORAMA_SIZE: Vec2 = Vec2::new(2172.0, 724.0);
+pub(crate) const PANORAMA_Y: f32 = 124.0;
 
 pub(crate) fn canvas_size(scale: u32) -> UVec2 {
     WINDOW_SIZE / scale.clamp(2, 4)
@@ -73,18 +74,7 @@ pub(crate) struct WorldCamera;
 #[derive(Component)]
 pub(crate) struct OuterCamera;
 #[derive(Component)]
-pub(crate) struct Backdrop {
-    base: Vec2,
-    parallax: f32,
-}
-impl Backdrop {
-    fn x(&self, camera: f32, width: f32, view_width: f32) -> f32 {
-        let margin = ((width - view_width) / 2.0).max(0.0);
-        (self.base.x + (camera - WIDTH / 2.0) * self.parallax)
-            .clamp(camera - margin, camera + margin)
-            .round()
-    }
-}
+pub(crate) struct Backdrop(i32);
 #[derive(Component)]
 pub(crate) struct Cloud {
     x: f32,
@@ -160,17 +150,19 @@ pub fn setup(
     };
     canvas.resize(size);
     let canvas = images.add(canvas);
-    commands.spawn((
-        Camera2d,
-        Camera {
-            order: -1,
-            ..default()
-        },
-        RenderTarget::Image(canvas.clone().into()),
-        Msaa::Off,
-        WorldCamera,
-        Transform::from_xyz(WIDTH / 2.0, view.y as f32 / 2.0 - 64.0, 0.0),
-    ));
+    let world_camera = commands
+        .spawn((
+            Camera2d,
+            Camera {
+                order: -1,
+                ..default()
+            },
+            RenderTarget::Image(canvas.clone().into()),
+            Msaa::Off,
+            WorldCamera,
+            Transform::from_xyz(WIDTH / 2.0, view.y as f32 / 2.0 - 64.0, 0.0),
+        ))
+        .id();
     commands.spawn((Sprite::from_image(canvas), RenderLayers::layer(1)));
     commands.spawn((
         Camera2d,
@@ -180,27 +172,27 @@ pub fn setup(
         IsDefaultUiCamera,
     ));
     commands.spawn((
-        Sprite::from_image(assets.load("sky.png")),
-        Outside,
-        Transform::from_xyz(WIDTH / 2.0, CAMERA_Y, -50.0),
-        Backdrop {
-            base: Vec2::new(WIDTH / 2.0, CAMERA_Y),
-            parallax: 1.0,
-        },
-    ));
-    commands.spawn((
         Sprite {
-            image: assets.load("hills.png"),
-            custom_size: Some(Vec2::new(1620.0, 540.0)),
+            image: assets.load("sky.png"),
+            custom_size: Some(Vec2::new(WIDTH, HEIGHT)),
             ..default()
         },
         Outside,
-        Transform::from_xyz(810.0, 124.0, -46.0),
-        Backdrop {
-            base: Vec2::new(810.0, 124.0),
-            parallax: 0.44,
-        },
+        Transform::from_xyz(0.0, 0.0, -950.0),
+        ChildOf(world_camera),
     ));
+    for tile in -1..=1 {
+        commands.spawn((
+            Sprite {
+                image: assets.load("hills.png"),
+                custom_size: Some(PANORAMA_SIZE),
+                ..default()
+            },
+            Outside,
+            Transform::from_xyz(tile as f32 * PANORAMA_SIZE.x, PANORAMA_Y, -900.0),
+            Backdrop(tile),
+        ));
+    }
     for (x, y, speed) in [
         (77.0, 154.0, 1.5),
         (325.0, 176.0, 0.8),
@@ -211,7 +203,7 @@ pub fn setup(
         commands.spawn((
             Sprite::from_image(assets.load("cloud.png")),
             Outside,
-            Transform::from_xyz(x, y, -45.0),
+            Transform::from_xyz(x, y, -800.0),
             Cloud { x, y, speed },
         ));
     }
@@ -282,6 +274,7 @@ fn step(
     map: &crate::maps::Map,
     content: &yapshire_shared::content::Content,
     path: &str,
+    pixels: Option<&yapshire_shared::pixels::Grid>,
 ) {
     const HALF: f32 = 6.0;
     const HEIGHT: f32 = 26.0;
@@ -289,21 +282,26 @@ fn step(
     let mut surfaces = Vec::new();
     let min = old - Vec2::new(24.0, 32.0 + (-*velocity_y).max(0.0) * dt);
     let max = old + Vec2::new(24.0, 48.0);
+    if let Some(grid) = pixels {
+        surfaces.extend(
+            grid.surfaces(min.to_array(), max.to_array())
+                .into_iter()
+                .map(|[left, bottom, right, top]| (Rect::new(left, bottom, right, top), true)),
+        );
+    }
+    let collision = pixels.map_or(map, |g| &g.collision);
     for row in (((map.origin_y() - max.y) / 16.0).floor() as i32).max(0)
         ..=((map.origin_y() - min.y) / 16.0).floor() as i32
     {
         for col in ((min.x / 16.0).floor() as i32).max(0)..=(max.x / 16.0).floor() as i32 {
-            let collision = map.collision(content, path, col, row);
-            if collision != "none" {
-                let top = map.origin_y() - row as f32 * 16.0;
-                surfaces.push((
-                    Rect::new(col as f32 * 16.0, top - 16.0, (col + 1) as f32 * 16.0, top),
-                    collision == "solid",
-                ));
+            for ([left, bottom, right, top], solid) in
+                collision.tile_surfaces(content, path, col, row)
+            {
+                surfaces.push((Rect::new(left, bottom, right, top), solid));
             }
         }
     }
-    for o in map.objects().filter(|o| o.kind == "solid") {
+    for o in collision.objects().filter(|o| o.kind == "solid") {
         surfaces.push((
             Rect::new(
                 o.x,
@@ -313,6 +311,9 @@ fn step(
             ),
             true,
         ));
+    }
+    for ([left, bottom, right, top], solid) in collision.block_surfaces(content) {
+        surfaces.push((Rect::new(left, bottom, right, top), solid));
     }
     let overlaps_x =
         |x: f32, rect: Rect| x + HALF > rect.min.x + 0.01 && x - HALF < rect.max.x - 0.01;
@@ -418,6 +419,7 @@ pub fn walk(
         };
         let run = keys.any_pressed([KeyCode::ShiftLeft, KeyCode::ShiftRight]);
         let jump = enabled && keys.just_pressed(KeyCode::Space);
+        let pixels = maps.pixels.get(&actor.player.map);
         let Actor {
             position,
             velocity_y,
@@ -433,6 +435,7 @@ pub fn walk(
             map,
             &maps.world.content,
             path,
+            pixels,
         );
         actor.player.x = actor.position.x;
         actor.player.y = actor.position.y;
@@ -511,15 +514,17 @@ pub fn follow_camera(
     session: Res<Session>,
     actors: Query<&Actor>,
     mut camera: Single<&mut Transform, (With<WorldCamera>, Without<Backdrop>)>,
-    mut backdrops: Query<(&Backdrop, &Sprite, &mut Transform), Without<WorldCamera>>,
+    mut backdrops: Query<(&Backdrop, &mut Sprite, &mut Transform), Without<WorldCamera>>,
     mut previous_map: Local<String>,
+    mut position: Local<f32>,
 ) {
     let mine = actors.iter().find(|a| Some(a.player.id) == session.you);
     let map_id = mine.map_or(maps.world.entry().0, |a| a.player.map.as_str());
     let map = maps
         .by_id(map_id)
         .unwrap_or(maps.get(crate::maps::MapKind(0)));
-    let view = canvas_size(settings.pixel_scale()).as_vec2();
+    let pixels = canvas_size(settings.pixel_scale());
+    let view = pixels.as_vec2();
     let camera_y = view.y / 2.0 - 64.0;
     let width = map.width as f32 * 16.0;
     let target = if width <= view.x {
@@ -529,28 +534,31 @@ pub fn follow_camera(
             .clamp(view.x / 2.0, width - view.x / 2.0)
     };
     if *previous_map != map_id {
-        camera.translation.x = target;
+        *position = target;
         *previous_map = map_id.to_owned();
     }
     camera.translation.y = mine
         .map_or(camera_y, |a| (a.position.y + camera_y).max(camera_y))
         .min((map.origin_y() - view.y / 2.0).max(camera_y));
-    let x = camera.translation.x
-        + (target - camera.translation.x) * (1.0 - (-6.0 * time.delta_secs()).exp());
+    let x = *position + (target - *position) * (1.0 - (-6.0 * time.delta_secs()).exp());
     let x = if (target - x).abs() < 1.0 {
         target.round()
     } else {
         x
     };
-    camera.translation.x = if width <= view.x {
+    *position = if width <= view.x {
         width / 2.0
     } else {
         x.clamp(view.x / 2.0, width - view.x / 2.0)
     };
-    for (backdrop, sprite, mut transform) in &mut backdrops {
-        let width = sprite.custom_size.map_or(WIDTH, |size| size.x);
-        transform.translation.x = backdrop.x(camera.translation.x, width, view.x);
-        transform.translation.y = backdrop.base.y;
+    // Snap the viewport edge, including the half-pixel center of odd-sized canvases.
+    camera.translation.x = (*position - view.x / 2.0).round() + view.x / 2.0;
+    camera.translation.y = (camera.translation.y - view.y / 2.0).round() + view.y / 2.0;
+    for (backdrop, mut sprite, mut transform) in &mut backdrops {
+        // Recycle whole background tiles off screen without rescaling their pixels.
+        let tile = (camera.translation.x / PANORAMA_SIZE.x).round() as i32 + backdrop.0;
+        transform.translation.x = tile as f32 * PANORAMA_SIZE.x;
+        sprite.flip_x = tile % 2 != 0;
     }
 }
 
@@ -703,25 +711,6 @@ pub fn capture(
 mod tests {
     use super::*;
     #[test]
-    fn wide_maps_do_not_expose_panorama_edges() {
-        let backdrop = Backdrop {
-            base: Vec2::new(810.0, 124.0),
-            parallax: 0.44,
-        };
-        assert_eq!(backdrop.x(360.0, 1620.0, WIDTH), 810.0);
-        assert_eq!(backdrop.x(860.0, 1620.0, WIDTH), 1030.0);
-        for scale in 2..=4 {
-            let width = canvas_size(scale).x as f32;
-            for camera in [120.0, 260.0, 1200.0, 1920.0, 8000.0] {
-                let x = backdrop.x(camera, 1620.0, width);
-                assert!(x - 810.0 <= camera - width / 2.0);
-                assert!(x + 810.0 >= camera + width / 2.0);
-                assert_eq!(backdrop.x(camera, width, width), camera);
-            }
-        }
-    }
-
-    #[test]
     fn scene_and_ui_share_the_same_viewport_across_display_sizes() {
         let mut app = App::new();
         app.init_resource::<UiScale>()
@@ -835,6 +824,7 @@ mod tests {
                 map,
                 &world.content,
                 "maps/town.tmj",
+                None,
             );
         }
         assert!((pos.x - 306.0).abs() < 0.1);
@@ -848,6 +838,7 @@ mod tests {
             map,
             &world.content,
             "maps/town.tmj",
+            None,
         );
         assert!(pos.y > 0.0);
         for _ in 0..180 {
@@ -861,6 +852,7 @@ mod tests {
                 map,
                 &world.content,
                 "maps/town.tmj",
+                None,
             );
         }
         assert_eq!(pos, Vec2::new(12.0, 0.0));
@@ -876,6 +868,7 @@ mod tests {
                 map,
                 &world.content,
                 "maps/town.tmj",
+                None,
             );
         }
         assert!(
@@ -905,6 +898,7 @@ mod tests {
                 &map,
                 &world.content,
                 "maps/tackle-shop.tmj",
+                None,
             );
         }
         assert_eq!(
@@ -925,6 +919,7 @@ mod tests {
                 &map,
                 &world.content,
                 "maps/tackle-shop.tmj",
+                None,
             );
         }
         assert_eq!(position.x, 266.0, "a wall blocks the player's body");
@@ -945,6 +940,7 @@ mod tests {
                 &map,
                 &world.content,
                 "maps/tackle-shop.tmj",
+                None,
             );
             peak = peak.max(position.y);
         }
@@ -962,6 +958,7 @@ mod tests {
             &map,
             &world.content,
             "maps/tackle-shop.tmj",
+            None,
         );
         assert_eq!(
             position.y, 0.0,

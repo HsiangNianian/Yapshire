@@ -403,11 +403,11 @@ pub fn update(
             if fishing.modal() {
                 fishing.cancel();
             } else if fishing.indoors {
-                if let Some(portal) = maps
-                    .by_id(&actor.player.map)
-                    .and_then(|m| m.objects().find(|o| o.kind == "portal"))
-                {
-                    travel(&mut actor, portal, &maps);
+                if let Some(portal) = maps.by_id(&actor.player.map).and_then(|m| {
+                    m.interactions(&maps.world.content)
+                        .find(|o| o.kind == "portal")
+                }) {
+                    travel(&mut actor, &portal, &maps);
                 }
                 fishing.dirty = true;
             }
@@ -440,15 +440,22 @@ pub fn update(
         fishing.dirty = true;
     }
     if input && keys.just_pressed(KeyCode::KeyE) && !fishing.modal() {
-        let interaction = maps
-            .by_id(&actor.player.map)
-            .and_then(|m| m.interaction(actor.position.x, actor.position.y));
-        if let Some(portal) = interaction.filter(|o| o.kind == "portal") {
-            travel(&mut actor, portal, &maps);
+        let interaction = maps.by_id(&actor.player.map).and_then(|m| {
+            m.interaction_with(&maps.world.content, actor.position.x, actor.position.y)
+        });
+        if let Some(portal) = interaction.as_ref().filter(|o| o.kind == "portal") {
+            travel(&mut actor, &portal, &maps);
             if maps.indoors(&actor.player.map) {
                 fishing.say(tr("fishing.notice.shop"));
             }
-        } else if interaction.is_some_and(|o| o.kind == "shop") {
+        } else if let Some(object) = interaction.as_ref().filter(|o| o.kind == "toggle") {
+            if let Some(link) = &session.link {
+                let _ = link.send.try_send(crate::network::ClientMessage::Interact {
+                    map: actor.player.map.clone(),
+                    object: object.id,
+                });
+            }
+        } else if interaction.as_ref().is_some_and(|o| o.kind == "shop") {
             fishing.panel = Panel::Shop;
             if fishing.progress.rod
                 && fishing.progress.hook
@@ -461,7 +468,8 @@ pub fn update(
                 fishing.say(tr("fishing.notice.free_bait"));
                 fishing.save();
             }
-        } else if interaction.is_some_and(|o| o.kind == "fishing") && fishing.save_error.is_empty()
+        } else if interaction.as_ref().is_some_and(|o| o.kind == "fishing")
+            && fishing.save_error.is_empty()
         {
             match fishing.progress.cast() {
                 Ok(()) => {

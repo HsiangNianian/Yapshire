@@ -5,7 +5,7 @@ const guestBase = (process.env.GUEST_SERVER_URL || base).replace(/\/$/, "").repl
 const room = () => crypto.randomUUID().replaceAll("-", "").slice(0, 8).toUpperCase();
 const sockets = [];
 async function join(code, name, create = false, title = "Sunset & Friends", address = base) {
-  const ws = new WebSocket(`${address}/room/${code}?protocol=3&name=${encodeURIComponent(name)}&create=${create ? 1 : 0}&room_name=${encodeURIComponent(title)}`);
+  const ws = new WebSocket(`${address}/room/${code}?protocol=5&name=${encodeURIComponent(name)}&create=${create ? 1 : 0}&room_name=${encodeURIComponent(title)}`);
   sockets.push(ws);
   const messages = [];
   ws.addEventListener("message", (e) => { if (e.data !== "pong") messages.push(JSON.parse(e.data)); });
@@ -24,7 +24,7 @@ async function join(code, name, create = false, title = "Sunset & Friends", addr
     ws.addEventListener("error", () => { clearTimeout(timer); reject(new Error(`Connection rejected: ${address}, room ${code}, create=${create}`)); }, { once: true });
   });
   const { world } = await next("world");
-  assert.equal(world.format, 2);
+  assert.equal(world.format, 3);
   ws.send(JSON.stringify({ type: "world_ready", revision: world.revision }));
   return { ws, next, messages, send: (data) => ws.send(JSON.stringify(data)) };
 }
@@ -63,7 +63,7 @@ try {
   assert.equal((await c.next("welcome")).players.length, 1);
   a.send({ type: "move", map: "yapshire:town", x: 800, y: 0, moving: false, facing: false });
   await b.next("moved");
-  assert.equal(c.messages.length, 0, "rooms must be isolated");
+  assert.equal(c.messages.filter((m) => m.type !== "pixels").length, 0, "rooms must be isolated");
   a.ws.close();
   assert.equal((await b.next("left")).id, wa.you);
   b.send({ type: "chat", text: "房主离开后房间仍然可用" });

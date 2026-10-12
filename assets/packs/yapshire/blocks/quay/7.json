@@ -1,0 +1,16 @@
+{
+  "model": "yapshire:quay/7",
+  "colliders": [
+    {
+      "rect": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "platform": false
+    }
+  ],
+  "tile": true,
+  "material": "solid"
+}

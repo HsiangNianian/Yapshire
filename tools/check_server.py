@@ -45,6 +45,12 @@ class Client:
         return data
 
     def receive(self):
+        while True:
+            message = self.receive_raw()
+            if message["type"] != "pixels":
+                return message
+
+    def receive_raw(self):
         first, second = self.exact(2)
         assert first == 0x81 and not second & 0x80, "Expected an unfragmented text message"
         size = second & 127
@@ -52,7 +58,7 @@ class Client:
             size = struct.unpack("!H", self.exact(2))[0]
         elif size == 127:
             size = struct.unpack("!Q", self.exact(8))[0]
-        assert size <= 512 * 1024, "Oversized server message"
+        assert size <= 8 * 1024 * 1024, "Oversized server message"
         return json.loads(self.exact(size))
 
     def send(self, value):
@@ -67,7 +73,7 @@ class Client:
 
 def check(address, password="", expected_world=None):
     health = http(address, "/health")
-    assert health["ok"] and health["protocol"] == 3
+    assert health["ok"] and health["protocol"] == 5
     if password:
         try:
             http(address, "/rooms")
@@ -81,7 +87,7 @@ def check(address, password="", expected_world=None):
     try:
         worlds, ids = [], []
         for name in ["Alice", "Bob"]:
-            client = Client(address, f"/room/MAIN0001?protocol=3&name={name}", password)
+            client = Client(address, f"/room/MAIN0001?protocol=5&name={name}", password)
             clients.append(client)
             payload = client.receive()
             assert payload["type"] == "world"

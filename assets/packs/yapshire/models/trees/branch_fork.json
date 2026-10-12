@@ -1,0 +1,23 @@
+{
+  "size": [
+    32,
+    28
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        32,
+        28
+      ]
+    }
+  ]
+}

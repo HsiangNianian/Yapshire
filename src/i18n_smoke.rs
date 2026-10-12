@@ -28,7 +28,17 @@ pub(crate) struct Check {
 pub(crate) struct Controls<'w, 's> {
     window: Single<'w, 's, (Entity, &'static mut Window)>,
     camera: Single<'w, 's, &'static Camera, With<game::OuterCamera>>,
-    target: Single<'w, 's, &'static bevy::camera::RenderTarget, With<game::WorldCamera>>,
+    target: Single<
+        'w,
+        's,
+        (
+            &'static bevy::camera::RenderTarget,
+            &'static Camera,
+            &'static GlobalTransform,
+            &'static Projection,
+        ),
+        With<game::WorldCamera>,
+    >,
     settings: Query<
         'w,
         's,
@@ -121,13 +131,28 @@ pub(crate) fn drive(
     };
     let check_scale = |scale| {
         assert_eq!(settings.pixel_scale(), scale);
-        let bevy::camera::RenderTarget::Image(target) = &*controls.target else {
+        let (target, camera, transform, projection) = *controls.target;
+        let bevy::camera::RenderTarget::Image(target) = target else {
             panic!("Expected pixel render target");
         };
         assert_eq!(
             images.get(&target.handle).unwrap().size(),
             game::canvas_size(scale)
         );
+        assert!(matches!(projection, Projection::Orthographic(_)));
+        let center = transform.translation();
+        let edge = center.truncate() - game::canvas_size(scale).as_vec2() / 2.0;
+        assert_eq!(edge, edge.round(), "Viewport must align with world pixels");
+        for depth in [0.0, 256.0, 512.0] {
+            let left = camera
+                .world_to_viewport(transform, Vec3::new(center.x - 10.0, center.y, -depth))
+                .unwrap();
+            let right = camera
+                .world_to_viewport(transform, Vec3::new(center.x + 10.0, center.y, -depth))
+                .unwrap();
+            assert!(((right.x - left.x) - 20.0).abs() < 0.01);
+        }
+        info!("PIXEL CAMERA PASS: {scale}x; one world unit per canvas pixel at every draw order");
     };
     if mode == "i18n-reload" {
         assert_eq!(i18n.language, Language::Chinese);

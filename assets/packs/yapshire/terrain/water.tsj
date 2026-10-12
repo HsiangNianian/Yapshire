@@ -21,6 +21,11 @@
           "value": "yapshire:water/0_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/0_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -54,6 +59,11 @@
           "value": "yapshire:water/1_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/1_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -65,6 +75,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/2_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/2_0"
         },
@@ -84,6 +99,11 @@
           "value": "yapshire:water/3_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/3_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -95,6 +115,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/4_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/4_0"
         },
@@ -132,6 +157,11 @@
           "value": "yapshire:water/5_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/5_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -143,6 +173,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/6_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/6_0"
         },
@@ -162,6 +197,11 @@
           "value": "yapshire:water/7_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/7_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -173,6 +213,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/8_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/8_0"
         },
@@ -210,6 +255,11 @@
           "value": "yapshire:water/9_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/9_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -221,6 +271,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/10_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/10_0"
         },
@@ -240,6 +295,11 @@
           "value": "yapshire:water/11_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/11_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -251,6 +311,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/12_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/12_0"
         },
@@ -288,6 +353,11 @@
           "value": "yapshire:water/13_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/13_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -299,6 +369,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/14_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/14_0"
         },
@@ -318,6 +393,11 @@
           "value": "yapshire:water/15_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/15_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -329,6 +409,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/16_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/16_0"
         },
@@ -366,6 +451,11 @@
           "value": "yapshire:water/17_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/17_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -377,6 +467,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/18_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/18_0"
         },
@@ -396,6 +491,11 @@
           "value": "yapshire:water/19_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/19_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -407,6 +507,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/20_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/20_0"
         },
@@ -444,6 +549,11 @@
           "value": "yapshire:water/21_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/21_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -455,6 +565,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/22_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/22_0"
         },
@@ -474,6 +589,11 @@
           "value": "yapshire:water/23_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/23_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -485,6 +605,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/24_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/24_0"
         },
@@ -522,6 +647,11 @@
           "value": "yapshire:water/25_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/25_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -533,6 +663,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/26_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/26_0"
         },
@@ -552,6 +687,11 @@
           "value": "yapshire:water/27_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/27_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -563,6 +703,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/28_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/28_0"
         },
@@ -600,6 +745,11 @@
           "value": "yapshire:water/29_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/29_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -611,6 +761,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/30_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/30_0"
         },
@@ -630,6 +785,11 @@
           "value": "yapshire:water/31_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/31_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -641,6 +801,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/32_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/32_0"
         },
@@ -678,6 +843,11 @@
           "value": "yapshire:water/33_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/33_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -689,6 +859,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/34_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/34_0"
         },
@@ -708,6 +883,11 @@
           "value": "yapshire:water/35_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/35_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -719,6 +899,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/36_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/36_0"
         },
@@ -756,6 +941,11 @@
           "value": "yapshire:water/37_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/37_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -767,6 +957,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/38_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/38_0"
         },
@@ -786,6 +981,11 @@
           "value": "yapshire:water/39_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/39_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -797,6 +997,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/40_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/40_0"
         },
@@ -834,6 +1039,11 @@
           "value": "yapshire:water/41_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/41_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -845,6 +1055,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/42_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/42_0"
         },
@@ -864,6 +1079,11 @@
           "value": "yapshire:water/43_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/43_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -875,6 +1095,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/44_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/44_0"
         },
@@ -912,6 +1137,11 @@
           "value": "yapshire:water/45_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/45_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -923,6 +1153,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/46_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/46_0"
         },
@@ -942,6 +1177,11 @@
           "value": "yapshire:water/47_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/47_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -953,6 +1193,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/48_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/48_0"
         },
@@ -990,6 +1235,11 @@
           "value": "yapshire:water/49_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/49_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1001,6 +1251,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/50_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/50_0"
         },
@@ -1020,6 +1275,11 @@
           "value": "yapshire:water/51_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/51_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1031,6 +1291,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/52_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/52_0"
         },
@@ -1068,6 +1333,11 @@
           "value": "yapshire:water/53_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/53_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1079,6 +1349,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/54_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/54_0"
         },
@@ -1098,6 +1373,11 @@
           "value": "yapshire:water/55_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/55_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1109,6 +1389,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/56_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/56_0"
         },
@@ -1146,6 +1431,11 @@
           "value": "yapshire:water/57_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/57_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1157,6 +1447,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/58_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/58_0"
         },
@@ -1176,6 +1471,11 @@
           "value": "yapshire:water/59_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/59_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1187,6 +1487,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/60_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/60_0"
         },
@@ -1224,6 +1529,11 @@
           "value": "yapshire:water/61_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/61_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1235,6 +1545,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/62_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/62_0"
         },
@@ -1254,6 +1569,11 @@
           "value": "yapshire:water/63_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/63_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1265,6 +1585,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/64_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/64_0"
         },
@@ -1302,6 +1627,11 @@
           "value": "yapshire:water/65_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/65_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1313,6 +1643,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/66_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/66_0"
         },
@@ -1332,6 +1667,11 @@
           "value": "yapshire:water/67_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/67_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1343,6 +1683,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/68_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/68_0"
         },
@@ -1380,6 +1725,11 @@
           "value": "yapshire:water/69_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/69_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1391,6 +1741,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/70_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/70_0"
         },
@@ -1410,6 +1765,11 @@
           "value": "yapshire:water/71_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/71_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1421,6 +1781,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/72_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/72_0"
         },
@@ -1458,6 +1823,11 @@
           "value": "yapshire:water/73_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/73_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1469,6 +1839,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/74_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/74_0"
         },
@@ -1488,6 +1863,11 @@
           "value": "yapshire:water/75_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/75_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1499,6 +1879,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/76_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/76_0"
         },
@@ -1536,6 +1921,11 @@
           "value": "yapshire:water/77_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/77_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1547,6 +1937,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/78_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/78_0"
         },
@@ -1566,6 +1961,11 @@
           "value": "yapshire:water/79_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/79_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1577,6 +1977,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/80_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/80_0"
         },
@@ -1614,6 +2019,11 @@
           "value": "yapshire:water/81_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/81_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1625,6 +2035,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/82_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/82_0"
         },
@@ -1644,6 +2059,11 @@
           "value": "yapshire:water/83_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/83_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1655,6 +2075,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/84_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/84_0"
         },
@@ -1692,6 +2117,11 @@
           "value": "yapshire:water/85_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/85_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1703,6 +2133,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/86_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/86_0"
         },
@@ -1722,6 +2157,11 @@
           "value": "yapshire:water/87_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/87_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1733,6 +2173,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/88_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/88_0"
         },
@@ -1770,6 +2215,11 @@
           "value": "yapshire:water/89_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/89_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1781,6 +2231,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/90_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/90_0"
         },
@@ -1800,6 +2255,11 @@
           "value": "yapshire:water/91_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/91_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1811,6 +2271,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/92_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/92_0"
         },
@@ -1848,6 +2313,11 @@
           "value": "yapshire:water/93_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/93_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1859,6 +2329,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/94_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/94_0"
         },
@@ -1878,6 +2353,11 @@
           "value": "yapshire:water/95_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/95_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1889,6 +2369,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/96_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/96_0"
         },
@@ -1926,6 +2411,11 @@
           "value": "yapshire:water/97_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/97_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1937,6 +2427,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/98_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/98_0"
         },
@@ -1956,6 +2451,11 @@
           "value": "yapshire:water/99_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/99_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -1967,6 +2467,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/100_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/100_0"
         },
@@ -2004,6 +2509,11 @@
           "value": "yapshire:water/101_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/101_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -2015,6 +2525,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/102_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/102_0"
         },
@@ -2034,6 +2549,11 @@
           "value": "yapshire:water/103_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/103_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -2045,6 +2565,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/104_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/104_0"
         },
@@ -2082,6 +2607,11 @@
           "value": "yapshire:water/105_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/105_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -2097,6 +2627,11 @@
           "value": "yapshire:water/106_0"
         },
         {
+          "name": "block",
+          "type": "string",
+          "value": "yapshire:water/106_0"
+        },
+        {
           "name": "collision",
           "type": "string",
           "value": "none"
@@ -2108,6 +2643,11 @@
       "properties": [
         {
           "name": "id",
+          "type": "string",
+          "value": "yapshire:water/107_0"
+        },
+        {
+          "name": "block",
           "type": "string",
           "value": "yapshire:water/107_0"
         },

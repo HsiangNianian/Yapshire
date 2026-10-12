@@ -1,0 +1,23 @@
+{
+  "size": [
+    128,
+    32
+  ],
+  "anchor": [
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "texture": "textures/street/pennant_rope.png",
+      "offset": [
+        0,
+        0
+      ],
+      "size": [
+        128,
+        32
+      ]
+    }
+  ]
+}

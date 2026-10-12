@@ -109,7 +109,7 @@ pub(crate) fn drive(
             assert!(menu.page == Page::Editor);
             capture(&mut commands, "town");
             if mode == "editor-reload" {
-                check.stage = 30;
+                check.stage = 99;
                 check.since = now;
                 return;
             }
@@ -178,12 +178,12 @@ pub(crate) fn drive(
             assert!(editor.kind == MapKind::Shop);
             mouse.release(MouseButton::Left);
             point(&mut window.1, UVec2::new(16, 11));
-            mouse.press(MouseButton::Right);
+            mouse.press(MouseButton::Left);
             capture(&mut commands, "shop");
         }
         10 => {
-            mouse.release(MouseButton::Right);
-            assert_eq!(editor.docs[1].map.layers[4].data[11 * 30 + 16], 0);
+            mouse.release(MouseButton::Left);
+            assert_eq!(editor.docs[1].map.layers[4].data[11 * 30 + 16], 93);
             assert!(editor.dirty());
             click(&mut mouse, Action::Done);
             capture(&mut commands, "unsaved");
@@ -201,7 +201,7 @@ pub(crate) fn drive(
         14 => {
             assert!(menu.page == Page::Home);
             assert!(!editor.dirty());
-            assert_ne!(maps.get(MapKind::Shop).layers[4].data[11 * 30 + 16], 0);
+            assert_eq!(maps.get(MapKind::Shop).layers[4].data[11 * 30 + 16], 0);
             menu.go(Page::Editor);
         }
         15 => {
@@ -276,9 +276,60 @@ pub(crate) fn drive(
             assert!(editor.doc().map.layers[4].visible);
             click(&mut mouse, Action::Done);
         }
+        28 => {
+            mouse.release(MouseButton::Left);
+            menu.go(Page::Editor);
+        }
+        29 => {
+            assert_eq!(maps.stamp_ids()[editor.stamp], "yapshire:barrel");
+            click(&mut mouse, Action::Tool(Tool::Stamp));
+        }
+        30 => {
+            point(&mut window.1, UVec2::new(8, 10));
+            mouse.release(MouseButton::Left);
+            mouse.press(MouseButton::Left);
+        }
+        31 => {
+            mouse.release(MouseButton::Left);
+            assert!(
+                editor
+                    .doc()
+                    .map
+                    .objects()
+                    .any(|o| o.property("block") == Some("yapshire:barrel")
+                        && o.x == 128.0
+                        && o.y == 160.0)
+            );
+            capture(&mut commands, "object-stamp");
+            click(&mut mouse, Action::Undo);
+        }
+        32 => {
+            assert!(
+                !editor
+                    .doc()
+                    .map
+                    .objects()
+                    .any(|o| o.property("block") == Some("yapshire:barrel")
+                        && o.x == 128.0
+                        && o.y == 160.0)
+            );
+            click(&mut mouse, Action::Redo);
+        }
+        33 => click(&mut mouse, Action::Save),
+        34 => {
+            assert!(!editor.dirty(), "{}", editor.status);
+            assert!(
+                maps.get(MapKind::Shop)
+                    .objects()
+                    .any(|o| o.property("block") == Some("yapshire:barrel")
+                        && o.x == 128.0
+                        && o.y == 160.0)
+            );
+            click(&mut mouse, Action::Done);
+        }
         _ => {
             info!(
-                "EDITOR SMOKE PASS: menu, painting, drag, undo/redo, atomic save, runtime tiles, shop, unsaved guard, fullscreen input, icon hover/click, layer visibility and return to play"
+                "EDITOR SMOKE PASS: menu, painting, drag, undo/redo, atomic save, runtime tiles, shop, unsaved guard, fullscreen input, icon hover/click, layer visibility, model stamp/save and return to play"
             );
             close.write(bevy::window::WindowCloseRequested { window: window.0 });
         }

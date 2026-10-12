@@ -1,0 +1,456 @@
+{
+  "size": [
+    96,
+    192
+  ],
+  "anchor": [
+    48,
+    192
+  ],
+  "parts": [
+    {
+      "texture": "textures/trees/pine_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        12
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        36
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        84
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        108
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        132
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bark.png",
+      "size": [
+        8,
+        24
+      ],
+      "offset": [
+        44,
+        156
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        60
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        87
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        47,
+        114
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        67
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        94
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/branch_fork.png",
+      "size": [
+        32,
+        28
+      ],
+      "offset": [
+        16,
+        121
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        45,
+        22
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        19,
+        27
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        46,
+        34
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        18,
+        39
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        47,
+        46
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        17,
+        51
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        48,
+        58
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        16,
+        63
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        49,
+        70
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        15,
+        75
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        50,
+        82
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        14,
+        87
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        51,
+        94
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        13,
+        99
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        52,
+        106
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        12,
+        111
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        52,
+        118
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        12,
+        123
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        52,
+        130
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        12,
+        135
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        52,
+        142
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/pine_bough.png",
+      "size": [
+        32,
+        24
+      ],
+      "offset": [
+        12,
+        147
+      ],
+      "flip_x": true
+    },
+    {
+      "texture": "textures/trees/pine_tip.png",
+      "size": [
+        16,
+        28
+      ],
+      "offset": [
+        40,
+        0
+      ],
+      "flip_x": false
+    },
+    {
+      "texture": "textures/trees/roots.png",
+      "size": [
+        24,
+        12
+      ],
+      "offset": [
+        36,
+        180
+      ],
+      "flip_x": false
+    }
+  ]
+}

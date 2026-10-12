@@ -1,0 +1,15 @@
+{
+  "model": "yapshire:deck/1_0",
+  "colliders": [
+    {
+      "rect": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "platform": true
+    }
+  ],
+  "tile": true
+}

@@ -10,6 +10,10 @@ measured latency. Select a Club to create a room there; editing or removing the
 subscription does not rename or stop the actual server. Clients and servers must
 use v0.7.x builds with matching content packs (protocol 3); older clients need to update first.
 
+**Building unreleased source:** current source uses protocol **5**, world format
+**3**, and content pack format **2**. Build both client and server from the same
+revision. Released v0.7.2 clients and public servers cannot join these rooms.
+
 The official **Yapshire Town (Yapshire 小镇)** uses
 `wss://yap-server.mmstudio.games`; `wss://yap.meaninglessmeaning.studio` reaches
 the same town. Enter either address in a v0.7.x client.
@@ -102,7 +106,7 @@ protocol 2 and cannot join these rooms.
 `maps_dir` and `--maps` accept a content-pack root. Old folders containing the
 original `town.tmj`, `tackle-shop.tmj` and `harbor.*` still import without changing
 their files. The editor, client and server share the same validation module.
-See [Content packs v1](CONTENT_PACKS.md) for stable IDs, Tiled authoring, variable
+See [Content packs](CONTENT_PACKS.md) for stable IDs, Tiled authoring, variable
 maps, interactions, collisions, terrain, size limits and migration.
 
 The server transfers layouts and pack definitions, and the client checks its
@@ -112,8 +116,8 @@ from room servers. Layout-only edits need no client rebuild. Remote maps stay
 in memory; leaving restores local maps and never overwrites editor files.
 
 LAN hosts use the same protocol and checks. Cloudflare gateways forward to the
-same Rust server; update their container with the client when moving to protocol
-3. This source change does not update the running public service automatically.
+same Rust server; update their container and installed packs together with clients
+when moving to protocol 5. Source changes do not update the running public service.
 
 ## Configuration
 

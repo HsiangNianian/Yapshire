@@ -44,7 +44,7 @@
   "type": "Click to type...",
   "chat_help": "ENTER CHAT / SEND   /   ESC CLOSE CHAT / LEAVE   /   80 CHARACTERS",
   "chat_input": "SAY HELLO  >  {text}{preedit}{cursor}",
-  "controls": "A D WALK  /  SHIFT RUN  /  SPACE JUMP  /  E INTERACT  /  I SATCHEL  /  ENTER CHAT",
+  "controls": "A D WALK  /  SHIFT RUN  /  SPACE JUMP  /  E INTERACT  /  I SATCHEL  /  ENTER CHAT  /  V MATERIALS",
   "room_status": "{room}\n{state} / {count} IN TOWN",
   "name_required": "Please enter your nickname on the main menu.",
   "room_required": "Please enter a room name.",
