@@ -25,13 +25,11 @@ official addresses without changing custom server choices.
 The previous `wss://yapshire-multiplayer.opensource-941.workers.dev` address uses
 a [service binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/http/)
 to reach the same server. It has no separate lobby or game implementation.
-Use v0.8.0 clients with protocol 3 and content pack 1.2.0. v0.7.x uses an older
-content pack, and earlier clients use protocol 2; update before joining the
-official server. Generated worlds and construction are currently local-only.
-
-v0.9.1 uses protocol **5** and content pack **2.0.0**. Building this
-container requires matching v0.9.1 clients; it cannot serve v0.8.0 or earlier clients.
-Source changes do not deploy or upgrade the running public instance automatically.
+The public instance was upgraded on **2026-10-13** to **v0.9.1** (commit
+`45f6127`), protocol **5** and content pack **2.0.0**. Use matching v0.9.1 clients;
+v0.8.0 and earlier clients must be upgraded before joining. Generated worlds and
+construction remain local-only; authored rooms synchronize pixel materials.
+Future source changes still require an explicit deployment to update this service.
 
 The Worker routes every game request to the same Durable Object. The `default`
 container scheduling policy enforces `max_instances: 1`, using the `lite` size
@@ -79,9 +77,13 @@ with their player capacities. `/lobby?probe=1` supports a single `ping`/`pong`
 round trip for the Club directory without joining a room or changing occupancy.
 Plain `/lobby` remains compatible with older clients.
 
-For a migration, check `/rooms` at both public addresses first and deploy when
-they have no active players. Verify the new container, then run
-`npm --prefix server run deploy` to switch the old-address gateway. The old Room
+For an upgrade, check `/rooms` at both public addresses first and deploy when
+they have no active players. Record the current Worker version and immutable
+container image for rollback. Verify `/health` reports the new version and map
+revision after the rollout; successful upload alone does not establish readiness
+([Container rollouts](https://developers.cloudflare.com/containers/configuration/rollouts/)).
+The old-address gateway follows the upgraded Club through its service binding;
+run `npm --prefix server run deploy` only when that gateway's code or binding changes. The old Room
 and Lobby namespaces remain inactive so the previous deployment can be restored;
 do not delete their namespaces as part of a routine rollback. Check both
 addresses after switching, including creating through one and joining through

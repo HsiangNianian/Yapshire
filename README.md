@@ -64,8 +64,9 @@ English and Simplified Chinese. Every release also includes `SHA256SUMS` and
 `CHANGELOG.md`, with matching Release Notes.
 
 Use **v0.9.1** clients and servers together (protocol **5**, pack **2.0.0**).
-The hosted official service still runs v0.8.0/protocol 3; for this release, host a
-LAN room or use a matching self-hosted server. See [self-hosting](docs/SELF_HOSTING.md) for compatibility and setup.
+The official service has been upgraded to this version and is available through
+**Online lobby**. LAN rooms and matching self-hosted servers remain available.
+See [self-hosting](docs/SELF_HOSTING.md) for compatibility and setup.
 
 <details>
 <summary><strong>Platform notes</strong></summary>

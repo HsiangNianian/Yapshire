@@ -16,8 +16,9 @@ revision. v0.8.0 and earlier clients cannot join these rooms.
 
 The official **Yapshire Town (Yapshire 小镇)** uses
 `wss://yap-server.mmstudio.games`; `wss://yap.meaninglessmeaning.studio` reaches
-the same town. These hosted instances still run v0.8.0/protocol 3; v0.9.1 requires a matching
-self-hosted server or LAN host until the public service is upgraded.
+the same town. The public service was upgraded to **v0.9.1/protocol 5** on
+**2026-10-13**, with official pack **2.0.0**. Use a matching client; v0.8.0 and
+earlier clients must be upgraded before joining.
 
 ## Start with the standalone download
 
